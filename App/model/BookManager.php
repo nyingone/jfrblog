@@ -1,32 +1,52 @@
 <?php
-class BookManager extends Bddmanager
+class BookManager
 {
-    protected $books =[];
+    private $_db; // Instance de PDO
+    public $inventory = [];
+    protected $query;
 
-    public function findAll()
+
+    public function __construct($modelName,$method, $inventory=[])
     {
-        $query= "SELECT book.* FROM book inner join author on book.author_id= author.id left outer join subject on book.genre= subject.genre order by book.cclord";
-        $books= $this->getInventory($query,$objName);
-       //  $books = $this->getResult($query, 'Book');
-       // var_dump($this->getInventory($query,$objName));
-       // die;
-        return $books;
+        try
+        { 
+         //   $_db = new PDO(DSN,USR,PWD, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+            $_db = new PDO("mysql:host=localhost;dbname=jfrblog;chartset=UTF8","root","",
+            [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+              // $bdd = new PDO("mysql:host=localhost;dbname=bookyshin;chartset=UTF8","root","",
+            $this->_db = $_db;
+
+            $query = "SET NAMES utf8"; // force affichghe en UTF
+            $result = $_db->query($query);
+            print_r('try PDO utf8 ok');
+            var_dump ('</br>' ,DSN );
+
+            if (method_exists($this, $method))
+            {
+                $this->$method($_db); 
+                return $inventory;
+            }else
+            {
+                echo('ras sur action ' . $method);
+            } 
+        }
+        catch (PDOException $e)
+        {
+            die('Erreur : ' . $e->getMessage()) . 'probleme PDO';
+        }
+        return $this;
     }
 
-    public function findOne($id)
+      
+    public function findAll($_db)
     {
-        $query= "SELECT * FROM book where book.id = $id" ;
-        $books = $this->getResult($query, 'Book');
-        return $books;
-    }
-
-    public function addBook()
-    {
-
-    }
-
-    public function delBook()
-    {
-        
+        $query= "SELECT * FROM book order by id";
+        $pdoStat = $_db->query($query);  // retour objet PDO statement
+    
+        $inventory = $pdoStat->fetchALL(); 
+         // var_dump($inventory);  
+         $this->inventory = $inventory;
+        var_dump('côté manager: ' , '</br>' , $this);
+        return $inventory;
     }
 }

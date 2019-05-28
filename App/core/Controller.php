@@ -9,7 +9,7 @@ class Controller
      */
     public function view($viewName,$datas=[])
     {
-        echo '</br>' , 'appel via controller methode  ' . __METHOD__;
+        // echo '</br>' , 'appel via controller methode  ' . __METHOD__;
         $this->view = new View($viewName, $datas);
         // var_dump($this->view);
        
@@ -18,7 +18,7 @@ class Controller
 
     public function model($modelName,$datas=[])
     {
-        echo '</br>' , 'appel via controller methode  ' . __METHOD__;
+        // echo '</br>' , 'appel via controller methode  ' . __METHOD__;
         $modelName = ucfirst($modelName) . 'Manager';
         if(file_exists(MODEL . $modelName . '.php'))
         {

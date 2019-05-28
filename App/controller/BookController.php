@@ -5,11 +5,11 @@ class BookController extends Controller
     public function index()
     {
        echo 'I am in: ' . __CLASS__ . ' and method is : ' . __METHOD__ ;
-        
-        $this->model('book', $this->model->findAll());
-        var_dump ($this->model);
-
-        $this->view('book' . DS . 'index');
+      ;
+        $this->model('book', 'findAll');
+        var_dump($this);
+        // var_dump($this->model->inventory); inaccessible protected
+        $this->view('book' . DS . 'index', $this->model->inventory);
         // var_dump($this); exit;
         $this->view->page_title = "This is our Bibliographie page";
         $this->view->render();
