@@ -1,71 +1,66 @@
 <?php
+/**
+* 
+*/
 class BddManager
 {
-    private $_db; // Instance de PDO
-    protected $bdd;
+    /**
+     * @var
+     */
+    private $bdd;
+    /**
+     * @var retourne tableau fetch all PDO
+     */
     protected $inventory = [];
-    protected $query;
 
-
-    public function __construct($modelName,$method,$request)
+    public function __construct()
     {
         try
-        { 
-            $_db = new PDO(DSN,USR,PWD, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-              // $bdd = new PDO("mysql:host=localhost;dbname=bookyshin;chartset=UTF8","root","",
-            $this->_db = $_db;
-
-            $query = "SET NAMES utf8"; // force affichghe en UTF
-            $result = $_db->query($query);
-            print_r('try PDO utf8 ok');
+        {
             
-            if (method_exists($this, $method))
-            {
-                // 
-                $query = $request;
-                var_dump($method); var_dump($query);die;
-                $this->$method(''); 
-            }else
-            {
-                echo('ras sur action ' . $method);
-            } 
-        var_dump($this);
+      // $_db = new PDO(DSN,USR,PWD, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]); Erreur : could not find driver
+        $bdd = new PDO("mysql:host=localhost;dbname=jfrblog;chartset=UTF8","root","",
+        [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
         }
         catch (PDOException $e)
         {
             die('Erreur : ' . $e->getMessage());
         }
+        $this->bdd = $bdd;
+    
+        $query  = "SET NAMES utf8"; // force affichage en eUTF8
+        $result = $bdd->query($query);
+        if (!$result) die("Erreur fatale SET utf8");
+    }
+    /**
+     * @param string $query
+     * @return array $inventory
+     */
+    public function getInventory($query)
+    {
+        var_dump($query);
+        $req = $this->bdd->prepare($query);
+        $req->execute();
+        $pdoStat = $this->bdd->query($query);  // retour objet PDO statement
+            $this->inventory = $pdoStat->fetchALL(); 
+            return $this->inventory;
+    }
+    /**
+     * @param string $query
+     * @param array  $valBind 
+     */
+    public function delItem($query, $objName)
+    {
+        $req = $this->bdd->prepare($query);
+        $req->execute();
+        if (!$req) die("Erreur Ã  la suppression.$objname");
     }
 
-   private function load($query)
+    public function addItem($query, $objName)
     {
-       //  $req = $this->_db->prepare($query);      prepare() on null in
-        //$result = $this->_db->query($query);
-        /*
-        $result = $_db->query($query);
-        $result = $req->execute;
-        var_dump($result);
-        $this->inventory = $result->fetchAll();
-*/
-   //     $req = $this->_db->prepare($query);
-        $pdoStat = $_db->query($query);  // retour objet PDO statement
-        $inventory = $pdoStat->fetchALL();
-        
-        /*$inventory = array();
-        while ($row = $req->fetch(PDO::FETCH_ASSOC))
-        {
-            $inventory[] = $row;            // Tableau d'enregistrements
-        };
-        return $inventory; */
-    }
-   public function getInventory($query)
-    {
-        $this->load($query);
-        return $this->inventory;
+        $req = $this->bdd->prepare($query);
+        $req->execute();
+        if (!$req) die("Erreur Ã  la mise Ã  jour.$objname");
     }
 
-    public function setDb(PDO $db)
-    {
-      $this->_db = $db;
-    }
 }

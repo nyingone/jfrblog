@@ -27,7 +27,7 @@ error_reporting(E_ALL);
 
       // $bdd = new PDO('"mysql:host =' . $lh . ';dbname =' . $dba . ';charset = UTF8","' . $us . '","'. $pw' . '"')}
      // var_dump($_SERVER);
-      define ('DSN', 'mysql:host=localhost;dbname = jfrblog');
+      define ('DSN', '"mysql:host=localhost;dbname=bookyshin;chartset=UTF8"');
       define('USR',  'root');
       define('PWD', ''); 
 

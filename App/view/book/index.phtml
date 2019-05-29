@@ -1,5 +1,44 @@
 <?php include(VIEW . 'header.phtml'); ?>
 <h1> Show book list </h1>
+<nav>
+    <ul>
+        <li><a href= " <?php APP . '/book/add' ?> ">Ajouter</a></li>
+    </ul>
+</nav>
 
+<div id="container" class="row">
+    <table class="table-striped" >
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Résumé</th>
+                <th>Isbn</th>
+                <th>Année ed°</th>
+                <th>Visu</th>
+                <th>Episodes</th>
+            </tr>
+        </thead>
+        <tbody>
 
+            <?php 
+            // var_dump( $this->view_data);
+            $table = '';
+            foreach($this->view_data as $book)
+            { 
+                $table .= '<tr>';
+                // var_dump($book);
+                $table .= '<td>' . $book['title'] . '</td>';
+                $table .= '<td>' . $book['excerpt'] . '</td>';
+                $table .= '<td>' . $book['isbn'] . '</td>';
+                $table .= '<td>' . $book['editYear'];
+                $table .= '<td>' . '<a href= "\jfrblog/book/edit/' . $book['id'] . '">Visu</a>' . '</td>';
+
+                $table .= '<tr>';
+            }
+            print_r($table);
+            
+            ?>
+        <tbody>
+    </table>
+</div>
 <?php include(VIEW . 'footer.phtml'); ?>

@@ -1,12 +1,43 @@
 <?php
 class BookManager
 {
-    private $_db; // Instance de PDO
-    public $inventory;
+    protected static $_db; // Instance de PDO
+    protected $inventory;
     protected $query;
 
 
     public function __construct($modelName,$method)
+    {
+       
+        self::setDb('');
+        
+    }
+
+       public function getBooks()
+    {
+        print_r('Appel setDb depuis getBooks' . '</br>');
+        self::setDb('');
+
+        print_r('lancement qry depuis ' . __METHOD__ . '</br>');
+        try
+        { 
+            $_db = new PDO("mysql:host=localhost;dbname=jfrblog;chartset='utf8'","root","",
+            [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+            $query = "SET NAMES utf8"; // force affichghe en UTF
+            $result = $_db->query($query);
+            $qry= 'SELECT * FROM book order by id';       
+            $pdoStat = $_db->query($qry);  // retour objet PDO statement
+            $this->inventory = $pdoStat->fetchALL(); 
+            return $this->inventory;
+        }
+        catch (PDOException $e)
+        {
+            die('Erreur : ' . $e->getMessage()) . 'probleme PDO dans ' . __METHOD__ . '</br>';
+        }
+    }
+
+   
+    private static function setDb($qry)
     {
         try
         { 
@@ -14,43 +45,15 @@ class BookManager
             $_db = new PDO("mysql:host=localhost;dbname=jfrblog;chartset=UTF8","root","",
             [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
               // $bdd = new PDO("mysql:host=localhost;dbname=bookyshin;chartset=UTF8","root","",
-            $this->_db = $_db;
 
             $query = "SET NAMES utf8"; // force affichghe en UTF
             $result = $_db->query($query);
-            print_r('try PDO utf8 ok');
-            var_dump ('</br>' ,DSN );
+            print_r('ok pour utf8' .' </br>');   
 
-            if (method_exists($this, $method))
-            {
-                $this->$method($_db); 
-               // return $inventory; ne connait plus la variable
-               return $this;
-            }else
-            {
-                echo('ras sur action ' . $method);
-            } 
         }
         catch (PDOException $e)
         {
             die('Erreur : ' . $e->getMessage()) . 'probleme PDO';
         }
-        return $this;
-    }
-
-      
-    public function findAll($_db)
-    {
-        $query= "SELECT * FROM book order by id";
-        $pdoStat = $_db->query($query);  // retour objet PDO statement
-    
-        $inventory = $pdoStat->fetchALL(); 
-        $this->inventory = $pdoStat->fetchALL(); 
-        var_dump($inventory);  
-        
-        var_dump('côté manager: ' , '</br>' , $this);
-        $this->inventory = $inventory;
-        var_dump($this); 
-        return $inventory;
     }
 }

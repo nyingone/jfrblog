@@ -9,23 +9,26 @@ class Application
     {
        // var_dump( $_SERVER);
         $this->prepareUrl();
-        echo $this ->controller, '</br>' , $this->action, '</br>', print_r($this->params);
+       // echo $this ->controller, '</br>' , 'classe application' , '</br>' , $this->action, '</br>', print_r($this->params);
         if(!(file_exists(CONTROLLER . $this->controller . '.php')))
         { 
             $controller = 'HomeController';
+            $this->controller = $controller;
         } 
-
         if(file_exists(CONTROLLER . $this->controller . '.php'))
         {
             $this->controller = new $this->controller;
             if (method_exists($this->controller,$this->action))
             {
-                var_dump($this->controller, $this->action, $this->params);
-                call_user_func_array([$this->controller,$this->action], $this->params);
+               var_dump($this->controller, $this->action, $this->params);
+               // call_user_func_array([$this->controller,$this->action], $this->params);
+                call_user_func([$this->controller,$this->action], $this->params);
+
             }else   { echo $this->action . 'inaccess';
                     } 
         }else   { echo $this->controller . '.php' . ' access anomaly ';
         }
+        
     }
 
     /**
@@ -65,7 +68,7 @@ class Application
             *   2 => string 'index' (length=5)
             */ 
            $this->controller = isset($url[1]) ? ucfirst($url[1]) . 'Controller' :  'HomeController';
-           echo $this->controller, '</br>' , 'is selected' , '</br>' ;
+           // echo $this->controller, '</br>' , 'is selected' , '</br>' ;
            $this->action     = isset($url[2]) ? $url[2] : 'index';
            if(!(method_exists($this->controller, $this->action)))
            {
@@ -73,6 +76,7 @@ class Application
             }
             unset($url[0], $url[1], $url[2]);  // on conserve les variables si existent
             $this->params = !empty($url) ? array_values($url) : [];
+            // var_dump(__CLASS__, '</br>', $this);
         }
     }
 }

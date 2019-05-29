@@ -23,7 +23,7 @@ class Controller
         $modelName = ucfirst($modelName) . 'Manager';
         if(file_exists(MODEL . $modelName . '.php'))
         {
-            echo MODEL . $modelName . '.php' . ' loaded';  
+            // echo MODEL . $modelName . '.php' . ' loaded';  
             require MODEL . $modelName . '.php'; // ! autoload
             $this->model = new $modelName($modelName, $datas);
 
