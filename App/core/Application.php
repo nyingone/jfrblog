@@ -20,6 +20,7 @@ class Application
             $this->controller = new $this->controller;
             if (method_exists($this->controller,$this->action))
             {
+                var_dump($this->controller, $this->action, $this->params);
                 call_user_func_array([$this->controller,$this->action], $this->params);
             }else   { echo $this->action . 'inaccess';
                     } 

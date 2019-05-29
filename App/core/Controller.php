@@ -4,6 +4,7 @@ class Controller
     protected $view;
     protected $model;
 
+   
     /**
      * Define view for each action
      */

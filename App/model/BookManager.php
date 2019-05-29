@@ -2,11 +2,11 @@
 class BookManager
 {
     private $_db; // Instance de PDO
-    public $inventory = [];
+    public $inventory;
     protected $query;
 
 
-    public function __construct($modelName,$method, $inventory=[])
+    public function __construct($modelName,$method)
     {
         try
         { 
@@ -24,7 +24,8 @@ class BookManager
             if (method_exists($this, $method))
             {
                 $this->$method($_db); 
-                return $inventory;
+               // return $inventory; ne connait plus la variable
+               return $this;
             }else
             {
                 echo('ras sur action ' . $method);
@@ -44,9 +45,12 @@ class BookManager
         $pdoStat = $_db->query($query);  // retour objet PDO statement
     
         $inventory = $pdoStat->fetchALL(); 
-         // var_dump($inventory);  
-         $this->inventory = $inventory;
+        $this->inventory = $pdoStat->fetchALL(); 
+        var_dump($inventory);  
+        
         var_dump('côté manager: ' , '</br>' , $this);
+        $this->inventory = $inventory;
+        var_dump($this); 
         return $inventory;
     }
 }
