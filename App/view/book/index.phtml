@@ -1,21 +1,20 @@
 <?php include(VIEW . 'header.phtml'); ?>
 <h1> Show book list </h1>
-<nav>
-    <ul>
-        <li><a href= " <?php APP . '/book/add' ?> ">Ajouter</a></li>
-    </ul>
-</nav>
+<div>
+    <li><a href= " <?php APP . '/book/edit' ?> ">Ajouter</a></li>
+</div>
 
 <div id="container" class="row">
     <table class="table-striped" >
         <thead>
             <tr>
                 <th>Titre</th>
-                <th>Résumé</th>
+                <th>Intrigue</th>
                 <th>Isbn</th>
                 <th>Année ed°</th>
-                <th>Visu</th>
-                <th>Episodes</th>
+                <th>Der.mise en ligne</th>
+                <th>Nb.Episode</th>
+                <th>voir +</th>
             </tr>
         </thead>
         <tbody>
@@ -28,11 +27,12 @@
                 $table .= '<tr>';
                 // var_dump($book);
                 $table .= '<td>' . $book['title'] . '</td>';
-                $table .= '<td>' . $book['excerpt'] . '</td>';
+                $table .= '<td>' . $book['plot'] . '</td>';
                 $table .= '<td>' . $book['isbn'] . '</td>';
-                $table .= '<td>' . $book['editYear'];
-                $table .= '<td>' . '<a href= "\jfrblog/book/edit/' . $book['id'] . '">Visu</a>' . '</td>';
-
+                $table .= '<td>' . $book['editYear'] . '</td>';
+                $table .= '<td>' . $book['onlineDat'] . '</td>';
+                $table .= '<td>' . $book['nbEps'] . '</td>';
+                $table .= '<td>' . '<a href= "\jfrblog/book/episode/' . $book['id'] . '">Visu</a>' . '</td>';
                 $table .= '<tr>';
             }
             print_r($table);

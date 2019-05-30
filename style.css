@@ -1,4 +1,11 @@
- nav
+header
+{
+    margin-top: 3px;
+    width: 90%;
+    align-self: flex-start;
+    text-align: center;
+}
+nav
  {
     background: deepskyblue;
     color:white;

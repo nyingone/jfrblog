@@ -3,7 +3,7 @@ class Book
 {
     private $_id;
     private $_title;
-    private $_excerpt;
+    private $_plot;
     private $_onLineDate;
     private $_status;
     private $_isbn;
@@ -29,9 +29,9 @@ class Book
     {
         $this->_title = $title;
     }
-    public function setExcerpt($excerpt)
+    public function setPlot($plot)
     {
-        $this->_excerpt = $excerpt;
+        $this->_plot = $plot;
     }
     public function setOnlineDate($onlineDate)
     {
@@ -59,9 +59,9 @@ class Book
     {
         return $this->_title;
     }
-    public function getExcerpt()
+    public function getPlot()
     {
-        return $this->_excerpt;
+        return $this->_plot;
     }
     public function getOnlineDat()
     {

@@ -14,6 +14,7 @@ error_reporting(E_ALL);
       define('VIEW', APP . 'view' . DIRECTORY_SEPARATOR);
       define('CONTROLLER', APP . 'controller' . DIRECTORY_SEPARATOR);
       define('CORE', APP . 'core' . DIRECTORY_SEPARATOR);
+      define('DATA', APP . 'data' . DIRECTORY_SEPARATOR);
 
       /**
        * CSS accédé via adresse url ??? 
@@ -31,7 +32,7 @@ error_reporting(E_ALL);
       define('USR',  'root');
       define('PWD', ''); 
 
-      $modules = [ROOT,APP,CORE,CONTROLLER,MODEL];
+      $modules = [ROOT,APP,CORE,CONTROLLER,MODEL,DATA];
 
       set_include_path(get_include_path() . PATH_SEPARATOR . implode(PATH_SEPARATOR,$modules));
       spl_autoload_register('spl_autoload',false);

@@ -1,0 +1,62 @@
+<?php include(VIEW . 'header.phtml'); 
+$x = count($this->view_data);
+$y = 0;
+$table = '';
+// var_dump('</br>' , 'nombre de postes : ' , $X); die;
+          
+?>
+<h1> Show movie list </h1>
+<nav>
+    <ul>
+        <li><a href= " <?php APP . '/movie/add' ?> ">Ajouter</a></li>
+    </ul>
+</nav>
+
+<div id="container" class="row">
+    <table class="table-striped">   
+        <?php                       
+        foreach($this->view_data as $data)
+        { 
+            $movie = explode(';', $data);
+            
+            $y++;
+            
+            // $movie[0]  <===> Entête
+            if($y == 1)
+            {
+                $xm = count($movie);   
+                $table .= '<thead>';
+                //var_dump($table);
+            } 
+            $y == 2 ? $table .= '<tbody>' : '';
+           
+            $ym = 0;
+            $table .= '<tr>';
+            foreach ($movie as $item)
+            { 
+          
+                $ym++;
+                // var_dump($movie, $x, $y, $xm, $ym );
+                if($y == 1)
+                {
+                    $table .= '<th>' . $item . '</th>';
+                }else{
+                    $table .= '<td>' . $item . '</td>';
+                }
+            }
+            
+            if($y == 1)
+            {
+                $table .= '<th>' . 'Visu' . '</th>';
+            }else{
+                $table .= '<td>' . '<a href= "\jfrblog/movie/edit/' . $movie[0] . '">Visu</a>' . '</td>';
+            }
+            $table .= '<tr>';
+
+            $y == $x ? $table .= '</tbody></thead>' : '';
+        }  
+          print_r($table); ?>
+    </table>
+</div>
+<?php include(VIEW . 'footer.phtml'); ?>
+

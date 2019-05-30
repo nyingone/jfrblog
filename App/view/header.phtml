@@ -12,13 +12,15 @@ $action = $this->getAction();
         <title> JFR blog</title>
         
     </head>
-   
-   
-    <body>
+    <header>
       <nav>
         <ul>
           <li><a href="home" <?php echo($action == 'index' ? 'class="active"' :''); ?>>Home</a></li>
-          <li><a href="\jfrblog/book" <?php echo($action =='book' ? 'class="active"' : '') ; ?>>Bibliographie</a></li> -->
+          <li><a href="\jfrblog/book" <?php echo($action =='book' ? 'class="active"' : '') ; ?>>Bibliographie</a></li> 
+          <li><a href="\jfrblog/movie" <?php echo($action =='movie' ? 'class="active"' : '') ; ?>>Filmpographie</a></li> 
           <li><a href="home/aboutJFR" <?php echo($action =='aboutJFR' ? 'class="active"' : '') ; ?>>About JFR</a></li>
         </ul>
       </nav>
+    </header>
+    
+    <body>
