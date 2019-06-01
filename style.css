@@ -1,6 +1,7 @@
-header
+header nav
 {
     margin-top: 3px;
+    margin-left: 50px;
     width: 90%;
     align-self: flex-start;
     text-align: center;
@@ -9,6 +10,8 @@ nav
  {
     background: deepskyblue;
     color:white;
+    font-size: 2em;
+
  }
 
  nav ul li
@@ -31,7 +34,7 @@ nav
  #container
  {
     border:1px solid darkgrey;
-    width: 800px;
+    width: 90%;
     margin:5px auto;
     min-height: 600px;
  }

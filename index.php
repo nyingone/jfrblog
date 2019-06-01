@@ -28,6 +28,17 @@ include_once(APP . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'confi
 // MyAutoload::start();
 
 new Application;
+$users = DB::getInstance(); // lance connection
+$users = DB::getInstance()->query('SELECT * FROM user');
+if($users->error())
+{
+echo 'No user';
+}else{
+    echo 'Users found';
+}
+
+// $users = DB::getInstance()->get('users', array('username', '=', 'alex'));
+
 
 
 

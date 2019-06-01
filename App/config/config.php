@@ -1,6 +1,6 @@
 <?php
 session_start();
-$_session['user'] = 'Anonymous';
+// $_session['user'] = 'Anonymous';
 
 /**
  * 
@@ -15,6 +15,7 @@ error_reporting(E_ALL);
       define('CONTROLLER', APP . 'controller' . DIRECTORY_SEPARATOR);
       define('CORE', APP . 'core' . DIRECTORY_SEPARATOR);
       define('DATA', APP . 'data' . DIRECTORY_SEPARATOR);
+      define('CLASSX', APP . 'class' . DIRECTORY_SEPARATOR);
 
       /**
        * CSS accédé via adresse url ??? 
@@ -32,7 +33,7 @@ error_reporting(E_ALL);
       define('USR',  'root');
       define('PWD', ''); 
 
-      $modules = [ROOT,APP,CORE,CONTROLLER,MODEL,DATA];
+      $modules = [ROOT,APP,CORE,CONTROLLER,MODEL,DATA,CLASSX];
 
       set_include_path(get_include_path() . PATH_SEPARATOR . implode(PATH_SEPARATOR,$modules));
       spl_autoload_register('spl_autoload',false);
@@ -54,3 +55,21 @@ error_reporting(E_ALL);
         }
     }
     */
+    // modele ini.php
+    $GLOBALS['config'] = array(
+        'mysql'     => array(
+            'host'      => 'localhost',
+            'username'  =>  'root',
+            'password'  =>  '',
+            'dbname'    =>  'jfrblog'
+    
+        ),
+        'remember'  => array(
+            'cookie_name'    => 'hash',
+            'cookie_expiry'  => 604800 // in second
+        ),
+        'session'   => array(
+            'session_name'  =>  'user'
+        )
+    );
+    require_once('functions/sanitize.php');

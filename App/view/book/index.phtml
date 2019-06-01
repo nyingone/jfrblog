@@ -1,7 +1,7 @@
 <?php include(VIEW . 'header.phtml'); ?>
 <h1> Show book list </h1>
 <div>
-    <li><a href= " <?php APP . '/book/edit' ?> ">Ajouter</a></li>
+    <li><a href= " <?php APP . '/book/add' ?> ">Ajouter</a></li>
 </div>
 
 <div id="container" class="row">
@@ -30,9 +30,9 @@
                 $table .= '<td>' . $book['plot'] . '</td>';
                 $table .= '<td>' . $book['isbn'] . '</td>';
                 $table .= '<td>' . $book['editYear'] . '</td>';
-                $table .= '<td>' . $book['onlineDat'] . '</td>';
-                $table .= '<td>' . $book['nbEps'] . '</td>';
-                $table .= '<td>' . '<a href= "\jfrblog/book/episode/' . $book['id'] . '">Visu</a>' . '</td>';
+                $table .= '<td>' . $book['onlineDat']  . '</td>';
+                $table .= '<td>' . $book['nbEps']   . '</td>';
+                $table .= '<td>' . '<a href= "\jfrblog/book/edit' . $book['id'] . '">Visu</a>' . '</td>';
                 $table .= '<tr>';
             }
             print_r($table);

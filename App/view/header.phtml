@@ -3,24 +3,36 @@ $action = $this->getAction();
 ?>
 <!DOCTYPE html>
 <html lang="fr">
-    <head>
-        <meta charset="utf-8">
-          <!-- <link rel="stylesheet" href="<?php CSS;?>bootstrap.css"> --> 
-        <link rel="stylesheet" href="https://getbootstrap.com/1.4.0/assets/css/bootstrap.min.css">
-        <link rel="stylesheet" href="http://localhost/jfrblog/style.css">
-        
-        <title> JFR blog</title>
-        
-    </head>
-    <header>
-      <nav>
-        <ul>
-          <li><a href="home" <?php echo($action == 'index' ? 'class="active"' :''); ?>>Home</a></li>
-          <li><a href="\jfrblog/book" <?php echo($action =='book' ? 'class="active"' : '') ; ?>>Bibliographie</a></li> 
-          <li><a href="\jfrblog/movie" <?php echo($action =='movie' ? 'class="active"' : '') ; ?>>Filmpographie</a></li> 
-          <li><a href="home/aboutJFR" <?php echo($action =='aboutJFR' ? 'class="active"' : '') ; ?>>About JFR</a></li>
-        </ul>
-      </nav>
-    </header>
+  <head>
+    <meta charset="utf-8">
+      <!-- <link rel="stylesheet" href="<?php CSS;?>bootstrap.css"> --> 
+     <!--<link rel="stylesheet" href="https://getbootstrap.com/1.4.0/assets/css/bootstrap.min.css"> -->
+   <link rel="stylesheet" href="http://localhost/jfrblog/style.css"> 
     
-    <body>
+    <title> JFR blog</title>  
+  </head>
+  <body>
+    <header>
+    </header>
+
+
+  <div class = "topbar">
+    <div class ="fill">
+        <div class ="container"> 
+            <h3><a href="http://localhost/jfrblog/index.php">JFR</a></h3>
+            <nav>
+              <ul>
+                <li><a href="home" <?php echo($action == 'index' ? 'class="active"' :''); ?>>Home</a></li>
+                <li><a href="\jfrblog/book" <?php echo($action =='book' ? 'class="active"' : '') ; ?>>Bibliographie</a></li> 
+                <li><a href="\jfrblog/movie" <?php echo($action =='movie' ? 'class="active"' : '') ; ?>>Filmographie</a></li> 
+                <li><a href="home/aboutJFR" <?php echo($action =='aboutJFR' ? 'class="active"' : '') ; ?>>About JFR</a></li>
+              </ul>
+            </nav>
+            <ul class="nav secondary-nav">
+                <li><a href="#" class = "menu">Connexion</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+  </div>
+  
