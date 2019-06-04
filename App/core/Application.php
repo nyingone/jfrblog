@@ -20,7 +20,6 @@ class Application
             $this->controller = new $this->controller;
             if (method_exists($this->controller,$this->action))
             {
-               var_dump($this->controller, $this->action, $this->params);
                // call_user_func_array([$this->controller,$this->action], $this->params);
                 call_user_func([$this->controller,$this->action], $this->params);
 
@@ -60,16 +59,10 @@ class Application
                 }
                 $url = array_values($tst);
             }
-            // echo var_dump($url);
-           /**
-            *    var_dump($url);
-            *   0 => string 'jfrblog' (length=7)
-            *   1 => string 'public' (length=6)
-            *   2 => string 'index' (length=5)
-            */ 
            $this->controller = isset($url[1]) ? ucfirst($url[1]) . 'Controller' :  'HomeController';
-           // echo $this->controller, '</br>' , 'is selected' , '</br>' ;
+          
            $this->action     = isset($url[2]) ? $url[2] : 'index';
+           echo $this->controller, ' and ' , $this->action , 'is selected' , '</br>' ;
            if(!(method_exists($this->controller, $this->action)))
            {
                $this->action = 'index';

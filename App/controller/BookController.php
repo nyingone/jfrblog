@@ -11,17 +11,15 @@ class BookController extends Controller
      * charger le manager et les donnéesssss à transmettre à la vue
      * le Controller amont crée le modèle avec  public function model($modelName,$datas=[])
      */
-      $this->model($this->ctl, '');
+      $this->createModel($this->ctl, '');
       // $this->model('book', ['books => $this->model->getBooks()']);
       $datas = $this->model->getBooks();
 
-      $this->view($this->ctl . DS . 'index', $datas);
-      // var_dump($this); exit;
+      $this->createView($this->ctl . DS . 'index', $datas);
       $this->view->page_title = "This is our Bibliographie page";
       $this->view->render();
      
     }
-
     public function edit()
     {
       $this->model($this->ctl, '');

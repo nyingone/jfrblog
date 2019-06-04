@@ -8,12 +8,14 @@ class DB
     private $_error = false;
     private $_results;
     private $_count =0;
+    
+    protected $_optf= ''; 
 
     private function __construct()
     {
         try
         {
-            $this->pdo = new PDO(   'mysql:host=' . Config::get('mysql/host') . 
+            $this->_pdo = new PDO(   'mysql:host=' . Config::get('mysql/host') . 
                                     ';dbname=' . Config::get('mysql/dbname')
                                     ,Config::get('mysql/username') ,Config::get('mysql/password'),
         [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
@@ -40,11 +42,12 @@ class DB
     public function query($sql,$params= array())
     {
         $this->error = false;
-        if($this->_query = $this->pdo->prepare($sql))
+        if($this->_query = $this->_pdo->prepare($sql))
         { 
-            echo 'ok prepare';
-            if(count($params))
-            {
+           
+            if(is_array($params) && count($params))
+            { $x = 1;
+               // echo '<br /> liste paramètres to bind';
                 foreach($params as $parm)
                 {
                     $this->_query->bindValue($x, $parm);
@@ -52,15 +55,20 @@ class DB
                 }
             }
             if($this->_query->execute())
-            {
-                echo 'qry prepare lancé avec succes';
-                $this->_results = $this->_query->fetchAll(PDO::FETCH_OBJ);
-                $this->_count = $this->_query->rowCount();
+            {  
+                if(! $this->_optf == 'insert')
+                {
+                    $this->_results = $this->_query->fetchAll(PDO::FETCH_OBJ);
+                    $this->_count = $this->_query->rowCount();
+                }
+                                
             } else{
                 $this->_error = true;
+         
             }
         }
         return $this;
+        return $this->_results;
     }
 
 
@@ -75,9 +83,9 @@ class DB
 
             if(in_array($operator,$operators))
             {
-                $sql = "($action FROM $table WHERE $fied $operator ?)";
+                $sql = "($action $table WHERE $field $operator ?)";
                 
-                if(!$this->_query($sql,array($value))->error())
+                if(!$this->query($sql,array($value),[])->error())
                 {
                     return $this;
                 }
@@ -88,24 +96,99 @@ class DB
         return false;
     }
 
-    public function get($table, $where = array())
+    public function get($table, $where )
     {
-        return $this->action('SELECT *', $table, $where);
+        return $this->action('SELECT * FROM', $table, $where);
     }
 
     public function delete($table, $where = array())
     {
-        return $this->action('SELECT *', $table, $where);
+        return $this->action('SELECT ', $table, $where);
     }
 
-    public function add()
+    public function ctlffd($table)
     {
-
+        $sql = 'SELECT * FROM ' . $table . ' LIMIT 1 ' ;
+        $opt = 'FETCH_ALL';
+        $this-> _ffd = $this->getInstance()->query($sql, '', $opt );
+        if(!$this->query($sql,  $this->_ffd,$opt)->error())
+        {
+            $this->_ffd = $this->_results;
+            return $this->_ffd;
+        }else{
+            var_dump('<br /> erreur ', $this->_ffd); die; 
+        }
+       
     }
 
+    public function insert($table, $fields = array())
+    {
+ 
+        if(count($fields))
+        {       
+            $keys = array_keys($fields);
+            $values = ' ';
+            $x = 1;
+                foreach($fields as $field)
+            {
+                $values .= "?";
+                if($x < count($fields))
+                {
+                    $values .= ", ";
+                }
+                $x++;
+            }
+         //   $sql = "INSERT INTO " . $table . " ('" . implode("','", $keys) . "') " . "VALUES({$values})";
+            $sql = "INSERT INTO " . $table . " (" . implode(",", $keys) . ") " . "VALUES({$values})";
+            $this->_optf = 'insert';
+            if(!$this->query($sql, $fields)->error())
+            {
+            return true;
+            }
+           
+        }else
+        {
+            return false;
+        }
+    }
+
+    public function update($table, $id, $fields = array())
+    {
+        $set = '';
+        $x = 1;
+     //   $sql = "UPDATE " . $TABLE . "SET password = 'newPassword where id = X";
+        foreach($fields as $name => $value)
+        {
+            $set .= "{$name} = ?";
+            if($x < count($fields))
+            {
+                $set .= ", ";
+            }
+            $x++;
+        }
+
+        $sql = "UPDATE {$tableE} SET  {$set} WHERE id = {$id}";
+        if(!$this->query($sql, $fields)->error())
+        {
+        return true;
+        }else{
+            return false;
+        }
+        
+    }
     public function count()
     {
         return $this->_count;
+    }
+
+    public function results()
+    {
+        return $this->_results;
+    }
+
+    public function first()
+    {
+        return $this->results()->_results[0];
     }
 
     public function error()

@@ -8,7 +8,6 @@ class EpisodeController extends Controller
 /** create all the actions we can have */
     public function index($params)
     {
-     // var_dump(__CLASS__, '</br>', __METHOD__, '</br>');
     /**
      * charger le manager et les donnéesssss à transmettre à la vue
      * le Controller amont crée le modèle avec  public function model($modelName,$datas=[])
@@ -20,7 +19,7 @@ class EpisodeController extends Controller
       $datas = $this->model->getSelection($params);
       var_dump($datas);
 
-      $this->view($this->ctl . DS . 'index', $datas);
+      $this->createView($this->ctl . DS . 'index', $datas);
 
 
       // var_dump($this); exit;

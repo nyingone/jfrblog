@@ -8,28 +8,21 @@ class Controller
     /**
      * Define view for each action
      */
-    public function view($viewName,$datas=[])
+    public function createView($viewName,$datas=[])
     {
-        // echo '</br>' , 'appel via controller methode  ' . __METHOD__;
-        $this->view = new View($viewName, $datas);
-        // var_dump($this->view);
-       
+        $this->view = new View($viewName, $datas); 
         return $this->view;
     }
 
-    public function model($modelName,$datas=[])
+    public function createModel($modelName,$datas=[])
     {
-        // echo '</br>' , 'appel via controller methode  ' . __METHOD__;
         $modelName = ucfirst($modelName) . 'Manager';
-        if(file_exists(MODEL . $modelName . '.php'))
+        if(file_exists(MANAGER . $modelName . '.php'))
         {
-            // echo MODEL . $modelName . '.php' . ' loaded';  
-            require MODEL . $modelName . '.php'; // ! autoload
+            
             $this->model = new $modelName($modelName, $datas);
-
-           //  $this->model->inventory($modelName,$datas);
         }else {
-            echo MODEL . $modelName . '.php' . ' non trouvé';   }
+            echo MANAGER . $modelName . '.php' . ' non trouvé';   }
     }
     
 }

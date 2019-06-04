@@ -9,6 +9,9 @@ class UserManager extends BddManager
     //logout
 
     // register
-
+public function register()
+{
+    
+}
     // edit/update profile & Password
 }

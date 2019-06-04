@@ -1,0 +1,77 @@
+<!--// SELECT `id``userId``passWord``salt``email``lastName``pseudo``joigned``groupId` 
+-->
+<?php 
+if(Input::exists())
+{
+ $validate = new validate();  
+ $validation = $validate->check($_POST, array(
+    'userId'        => array(
+        'required'  => true,
+        'min'       => 2,
+        'max'       => 20,
+        'unique'    => 'user',
+        ),
+    'password'      => array(
+        'required'  => true,
+        'min'       => 6
+        ),
+    'passwordBis'   => array(
+        'required'  => true,
+        'matches'   =>  'password'
+    ),
+    'email'         => array(
+        'required'  => true,
+        'min'       => 6
+    ),
+    'lastName'      => array(
+        'required'  => false,
+        'min'       => 10,
+        'max'       => 50,
+    ),
+    'pseudo'        => array(
+        'required'  => false,
+        'min'       => 10,
+        'max'       => 50
+    )
+    ));
+    if($validation->passed()){
+        // register user
+    } else {
+        // output errrors
+        print_r($validation->_errors);
+    }
+}
+    ?>
+<form action = ""  method = "post">
+    <div class="field">
+    <label for "userId">Identifiant</label>
+    <input type="text" name="userId" id="userId" value="<?php escape(Input::get('userId')); ?>" autocomplete="off">
+    </div>
+
+    <div class="field">
+    <label for "password">Mot de passe</label>
+    <input type="password" name="password" id="password" value="<?php escape(Input::get('password')); ?>" autocomplete="off">
+    </div>
+
+    <div class="field">
+    <label for "passwordBis">Confirmaer le Mot de passe</label>
+    <input type="password" name="passwordBis" id="passwordBis" value="" autocomplete="off">
+    </div>
+
+    <div class="field">
+    <label for "email">Adresse Mail</label>
+    <input type="e-mail" name="email" id="email" value="" autocomplete="off">
+    </div>
+
+    <div class="field">
+    <label for "lastName">Nom</label>
+    <input type="text" name="lastName" id="lastName" value="" autocomplete="off">
+    </div>
+
+    <div class="field">
+    <label for "pseudo">Pseudo</label>
+    <input type="text" name="pseudo" id="lpseudo" value="" autocomplete="off">
+    </div>
+
+    <input type="submit" value="inscription">
+</form>

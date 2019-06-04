@@ -4,7 +4,7 @@ class HomeController extends Controller
     public function index($id='',$name='')
     {
        echo 'I am in: ' . __CLASS__ . ' and method is : ' . __METHOD__ ;
-        $this->view('home\index',[
+        $this->createView('home\index',[
                                     'name' => $name,
                                     'id'   => $id
         ]);
