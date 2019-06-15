@@ -12,7 +12,6 @@ class MovieController extends Controller
      * le Controller amont crée le modèle avec  public function model($modelName,$datas=[])
      */
       $this->createModel($this->ctl, '');
-      
       $datas = $this->model->getMovies();
       $this->createView($this->ctl . DS . 'index', $datas);
       $this->view->page_title = "Filmographie";

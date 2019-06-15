@@ -1,47 +1,92 @@
 <!--// SELECT `id``userId``passWord``salt``email``lastName``pseudo``joigned``groupId` 
 -->
 <?php 
+$loc = explode(DS,$this->view_file);
+$controller = CONTROLLER . $loc[0] . 'controller.php';
+$tab = $loc[0];
+
 if(Input::exists())
-{
- $validate = new validate();  
- $validation = $validate->check($_POST, array(
-    'userId'        => array(
-        'required'  => true,
-        'min'       => 2,
-        'max'       => 20,
-        'unique'    => 'user',
+{ 
+    if(Token::check(Input::get('token'))){
+        $validate = new validate();  
+        $validation = $validate->check($_POST, $tab, array(
+        'userId'        => array(
+            'Reference' => 'Identifiant',
+            'required'  => true,
+            'min'       => 2,
+            'max'       => 20,
+            'unique'    => 'user',
+            ),
+        'password'      => array(
+            'Reference' => 'Mot de passe',
+            'required'  => true,
+            'min'       => 6
+            ),
+        'passwordBis'   => array(
+            'Reference' => 'Confirmation du Mot de passe',
+            'required'  => true,
+            'matches'   =>  'password'
         ),
-    'password'      => array(
-        'required'  => true,
-        'min'       => 6
+        'email'         => array(
+            'Reference' => 'Adresse mail',
+            'required'  => false
         ),
-    'passwordBis'   => array(
-        'required'  => true,
-        'matches'   =>  'password'
-    ),
-    'email'         => array(
-        'required'  => true,
-        'min'       => 6
-    ),
-    'lastName'      => array(
-        'required'  => false,
-        'min'       => 10,
-        'max'       => 50,
-    ),
-    'pseudo'        => array(
-        'required'  => false,
-        'min'       => 10,
-        'max'       => 50
-    )
-    ));
-    if($validation->passed()){
-        // register user
-    } else {
-        // output errrors
-        print_r($validation->_errors);
-    }
+        'lastName'      => array(
+            'Reference' => 'Nom ',
+            'required'  => false,
+            'max'       => 50
+        ),
+        'pseudo'        => array(
+            'Reference' => 'Pseudo',
+            'required'  => false,
+            'max'       => 50
+        )
+        ));
+        if($validate->passed()){
+            // register user
+          //  Session::flash('success', 'you registered successfully' );
+            $user = new User();
+            $salt = Hash::salt(32);
+           
+           try{
+                $user->create(array(
+                'id'        => null,
+                'userId'    => Input::get('userId'),
+                'password'  => Hash::make(Input::get('password'),$salt),
+                'salt'      => $salt,
+                'email'     => Input::get('email'),
+                'lastName'  => Input::get('lastname'),
+                'pseudo'   =>  Input::get('pseudo'),
+                'joigned'  =>  date('Y-m-d H:i:s'),  
+                'groupId'  => '10'
+                ));
+                Session::flash('home', 'you registered successfully and can now loggin' );
+                // header('location: index.phtml');
+                Redirect::to('index.phtml');
+           } catch(Exception $e){
+               die($e->getMessage());
+           }
+        } else {
+            // output errrors
+                  
+            foreach($validate->errors() as $error){
+                echo '<br/>',  $error, '<br/>';
+            }
+            echo '<br/>';
+        }
+    }   
 }
-    ?>
+ /* var_dump($this);
+ bject(View)[4]
+  protected 'view_file' => string 'user\register' (length=13)
+  protected 'view_data' => null
+  public 'page_title' => string 'Abonnés' (length=8) */
+
+  include(VIEW . 'header.phtml'); 
+ ?>
+
+//<form action = "<?php $controller ?>"  method = "post">
+
 <form action = ""  method = "post">
     <div class="field">
     <label for "userId">Identifiant</label>
@@ -70,8 +115,10 @@ if(Input::exists())
 
     <div class="field">
     <label for "pseudo">Pseudo</label>
-    <input type="text" name="pseudo" id="lpseudo" value="" autocomplete="off">
+    <input type="text" name="pseudo" id="pseudo" value="" autocomplete="off">
     </div>
-
+   
+    <input type="hidden" name="token" id="token" value="<?php echo Token::generate(); ?>">
     <input type="submit" value="inscription">
 </form>
+<?php include(VIEW . 'footer.phtml'); ?>

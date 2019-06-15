@@ -1,5 +1,5 @@
 <?php
-class EpisodeManager extends BddManager
+class EpisodeManager 
 {
     protected $query;
     /**

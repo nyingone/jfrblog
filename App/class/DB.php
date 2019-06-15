@@ -15,11 +15,10 @@ class DB
     {
         try
         {
-            $this->_pdo = new PDO(   'mysql:host=' . Config::get('mysql/host') . 
-                                    ';dbname=' . Config::get('mysql/dbname')
+            $this->_pdo = new PDO('mysql:host=' . Config::get('mysql/host') . 
+                                ';dbname=' . Config::get('mysql/dbname') .'; charset=utf8'
                                     ,Config::get('mysql/username') ,Config::get('mysql/password'),
         [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-        echo 'connected';
         }
         catch (PDOException $e)
         {
@@ -39,7 +38,7 @@ class DB
  * @params $sql
  * @params  
  */
-    public function query($sql,$params= array())
+    public function query($sql,$params= [] , $table =null)
     {
         $this->error = false;
         if($this->_query = $this->_pdo->prepare($sql))
@@ -50,7 +49,8 @@ class DB
                // echo '<br /> liste paramètres to bind';
                 foreach($params as $parm)
                 {
-                    $this->_query->bindValue($x, $parm);
+                    $val = $parm[$x-1];
+                    $this->_query->bindValue($x, $val);
                     $x++;
                 }
             }
@@ -58,17 +58,18 @@ class DB
             {  
                 if(! $this->_optf == 'insert')
                 {
-                    $this->_results = $this->_query->fetchAll(PDO::FETCH_OBJ);
+                    $this->_results = $this->_query->fetchAll(PDO::FETCH_ASSOC);
+    
                     $this->_count = $this->_query->rowCount();
                 }
-                                
+                return $this->results();                 
             } else{
                 $this->_error = true;
-         
             }
+        }else{
+            return $this->_error;
         }
-        return $this;
-        return $this->_results;
+        
     }
 
 
@@ -78,27 +79,28 @@ class DB
         {
             $operators = array('=','>','<', '>=', '<=','<>');
             $field = $where[0];
-            $operator= $where[1];
-            $value = $where[2];
-
+            $operator = $where[1];
+            $value[] = $where[2];
             if(in_array($operator,$operators))
             {
                 $sql = "($action $table WHERE $field $operator ?)";
-                
-                if(!$this->query($sql,array($value),[])->error())
+               // var_dump($sql);
+                // if(!$this->query($sql,array($value),[])->error())
+                if($this->query($sql,array($value),$table))
                 {
-                    return $this;
+                    return $this->results(); 
                 }
-
             }
-
-        }
-        return false;
+        }else{
+            return false;
+        }   
     }
+        
 
     public function get($table, $where )
     {
-        return $this->action('SELECT * FROM', $table, $where);
+      // var_dump($table, $where);
+       return $this->action('SELECT * FROM', $table , $where);
     }
 
     public function delete($table, $where = array())
@@ -167,7 +169,7 @@ class DB
             $x++;
         }
 
-        $sql = "UPDATE {$tableE} SET  {$set} WHERE id = {$id}";
+        $sql = "UPDATE {$table} SET  {$set} WHERE id = {$id}";
         if(!$this->query($sql, $fields)->error())
         {
         return true;
@@ -188,7 +190,8 @@ class DB
 
     public function first()
     {
-        return $this->results()->_results[0];
+    //    return $this->results()->_results[0];
+        return $this->_results[0];
     }
 
     public function error()

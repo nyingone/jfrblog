@@ -3,6 +3,7 @@ class Config
 {
     public static function get($path = null)
     {
+        // var_dump($GLOBALS, $path);
         if($path)
         {
             $config = $GLOBALS['config'];

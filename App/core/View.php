@@ -12,7 +12,6 @@ class View
 
     public function render()
     {
-       // var_dump( $this->view_file);
         if(file_exists(VIEW . $this->view_file . '.phtml'))
         {
             include (VIEW . $this->view_file . '.phtml');

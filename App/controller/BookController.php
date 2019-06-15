@@ -1,7 +1,7 @@
 <?php
 class BookController extends Controller
 {
-  public $data = '';
+  public $data = [];
   private $ctl = 'book';
 
 /** create all the actions we can have */
@@ -12,23 +12,30 @@ class BookController extends Controller
      * le Controller amont crée le modèle avec  public function model($modelName,$datas=[])
      */
       $this->createModel($this->ctl, '');
-      // $this->model('book', ['books => $this->model->getBooks()']);
       $datas = $this->model->getBooks();
-
       $this->createView($this->ctl . DS . 'index', $datas);
       $this->view->page_title = "This is our Bibliographie page";
-      $this->view->render();
+      $this->view->render($datas);
      
     }
-    public function edit()
+    public function edit($id)
     {
-      $this->model($this->ctl, '');
-      $datas = $this->model->getBooks();
+      $this->createmodel($this->ctl, '');
+      $datas = $this->model->getBooks($id);
 
-      $this->view($this->ctl . DS . 'edit', $datas);
+      $this->createview($this->ctl . DS . 'editx', $datas);
       // var_dump($this); exit;
       $this->view->page_title = "xxxxxx";
-      $this->view->render();
+      $this->view->render($datas);
+    }
+
+    public function add()
+    {
+      $this->createmodel($this->ctl, '');
+      
+      $this->createview($this->ctl . DS . 'edit', $datas=[]);
+      $this->view->page_title = "xxxxxx";
+      $this->view->render([$datas]);
     }
 }
   

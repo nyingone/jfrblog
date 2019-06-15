@@ -1,0 +1,29 @@
+<?php include(VIEW . 'header.phtml'); 
+if(Session::exists('home')){
+  echo '<p>' . Session::flash('home') . '</p>';
+}
+var_dump($user);
+$user = new User();
+if($user->isLoggedIn())
+{
+?>
+  <p> Hello <a href= "#"><?php echo escape($user->data()->pseudo); ?></a>!</p>
+  <ul>
+    <li><a href = "logout.php">Log out</a></li> 
+  </ul>
+
+<?php
+} else {
+  echo '<p> You need to <a href = "login">log in</a> or <a href= "phtml">register</a></p>';
+}
+
+if(is_array($this->view_data)){
+    $x = count($this->view_data);
+}
+$y = 0;
+$table = '';?>
+<h1> Show user list </h1>
+
+
+
+<?php include(VIEW . 'footer.phtml'); ?>

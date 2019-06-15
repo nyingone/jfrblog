@@ -7,9 +7,7 @@ class Application
 
     public function __construct()
     {
-       // var_dump( $_SERVER);
         $this->prepareUrl();
-       // echo $this ->controller, '</br>' , 'classe application' , '</br>' , $this->action, '</br>', print_r($this->params);
         if(!(file_exists(CONTROLLER . $this->controller . '.php')))
         { 
             $controller = 'HomeController';
@@ -41,7 +39,6 @@ class Application
         if (!empty($request))
         {
             $url = explode('/',$request);
-           // echo var_dump($url);
             /**
              * Nettoyage url faussée par appel itératifs ex home home home book
              */
@@ -62,7 +59,6 @@ class Application
            $this->controller = isset($url[1]) ? ucfirst($url[1]) . 'Controller' :  'HomeController';
           
            $this->action     = isset($url[2]) ? $url[2] : 'index';
-           echo $this->controller, ' and ' , $this->action , 'is selected' , '</br>' ;
            if(!(method_exists($this->controller, $this->action)))
            {
                $this->action = 'index';

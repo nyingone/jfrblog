@@ -4,7 +4,8 @@ class Book
     private $_id;
     private $_title;
     private $_plot;
-    private $_onLineDate;
+    private $_onlineDat;
+    private $_nbEps;
     private $_status;
     private $_isbn;
     private $_editYear;
@@ -12,19 +13,26 @@ class Book
     /**
      * @param array $donnees
      */
-    public function hydrate(array $dtas)
+    public function hydrate( $dtas)
     {
-        foreach ($dtas as $key => $value)
+        if(is_array($dtas))
         {
-            $method = 'set' . ucfirst($key);
-            if(method_existe($this, $method))
+            foreach ($dtas as $key => $value)
             {
-                $this->method($value);
+                $method = 'set' . ucfirst($key);
+                if(method_exists($this, $method))
+                {
+                    $this->$method($value);
+                }
             }
         }
     }
 
 // Setters
+    public function setId($id)
+    {
+              //  $this->_id = $id;
+    }
     public function setTitle($title)
     {
         $this->_title = $title;
@@ -37,6 +45,10 @@ class Book
     {
         $this->_onlineDate = $onlineDate;
     }
+    public function setNbEps($nbEps)
+    {
+        $this->_nbEps = $nbEps;
+    }
     public function setStatus($status)
     {
         $this->_status = $status;
@@ -45,7 +57,7 @@ class Book
     {
         $this->_isbn = $isbn;
     }
-    public function setEditYear($edityear)
+    public function setEditYear($editYear)
     {
         $this->_editYear = $editYear;
     }
@@ -66,6 +78,10 @@ class Book
     public function getOnlineDat()
     {
         return $this->_onlineDat;
+    }
+    public function getNbEps()
+    {
+        return $this->_nbEps;
     }
     public function getStatus()
     {

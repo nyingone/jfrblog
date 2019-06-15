@@ -2,58 +2,33 @@
 class BookManager
 {
     protected static $_db; // Instance de PDO
-    protected $inventory;
+    protected $books =[];
     protected $query;
 
 
     public function __construct($modelName,$method)
-    {
-       
-        self::setDb('');
-        
+    {    
+        $_db = DB::getInstance();
     }
 
-       public function getBooks()
+    public function getBooks($parms=null)
     {
-        print_r('Appel setDb depuis getBooks' . '</br>');
-        self::setDb('');
-
-        print_r('lancement qry depuis ' . __METHOD__ . '</br>');
-        try
-        { 
-            $_db = new PDO("mysql:host=localhost;dbname=jfrblog;chartset='utf8'","root","",
-            [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-            $query = "SET NAMES utf8"; // force affichghe en UTF
-            $result = $_db->query($query);
-            $qry= 'SELECT * FROM book order by id';       
-            $pdoStat = $_db->query($qry);  // retour objet PDO statement
-            $this->inventory = $pdoStat->fetchALL(); 
-            return $this->inventory;
-        }
-        catch (PDOException $e)
+        if(!isset($parms))
         {
-            die('Erreur : ' . $e->getMessage()) . 'probleme PDO dans ' . __METHOD__ . '</br>';
+            $this->books = DB::getInstance()->query('SELECT * from book','','book');
+        }else{
+            $this->books = DB::getInstance()->get('book', array('id', '=', $parms));
         }
-    }
-
-   
-    private static function setDb($qry)
-    {
-        try
-        { 
-         //   $_db = new PDO(DSN,USR,PWD, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-            $_db = new PDO("mysql:host=localhost;dbname=jfrblog;chartset=UTF8","root","",
-            [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-              // $bdd = new PDO("mysql:host=localhost;dbname=bookyshin;chartset=UTF8","root","",
-
-            $query = "SET NAMES utf8"; // force affichghe en UTF
-            $result = $_db->query($query);
-            print_r('ok pour utf8' .' </br>');   
-
-        }
-        catch (PDOException $e)
+        $x = 0;
+        foreach($this->books as $table)
         {
-            die('Erreur : ' . $e->getMessage()) . 'probleme PDO';
+            $book = new Book;
+            $book->hydrate($table);
+            $this->books[$x] = $book;
+            $x++;
         }
+        return $this->books;
     }
+
+
 }

@@ -1,14 +1,16 @@
-<?php include(VIEW . 'header.phtml'); ?>
+<?php include(VIEW . 'header.phtml'); 
+$books = $this->view_data;
+?>
 <h1> Show book detail </h1>
 <!--SELECT `id``title``plot``onlineDat``nbEps``status``isbn``editYear` FROM `book` -->
-<h2> Show book detail </h2>
-<form class ="dta-add-class" action ="bookManager">
+<h2> create new book </h2>
+<form class ="dta-add-class" type = "post" action ="bookManager">
     <div class="input">                 
-            <label>Titre </label> :<input type="text" name="title" maxlength=30>
+            <label>Titre </label> :<input type="text" name="title" maxlength=30 >
     </div>
     <div class="input">  
         <label for="plot">résumé</label>
-        <textarea  name = "infos" cols= 120 rows = 5> </textarea wrap="type">
+        <textarea  name = "infos"  cols= 120 rows = 5> </textarea wrap="type">
     </div>
     <div class="input">  
         <label>Status </label> :<input type="text" name="status" maxlength=2>
@@ -19,7 +21,7 @@
     <div class="input">                 
         <label>Année edition </label> :<input type="number" name="editYear" placeholder="SSAA" maxlength=4>
     </div>
-    <input type='hidden' name="id">
+    <input type='hidden' name="id" >
     <input type='hidden' name='addBook' value='yes'>
     <div class="input">  
         <input type="submit" value ="AJOUTER">

@@ -7,41 +7,54 @@ define('HOME', ROOT . 'public'. DS);
 
 include_once(APP . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'config.php');
 
-new Application;
-
-//
-$users = DB::getInstance(); // lance connection
-$users = DB::getInstance()->query('SELECT * FROM user');
-// $users = DB::getInstance()->get('user', array('pseudo', '=', 'alex'));
-if($users->error())
+if(isset($_GET['url']))
 {
-echo 'Erreur accès table User';
+    $url = $_GET['url'];
 }else{
-    if(!$users->count())
+    if(isset($_POST['url']))
     {
-        echo 'No user found';
+        $url = $_POST['url'];
     }else{
-        foreach($users->results() as $user)
-        {
-            echo $user->userId, $user->email;
-        }
+        $url = 'home';
     }
+}
+$router = new Router ($url);
+$router->get('home', "home#index",'home');
+$router->get('aboutJFR',"home#aboutJFR",'aboutUs');
+$router->get('book',"book#index",'book');
+$router->get('book-add',"book#add",'book_add');
+$router->get('movie',"movie#index",'movie');
+$router->get('episode',"episode#index",'episode');
+
+$router->get('login',"user#login",'login');
+$router->get('register',"user#register",'register');
+
+// $router->get('book/:id', function($id){echo 'livre' . $id;});
+ $router->get('book/:id', "book#edit",'book_detail');
+// $router->get('episode/:id-:slug', function($id,$slug){echo "episode $id : $slug";})->with('id', '[0-9]+')->with('slug', '[a-z\-0-9]+');
+
+$router->post('movie', "movie#index",'movie');
+$router->post('book/:id', function($id){echo 'poster pour 1 livre';});
+try
+{
     
+    $router->run();
+   
+}
+catch(RouterException $e)
+{
+    $errmsg[] =$e->getMessage();
+}
+catch(Exception $e)
+{
+    $errmsg[] =$e->getMessage();
+}
+if(isset($errmsg) && (!empty($errmsg)))
+{
+    var_dump($errmsg);
 }
 
-// SELECT `id``userId``userId``passWord``salt``email``lastName``pseudo``joigned``groupId` 
-echo 'Appel pour insert';
-$userInsert = DB::getInstance()->insert('user', array(
-    'id'    => null,
-    'userId' => 'alex',
-    'password' => 'xxx',
-    'salt' => 'salt',
-    'email' => 'alex@gmail.com',
-    'lastName' => 'Thunderbird',
-    'pseudo'   =>   '',
-    'joigned'  =>   '191231',  
-    'groupId' => '10'
-    ));
+
 
 
 

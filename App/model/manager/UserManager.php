@@ -1,15 +1,23 @@
 <?php
 
-class UserManager extends BddManager
+class UserManager 
 {
 // to get all users
-
+public function getUsers()
+{
+    
+}
     // login
 
     //logout
 
     // register
 public function register()
+{
+    
+}
+
+public function login()
 {
     
 }

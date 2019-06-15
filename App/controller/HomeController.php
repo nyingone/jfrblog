@@ -3,7 +3,6 @@ class HomeController extends Controller
 {
     public function index($id='',$name='')
     {
-       echo 'I am in: ' . __CLASS__ . ' and method is : ' . __METHOD__ ;
         $this->createView('home\index',[
                                     'name' => $name,
                                     'id'   => $id
@@ -15,7 +14,7 @@ class HomeController extends Controller
 
     public function aboutJFR()
     {
-        $this->view('home\aboutJFR');
+        $this->createview('home\aboutJFR');
         $this->view->page_title = "This is all about Jean";
         $this->view->render();
     }

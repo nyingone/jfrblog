@@ -25,4 +25,14 @@ class UserController extends Controller
       $this->view->page_title = "Abonnés";
       $this->view->render();
     }
+
+    public function login()
+    {
+      $datas = $this->model->login();
+      $this->createView($this->ctl . DS . 'login', $datas);
+      $this->view->page_title = "Connexion
+      
+      ";
+      $this->view->render();
+    }
 }

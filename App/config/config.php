@@ -14,12 +14,12 @@ error_reporting(E_ALL);
       define('CORE', APP . 'core' . DIRECTORY_SEPARATOR);
       define('DATA', APP . 'data' . DIRECTORY_SEPARATOR);
       define('CLASSX', APP . 'class' . DIRECTORY_SEPARATOR);
-      
+      define('ROUTER', APP . 'router' . DIRECTORY_SEPARATOR);
 
       define('HOST', $_SERVER['REQUEST_SCHEME'] . DS . $_SERVER['HTTP_HOST'] . DS . 'jfrblog' . DS);
       define('CSS', HOST. 'css' . DS);
 
-      $modules = [ROOT,APP,CORE,CONTROLLER,MODEL,DATA,CLASSX, MANAGER];
+      $modules = [ROOT,ROUTER,APP,CORE,CONTROLLER,MODEL,DATA,CLASSX, MANAGER, ENTITY];
 
       set_include_path(get_include_path() . PATH_SEPARATOR . implode(PATH_SEPARATOR,$modules));
       spl_autoload_register('spl_autoload',false);
@@ -44,7 +44,8 @@ error_reporting(E_ALL);
             'cookie_expiry'  => 604800 // in second
         ),
         'session'   => array(
-            'session_name'  =>  'user'
+            'session_name'  =>  'user',
+            'token_name'    =>  'token'
         )
     );
     error_reporting(E_ALL);

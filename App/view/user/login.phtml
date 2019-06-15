@@ -1,0 +1,55 @@
+<?php
+
+if(Input::exists())
+{
+    if(Token::check(Input::get('token')))
+    {
+        $validate = new Validate();
+        $validation = $validate->check($_POST, array(
+            'userId'   => array('require' => true),
+            'password' => array('require' => true)
+        ));
+        if($validation->passed()){
+            // log user in  
+           $user = new User();
+            $remember = (Input::get('remember') === 'on') ? true : false;
+           $login = $user->login(Input::get('userId'), Input::get('password'), $remember);
+           if($login){
+               // echo 'successful login';
+               Redirect::to('index.phtml');
+           } else {
+            echo 'sorry login failed';
+           }
+        }else {
+            foreach($validation->errors() as $error)
+            {
+                echo $error, '<br />';
+            }
+        }
+    }
+}
+
+include(VIEW . 'header.phtml'); 
+ ?>
+
+<form action ="" method ="post">
+    <div class="field">
+    <label for "userId">Identifiant</label>
+    <input type="text" name="userId" id="userId" value="<?php escape(Input::get('userId')); ?>" autocomplete="off">
+    </div>
+
+    <div class="field">
+    <label for "password">Mot de passe</label>
+    <input type="password" name="password" id="password" value="<?php escape(Input::get('password')); ?>" autocomplete="off">
+    </div>
+
+    <div class = "field">
+        <label for= "remember">
+            <input typ="checkbox" name="remember" id ="remember"> Mémoriser
+        </label>
+    </div>
+
+    <input type="hidden" name="token" id="token" value="<?php echo Token::generate(); ?>">
+    <input type="submit" value="Log in">
+</form>
+<?php include(VIEW . 'footer.phtml'); ?>

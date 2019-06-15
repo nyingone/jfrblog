@@ -1,0 +1,10 @@
+
+<?php include(VIEW . 'header.phtml');  
+$user = new User();
+$user->logout();
+
+Redirect::to('index.phtml'); ?>
+
+
+<?php include(VIEW . 'footer.phtml'); ?>
+

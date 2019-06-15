@@ -12,12 +12,8 @@ class EpisodeController extends Controller
      * charger le manager et les donnéesssss à transmettre à la vue
      * le Controller amont crée le modèle avec  public function model($modelName,$datas=[])
      */
-     $this->model($this->ctl, '');
-    
-
-      // $this->model('book', ['books => $this->model->getBooks()']);
+     $this->createmodel($this->ctl, '');
       $datas = $this->model->getSelection($params);
-      var_dump($datas);
 
       $this->createView($this->ctl . DS . 'index', $datas);
 
