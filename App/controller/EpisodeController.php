@@ -2,7 +2,7 @@
 class EpisodeController extends Controller
 {
   public $data = '';
-  private $ctl = 'episode';
+  private $_ctl = 'episode';
   public $params = [];
 
 /** create all the actions we can have */
@@ -12,26 +12,22 @@ class EpisodeController extends Controller
      * charger le manager et les donnéesssss à transmettre à la vue
      * le Controller amont crée le modèle avec  public function model($modelName,$datas=[])
      */
-     $this->createmodel($this->ctl, '');
+      $this->createmodel($this->ctl, '');
       $datas = $this->model->getSelection($params);
-
       $this->createView($this->ctl . DS . 'index', $datas);
-
-
-      // var_dump($this); exit;
-      $this->view->page_title = "This is our Episode show page";
+      $this->view->page_object = "Episode";
+      $this->view->page_inzcst();
       $this->view->render();
      
     }
 
-    public function edit()
+    public function edit($id,$opt=null)
     {
-      $this->model($this->ctl, '');
-      $datas = $this->model->getbooks();
-
-      $this->view($this->ctl . DS . 'edit', $datas);
-      // var_dump($this); exit;
-      $this->view->page_title = "xxxxxx";
+      $this->model($this->_ctl, '');
+      $datas = $this->model->getSelection();
+      $this->view($this->_ctl . DS . 'edit', $datas);
+      $this->view->page_object = "Episode";
+      $this->view->page_inzcst($id,$opt);
       $this->view->render();
     }
 }

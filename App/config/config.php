@@ -6,6 +6,7 @@ error_reporting(E_ALL);
 
       /* ROOT et APP défini via index
       */
+      define ('HOME','http://localhost/jfrblog/');
       define('MODEL', APP . 'model' . DIRECTORY_SEPARATOR);
       define('MANAGER', MODEL . 'manager' . DIRECTORY_SEPARATOR);
       define('ENTITY', MODEL . 'entity' . DIRECTORY_SEPARATOR);
@@ -18,7 +19,7 @@ error_reporting(E_ALL);
 
       define('HOST', $_SERVER['REQUEST_SCHEME'] . DS . $_SERVER['HTTP_HOST'] . DS . 'jfrblog' . DS);
       define('CSS', HOST. 'css' . DS);
-
+// var_dump(HOST, ROOT, HOME);
       $modules = [ROOT,ROUTER,APP,CORE,CONTROLLER,MODEL,DATA,CLASSX, MANAGER, ENTITY];
 
       set_include_path(get_include_path() . PATH_SEPARATOR . implode(PATH_SEPARATOR,$modules));

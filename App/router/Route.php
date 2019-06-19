@@ -21,7 +21,6 @@ class Route
         // $url = trim($url,'/');
         $path = preg_replace_callback('#:([\w]+)#', [$this, 'paramMatch'],$this->_path);
         $regex = "#^$path$#i"; // case sensitive i
-        
         if(!preg_match($regex, $url, $matches))
         {
             return false;
@@ -47,6 +46,7 @@ class Route
             $this->controller = ucfirst(strtolower($request[0])) . 'Controller';
             $action = $request[1];
             $parms = '';
+            $opt = '';
             if(!empty($this->_matches))
             {
                 $parm = $this->_matches[0];
@@ -55,10 +55,13 @@ class Route
                 {
                     $parms  = $this->_params[1];
                 }
-                
+                if(isset($this->_params[2]))
+                {
+                    $opt  = $this->_params[2];
+                }
             }
             $controller = new $this->controller;
-            return $controller->$action($parms);
+            return $controller->$action($parms,$opt);
             
         }else{
             call_user_func_array($this->_callable, $this->_matches);

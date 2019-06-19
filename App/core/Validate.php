@@ -46,7 +46,8 @@ class Validate{
                       //  $check = $this->_db->get($rule_value,array($item, '=' , $value));
                         $check = $this->_db->get($this->_entity,array($item, '=' , $value));
 
-                        if($check->count()){
+                        if(null !== $check)
+                        {
                             $this->addError("{$item} / {$value} existe déjà ");
                         }
                         break;

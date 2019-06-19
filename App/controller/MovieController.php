@@ -14,18 +14,20 @@ class MovieController extends Controller
       $this->createModel($this->ctl, '');
       $datas = $this->model->getMovies();
       $this->createView($this->ctl . DS . 'index', $datas);
-      $this->view->page_title = "Filmographie";
+      $this->view->page_object  = 'Filmographie';
+      $this->view->page_inzcst();
       $this->view->render();
      
     }
     
-    public function edit()
+    public function edit($id, $opt=null)
     {
       $this->createModel($this->ctl, '');
       $datas = $this->model->getMovies();
 
       $this->view($this->ctl . DS . 'edit', $datas);
-      $this->view->page_title = "xxxxxx";
+      $this->view->page_object  = 'Movie';
+      $this->view->page_inzcst();
       $this->view->render();
     }
 }

@@ -4,7 +4,7 @@
 $loc = explode(DS,$this->view_file);
 $controller = CONTROLLER . $loc[0] . 'controller.php';
 $tab = $loc[0];
-
+var_dump($this); die;
 if(Input::exists())
 { 
     if(Token::check(Input::get('token'))){

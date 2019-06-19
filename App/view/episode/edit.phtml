@@ -1,8 +1,7 @@
 <?php include(VIEW . 'header.phtml'); 
-$btn = $this->button_value;
-$opt = $this->page_opt;
 if(empty($this->view_data))
 {
+    var_dump($this->view_data);
     $this->view_data = new Book();
     // $book = new Book();
 }
@@ -36,10 +35,9 @@ foreach($this->view_data as $book)
         <label>Nb épisodes </label> :<input type="number" maxlength="3" name="nbEps" value="<?= ($book->getId()) > 0 ? $book->getnbEps() : ''; ?>">
     </div>
     <input type="hidden" name="id" value="<?= ($book->getId()) > 0 ? $book->getId() :''; ?>">
-   <input type="hidden" name="url" value ="<?= 'book/edit-' . ($book->getId() > 0 ? $book->getId() .'-' . $opt :'') ; ?>"> 
-    <input type='hidden' name="action" value ="<?php echo($opt); ?>">
+    <input type='hidden' name="url" value ='<?php echo($book->getId() > 0 ? 'book/maj-':'book/add-') . $book->getId(); ?>'>
     <div class="input">  
-        <input type="<?= $btn == 'none' ? 'hidden' : 'submit' ?>" value ="<?= $btn; ?>">
+        <input type="submit" value ="<?=($book->getId()) > 0 ? 'MODIFIER' : 'AJOUTER'; ?>">
     </div>
 </form>
 

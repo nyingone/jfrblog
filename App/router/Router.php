@@ -8,7 +8,7 @@ class Router
 
     public function __construct($url)
     {
-       $this->_url = $url; 
+       $this->_url = trim($url,'/'); 
     }
 
     public function get($path, $callable, $name = null)
@@ -39,6 +39,7 @@ class Router
         throw new RouterException('Request Method not found'); 
         }
         // var_dump($this->_routes);
+        
         $routeFound = false;
         foreach ($this->_routes[$_SERVER['REQUEST_METHOD']] as $route)
         {
@@ -46,6 +47,7 @@ class Router
             {
                 $routeFound = true;
                 $route->call();
+                
             }
         }
         if(!$routeFound)
@@ -62,30 +64,5 @@ class Router
         }
     }
 
-    /*
-    public function routeReq()
-    {
-        $url = '';
-        if(isset($_GET['url']))
-        {
-            $url = explode('/', filter_var($_GET['url'], FILTER_SANITIZE_URL));
-
-            $controller = ucfirst(strtolower($url[0]));
-            $controllerClass = "Controller" . $controller;
-            $controllerFile = "controllers/" .controlleurClass. '.php';
-
-            if(file_exists($controllerFile))
-            {
-                require_once($controllerFile);
-                $this->controller = new $controllerClass($url);
-            }else{
-                throw new \Exception('page introuvable'); 
-            }
-        } else{
-            require_once('controllers/ControllerAccueil.php');
-            $this->controller = new ControlleurAccueil($url);
-        }
-        
     
-    } */
 }

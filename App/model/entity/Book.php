@@ -13,7 +13,17 @@ class Book
     /**
      * @param array $donnees
      */
-    public function hydrate( $dtas)
+    public function __construct($dtas = [])
+  {
+      if(!empty($dtas))
+      {
+          $this->hydrate($dtas);
+      }
+  }
+    /**
+     * @param array $donnees
+     */
+    public function hydrate($dtas)
     {
         if(is_array($dtas))
         {
@@ -31,7 +41,7 @@ class Book
 // Setters
     public function setId($id)
     {
-              //  $this->_id = $id;
+        $this->_id = (int) $id;
     }
     public function setTitle($title)
     {
@@ -41,13 +51,14 @@ class Book
     {
         $this->_plot = $plot;
     }
-    public function setOnlineDate($onlineDate)
+    public function setOnlineDate(datetime $onlineDate)
     {
-        $this->_onlineDate = $onlineDate;
+        $date = new DateTime();
+       $this->_onlineDate = ($onlineDate !='') ? date('Y-m-d', strtotime(onlineDate)) : null;
     }
     public function setNbEps($nbEps)
     {
-        $this->_nbEps = $nbEps;
+        $this->_nbEps = (int) $nbEps;
     }
     public function setStatus($status)
     {
@@ -59,7 +70,7 @@ class Book
     }
     public function setEditYear($editYear)
     {
-        $this->_editYear = $editYear;
+        $this->_editYear = (int) $editYear;
     }
 
     // Getters
@@ -96,4 +107,10 @@ class Book
         return $this->_editYear;
     }
 
+    public function isNew()
+    {
+        return empty($this->_id);
+    }
+
+    
 }

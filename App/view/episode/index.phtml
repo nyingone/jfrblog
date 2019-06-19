@@ -1,10 +1,44 @@
 <?php include(VIEW . 'header.phtml'); ?>
-<h1> Show episode list </h1>
-<nav>
-    <ul>
-        <li><a href= " <?php APP . '/episode/add' ?> ">Ajouter</a></li>
-    </ul>
-</nav>
+<h1> Show book list </h1>
+<div>
+    <li><a href= " <?php HOME ?> book/edit-">Ajouter un livre</a></li>
+</div>
 
+<div id="container" class="row">
+    <table class="table-striped" >
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Intrigue</th>
+                <th>Isbn</th>
+                <th>Année ed°</th>
+                <th>Der.mise en ligne</th>
+                <th>Nb.Episode</th>
+                <th>voir +</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <?php 
+
+            $table = '';
+            foreach($this->view_data as $book)
+            {                                                                                                                                                                                                                        
+                $table .= '<tr>';
+                $table .= '<td>' . $book->getTitle() . '</td>';
+                $table .= '<td>' . $book->getPlot() . '</td>';
+                $table .= '<td>' . $book->getIsbn() . '</td>';
+                $table .= '<td>' . $book->getEditYear() . '</td>';
+                $table .= '<td>' . $book->getOnlineDat()  . '</td>';
+                $table .= '<td>' . $book->getNbEps()   . '</td>';
+                $table .= '<td><a href='.'book/edit-' . $book->getId() . '>Visu</a></td>';
+
+                $table .= '<tr>';
+            }
+            print_r($table);
+            
+            ?>
+        <tbody>
+    </table>
 </div>
 <?php include(VIEW . 'footer.phtml'); ?>

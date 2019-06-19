@@ -1,7 +1,7 @@
 <?php include(VIEW . 'header.phtml'); ?>
 <h1> Show book list </h1>
 <div>
-    <li><a href= " <?php APP . '/book/edit' ?> ">Ajouter</a></li>
+    <li><a href= " <?php HOME ?> book/edit-">Ajouter un livre</a></li>
 </div>
 
 <div id="container" class="row">
@@ -22,7 +22,6 @@
             <?php 
 
             $table = '';
-            var_dump($this->view_data);
             foreach($this->view_data as $book)
             {                                                                                                                                                                                                                        
                 $table .= '<tr>';
@@ -32,7 +31,9 @@
                 $table .= '<td>' . $book->getEditYear() . '</td>';
                 $table .= '<td>' . $book->getOnlineDat()  . '</td>';
                 $table .= '<td>' . $book->getNbEps()   . '</td>';
-                $table .= '<td>' . '<a href= "\jfrblog/book/edit-' . $book->getId() . '">Visu</a>' . '</td>';
+                $table .= '<td><a href='.'book/edit-' . $book->getId() . '>Visu</a></td>';
+                $table .= '<td><a href='.'book/edit-' . $book->getId() . '-upd' . '>Maj</a></td>';
+                $table .= '<td><a href='.'book/edit-' . $book->getId() . '-del' . '>Del</a></td>';
                 $table .= '<tr>';
             }
             print_r($table);

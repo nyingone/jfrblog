@@ -83,4 +83,6 @@ class User
     {
         return $this->_isLoggedIn;
     }
+
+    
 }

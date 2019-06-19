@@ -9,7 +9,7 @@ class DB
     private $_results;
     private $_count =0;
     
-    protected $_optf= ''; 
+    protected $_optf= 'select'; 
 
     private function __construct()
     {
@@ -40,36 +40,43 @@ class DB
  */
     public function query($sql,$params= [] , $table =null)
     {
-        $this->error = false;
         if($this->_query = $this->_pdo->prepare($sql))
         { 
            
             if(is_array($params) && count($params))
-            { $x = 1;
+            { 
+                $x = 1;
                // echo '<br /> liste paramètres to bind';
                 foreach($params as $parm)
-                {
-                    $val = $parm[$x-1];
+                {   
+                    if(is_array($parm))
+                    {
+                        $val = $parm[0];
+                    }else{
+                        $val = $parm;
+                    }
                     $this->_query->bindValue($x, $val);
                     $x++;
                 }
             }
             if($this->_query->execute())
             {  
-                if(! $this->_optf == 'insert')
+                if( $this->_optf == 'select')
                 {
                     $this->_results = $this->_query->fetchAll(PDO::FETCH_ASSOC);
     
                     $this->_count = $this->_query->rowCount();
+                    return $this->_results;  
                 }
-                return $this->results();                 
+                return true;
+                // return $this->errors();                 
             } else{
                 $this->_error = true;
             }
         }else{
-            return $this->_error;
+            $this->_error = true;   
         }
-        
+        return $this->_error;
     }
 
 
@@ -103,10 +110,7 @@ class DB
        return $this->action('SELECT * FROM', $table , $where);
     }
 
-    public function delete($table, $where = array())
-    {
-        return $this->action('SELECT ', $table, $where);
-    }
+    
 
     public function ctlffd($table)
     {
@@ -143,11 +147,7 @@ class DB
          //   $sql = "INSERT INTO " . $table . " ('" . implode("','", $keys) . "') " . "VALUES({$values})";
             $sql = "INSERT INTO " . $table . " (" . implode(",", $keys) . ") " . "VALUES({$values})";
             $this->_optf = 'insert';
-            if(!$this->query($sql, $fields)->error())
-            {
-            return true;
-            }
-           
+            return $this->query($sql, $fields);         
         }else
         {
             return false;
@@ -156,6 +156,7 @@ class DB
 
     public function update($table, $id, $fields = array())
     {
+        $this->_optf = 'update';
         $set = '';
         $x = 1;
      //   $sql = "UPDATE " . $TABLE . "SET password = 'newPassword where id = X";
@@ -169,14 +170,19 @@ class DB
             $x++;
         }
 
-        $sql = "UPDATE {$table} SET  {$set} WHERE id = {$id}";
-        if(!$this->query($sql, $fields)->error())
-        {
-        return true;
-        }else{
-            return false;
-        }
+        $sql = "UPDATE {$table} SET  {$set} WHERE id = {$id} LIMIT 1";
+        return $this->query($sql, $fields);
+                
+    }
+
+    public function delete($table, $id, $fields = array())
+    {
+        $this->_optf = 'delete';
         
+        $sql = "DELETE FROM {$table}  WHERE id = {$id} LIMIT 1";
+        var_dump($sql);
+        return $this->query($sql, $fields);
+                
     }
     public function count()
     {
@@ -196,6 +202,6 @@ class DB
 
     public function error()
     {
-        return $this->error;
+        return $this->_error;
     }
 }
