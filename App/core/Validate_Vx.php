@@ -6,15 +6,17 @@ class Validate{
     private $_errors = array();
     private $_db = null;
     private $_entity = null;
-    protected $class;
 
     public function __construct(){
         $this->_db = DB::getInstance();
         
     }
 
-    public function check($source, $tab, $items = array()) 
+    public function check($source, $class)
     {
+
+        $items = $class::getValidations(); 
+
         $this->_entity = $tab;
         foreach($items as $item => $rules)
         {
@@ -59,8 +61,7 @@ class Validate{
 
         if(empty($this->_errors)){
             $this->_passed = true;
-            $this->class = new $tab($source);
-        return [$this->_passed , $this->class];
+        return $this;
         }
     }
 

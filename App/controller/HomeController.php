@@ -14,10 +14,17 @@ class HomeController extends Controller
                                     'name' => $name,
                                     'id'   => $id
         ]);
+        $datas = $this->findLastEpisode();
         $this->view->page_object  = 'Home page';
         $this->view->page_inzcst();
-        $this->view->render();
+        $this->view->render($datas);
     }
+
+    public function findLastEpisode()
+    {
+        $manager = new EpisodeManager();
+        $show  = $manager->findLast();
+    }   
 
     public function aboutJFR()
     {

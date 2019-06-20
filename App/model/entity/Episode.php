@@ -17,6 +17,15 @@ class Episode
     /**
      * @param array $donnees
      */
+    public function __construct($dtas = [])
+    {
+        if(!empty($dtas))
+        {
+            $this->hydrate($dtas);
+        }
+    }
+
+
     public function hydrate(array $dtas)
     {
         foreach ($dtas as $key => $value)
@@ -27,6 +36,11 @@ class Episode
                 $this->method($value);
             }
         }
+    }
+
+    public function isNew()
+    {
+        return empty($this->_id);
     }
 
 // Setters

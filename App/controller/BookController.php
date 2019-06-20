@@ -7,13 +7,14 @@ class BookController extends Controller
   private $_manager ;
   private $_controllerId ;
   private $_managerId ;
-  protected $validate ;
+  protected $result=[] ;
 
   public function __construct()
   {
   $this->_controllerId = ucfirst($this->_tab . 'Controller');
   $this->createModel($this->_tab, '');
   $this->_managerId = ucfirst($this->_tab . 'Manager');
+  $this->validate = new Validate();
   }
 
 /** create all the actions we can have */
@@ -44,10 +45,17 @@ class BookController extends Controller
 
   public function maj()
   {
-    var_dump($_POST);
-    if($this->isValid())
+    $result = $this->isValid();
+    $ok = $result[0];
+    // var_dump($ok, $result); die;
+    if($ok)
     {
-      $this->model->majTab($_POST);
+      if (isset($result[1]) && !empty($result[1]))
+      {
+        $class = $result[1];
+        $this->model->majTab($class);
+      }
+     
     }else {     
       if(!empty($this->validate->errors()))
     {
@@ -63,56 +71,50 @@ class BookController extends Controller
 
   public function isValid()
   {
-    if($_POST['action'] = 'del')
-    {
-      $isValid = true;
-    }else{
-    $this->validate = new Validate();
-    $isValid  = $this->validate->check($_POST, $this->_tab, array(
-        'id'                =>array(
-            'Reference'     =>'Identifiant',
-            'required'      => false
-        ),
-        'title'             =>array(
-            'Reference'     =>'Titre',
-            'required'      => true,
-            'min'           => 10,
-            'max'           => 50
-        ),
-        'plot'             =>array(
-            'Reference'     =>'trame',
-            'required'      => true,
-            'min'           => 10,
-            'max'           => 256
-        ),
-        'onlineDat'         =>array(
-            'Reference'     =>'En ligne',
-            'required'      => false,    
-        ),
-        'nbEps'             =>array(
-            'Reference'     =>'Nb Episodes',
-            'required'      => false
-        ),
-        'status'             =>array(
-            'Reference'     =>'statut',
-            'required'      => true,
-            'max'           => 2,
-            'list'          => '00;10;30;80;90'
-        ),
-        'isbn'             =>array(
-            'Reference'     =>'isbn',
-            'required'      => false,
-            'max'           => 20
-            // 'unique'        => 'book'
-        ),
-        'editYear'          =>array(
-            'Reference'     =>'Année édit°',
-            'required'      => false,
-            'max'           => 4
-        )
-    )); 
-  }
-    return( $isValid);
+    $this->result = $this->validate->check($_POST, $this->_tab, 
+      array('id'        =>array(
+                            'Reference'     =>'Identifiant',
+                            'required'      => false
+                            ),
+            'title'     =>array(
+                            'Reference'     =>'Titre',
+                            'required'      => true,
+                            'min'           => 3,
+                            'max'           => 50
+                            ),
+            'plot'      =>array(
+                            'Reference'     =>'trame',
+                            'required'      => true,
+                            'min'           => 10,
+                            'max'           => 256
+                            ),
+            'onlineDat' =>array(
+                            'Reference'     =>'En ligne',
+                            'required'      => false,    
+                            ),
+            'nbEps'     =>array(
+                            'Reference'     =>'Nb Episodes',
+                            'required'      => false
+                          ),
+            'status'    =>array(
+                            'Reference'     =>'statut',
+                            'required'      => true,
+                            'max'           => 2,
+                            'list'          => '00;10;30;80;90'
+                          ),
+            'isbn'      =>array(
+                            'Reference'     =>'isbn',
+                            'required'      => false,
+                            'max'           => 20
+                            // 'unique'        => 'book'
+                          ),
+        'editYear'      =>array(
+                            'Reference'     =>'Année édit°',
+                            'required'      => false,
+                            'max'           => 4
+                          )
+      )); 
+      return     $this->result;
   }
     
 }

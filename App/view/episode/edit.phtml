@@ -1,7 +1,6 @@
 <?php include(VIEW . 'header.phtml'); 
 if(empty($this->view_data))
 {
-    var_dump($this->view_data);
     $this->view_data = new Book();
     // $book = new Book();
 }
@@ -17,7 +16,7 @@ foreach($this->view_data as $book)
     </div>
     <div class="input">  
         <label for="plot">résumé</label>
-        <textarea  name = "plot" cols= 120 rows = 5 required> <?=($book->getId()) > 0 ? $book->getPlot(): ''; ?> </textarea wrap="type">
+        <textarea  name = "plot" cols= 200 rows = 10 required> <?=($book->getId()) > 0 ? $book->getPlot(): ''; ?> </textarea wrap="type">
     </div>
     <div class="input">  
         <label>Status </label> :<input type="text" name="status" value="<?=($book->getId()) > 0 ? $book->getStatus():''; ?>"maxlength="2">

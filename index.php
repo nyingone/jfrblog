@@ -20,23 +20,24 @@ if(isset($_POST['url']))
 $router = new Router ($url);
 $router->get('home', "home#index",'home');
 $router->get('aboutJFR',"home#aboutJFR",'aboutUs');
+
 $router->get('book',"book#index",'book');
+$router->get('book/:id', "book#edit",'book_detail');
+$router->post('book/:id', "book#maj",'book_maj');
 
 $router->get('movie',"movie#index",'movie');
-$router->get('episode',"episode#index",'episode');
+
+$router->get('episode/:ref',"episode#index",'episodes');
+$router->get('episode-show/:ref',"episode#show",'episode-show');
+$router->get('episode-edit/:ref',"episode#edit",'episode-edit');
+$router->post('episode-edit/:ref',"episode#maj",'episode-p-maj');;
 
 $router->get('login',"user#login",'login');
 $router->get('register',"user#register",'register');
 
-// $router->get('book/:id', function($id){echo 'livre' . $id;});
-$router->get('book/:id', "book#edit",'book_detail');
-// $router->get('book/edit/:id', "book#edit",'book_detail');
-// $router->get('book/add',"book#add",'book_add');
-// $router->get('episode/:id-:slug', function($id,$slug){echo "episode $id : $slug";})->with('id', '[0-9]+')->with('slug', '[a-z\-0-9]+');
-
 $router->post('movie', "movie#index",'movie');
-$router->post('book/:id', "book#maj",'book_maj');
-// $router->post('book/:id', function($id){echo 'poster pour 1 livre';});
+
+
 // var_dump($router);
 try
 {

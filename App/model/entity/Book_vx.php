@@ -1,5 +1,5 @@
 <?php
-class Book extends Table
+class Book
 {
     private $_id;
     private $_title;
@@ -112,7 +112,52 @@ class Book extends Table
         return empty($this->_id);
     }
 
+    public static function getValidations()
+    {
+        array(
+            'id'                =>array(
+                                            'Reference'     =>'Identifiant',
+                                            'required'      => false
+                                    ),
+            'title'             =>array(
+                                            'Reference'     =>'Titre',
+                                            'required'      => true,
+                                            'min'           => 3,
+                                            'max'           => 50
+                                        ),
+            'plot'             =>array(
+                'Reference'     =>'trame',
+                'required'      => true,
+                'min'           => 10,
+                'max'           => 256
+            ),
+            'onlineDat'         =>array(
+                'Reference'     =>'En ligne',
+                'required'      => false,    
+            ),
+            'nbEps'             =>array(
+                'Reference'     =>'Nb Episodes',
+                'required'      => false
+            ),
+            'status'             =>array(
+                'Reference'     =>'statut',
+                'required'      => true,
+                'max'           => 2,
+                'list'          => '00;10;30;80;90'
+            ),
+            'isbn'             =>array(
+                'Reference'     =>'isbn',
+                'required'      => false,
+                'max'           => 20
+                // 'unique'        => 'book'
+            ),
+            'editYear'          =>array(
+                                    'Reference'     =>'Année édit°',
+                                    'required'      => false,
+                                    'max'           => 4
+                                )
+            );
+    }
+
     
-
-
 }

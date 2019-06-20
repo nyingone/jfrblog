@@ -5,7 +5,13 @@ class Controller
     protected $model;
     protected $managerId;
     protected $controllerId;
-   
+    protected $validate ;
+    
+    public function __construct()
+    {
+      
+    }
+ 
     /**
      * Define view for each action
      */

@@ -1,37 +1,32 @@
-<?php include(VIEW . 'header.phtml'); ?>
-<h1> Show book list </h1>
-<div>
-    <li><a href= " <?php HOME ?> book/edit-">Ajouter un livre</a></li>
-</div>
 
+<h1> Show episode list </h1>
+
+<!-- `quote``content``excerpt``createdDat``status``onlineDate``commented``nbComment``bookId``chapter``version``slugEps` -->
 <div id="container" class="row">
     <table class="table-striped" >
         <thead>
             <tr>
-                <th>Titre</th>
-                <th>Intrigue</th>
-                <th>Isbn</th>
-                <th>Année ed°</th>
-                <th>Der.mise en ligne</th>
-                <th>Nb.Episode</th>
+                <th>Chapître</th>
+                <th>quote</th>
+                <th>extrait</th>
+                <th>statut</th>
+                <th>Der.commentaire</th>
                 <th>voir +</th>
             </tr>
         </thead>
         <tbody>
 
             <?php 
-
             $table = '';
-            foreach($this->view_data as $book)
+            foreach($this->view_data as $episode)
             {                                                                                                                                                                                                                        
                 $table .= '<tr>';
-                $table .= '<td>' . $book->getTitle() . '</td>';
-                $table .= '<td>' . $book->getPlot() . '</td>';
-                $table .= '<td>' . $book->getIsbn() . '</td>';
-                $table .= '<td>' . $book->getEditYear() . '</td>';
-                $table .= '<td>' . $book->getOnlineDat()  . '</td>';
-                $table .= '<td>' . $book->getNbEps()   . '</td>';
-                $table .= '<td><a href='.'book/edit-' . $book->getId() . '>Visu</a></td>';
+                $table .= '<td>' . $episode->getChapter() . '</td>';
+                $table .= '<td>' . $episode->getQuote() . '</td>';
+                $table .= '<td>' . $episode->getExcerpt() . '</td>';
+                $table .= '<td>' . $episode->getStatus() . '</td>';
+                $table .= '<td>' . $episode->getCommented()  . '</td>';
+                $table .= '<td><a href='.'episode/edit-' . $episode->getId() . '>Visu</a></td>';
 
                 $table .= '<tr>';
             }
@@ -41,4 +36,3 @@
         <tbody>
     </table>
 </div>
-<?php include(VIEW . 'footer.phtml'); ?>

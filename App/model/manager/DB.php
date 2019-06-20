@@ -8,6 +8,7 @@ class DB
     private $_error = false;
     private $_results;
     private $_count =0;
+    protected $dspffd= [];
     
     protected $_optf= 'select'; 
 
@@ -110,22 +111,6 @@ class DB
        return $this->action('SELECT * FROM', $table , $where);
     }
 
-    
-
-    public function ctlffd($table)
-    {
-        $sql = 'SELECT * FROM ' . $table . ' LIMIT 1 ' ;
-        $opt = 'FETCH_ALL';
-        $this-> _ffd = $this->getInstance()->query($sql, '', $opt );
-        if(!$this->query($sql,  $this->_ffd,$opt)->error())
-        {
-            $this->_ffd = $this->_results;
-            return $this->_ffd;
-        }else{
-            var_dump('<br /> erreur ', $this->_ffd); die; 
-        }
-       
-    }
 
     public function insert($table, $fields = array())
     {
@@ -144,7 +129,6 @@ class DB
                 }
                 $x++;
             }
-         //   $sql = "INSERT INTO " . $table . " ('" . implode("','", $keys) . "') " . "VALUES({$values})";
             $sql = "INSERT INTO " . $table . " (" . implode(",", $keys) . ") " . "VALUES({$values})";
             $this->_optf = 'insert';
             return $this->query($sql, $fields);         
@@ -204,4 +188,93 @@ class DB
     {
         return $this->_error;
     }
+
+    //******************************************************* */  
+    public function addClsRcd($table, $class)
+    {
+        // $this->_optf = 'insert';
+        return $this->gstFfd($table, $class, $this->_optf);  
+    }
+
+    public function dltClsRcd($table, $class)
+    {
+        $this->_optf = 'delete';
+        $id = $class->getId();     
+        $sql = "DELETE FROM {$table}  WHERE id = {$id} LIMIT 1";
+        return $this->query($sql);
+    }
+
+
+    public function updClsRcd($table, $class)
+    {
+        $this->_optf = 'update';
+        return $this->gstFfd($table, $class); 
+    }
+
+    public function gstFfd($table, $class)
+    {
+       
+        $optsav = $this->_optf;  // update insert => result bool.
+        $this->_optf = 'select'; // forçage pour récup table ffd
+        $this->dspffd = $class->getFfd($table);
+        $this->_optf = $optsav;
+         if (!empty($this->dspffd))
+        {       
+            $values = ' ';
+            $set = ' ';
+            $x = 1;
+            foreach($this->dspffd as $zone) 
+            {
+                $field = implode($zone);
+                $fieldNames[] = $field;  
+                $method = 'get' . ucfirst($field);
+                if(method_exists($class, $method))
+                {
+                    $fields[] = $class->$method();
+                    if($field == 'id')
+                    {
+                        $id = $class->$method();
+                    }
+                }
+                if ($this->_optf == 'insert') 
+                {
+                    $values .= "?";
+                }else{
+                    if (  $this->_optf == 'update') 
+                    {
+                    $set .= "{$field} = ?";
+                    }
+                }
+                
+                if($x < count($this->dspffd))
+                {
+                    if (  $this->_optf == 'insert') 
+                    {
+                        $values .= ", ";
+                    }else{
+                        if (  $this->_optf == 'update') 
+                        {   
+                        $set .= ", ";
+                        }
+                    }
+                } 
+                $x++;
+            }
+            
+            if (  $this->_optf == 'insert') 
+            {
+                $sql = "INSERT INTO " . $table . " (" . implode(",", $fieldNames) . ") " . "VALUES({$values})";
+            }else{
+                if (  $this->_optf == 'update') 
+                {   
+                    $sql = "UPDATE {$table} SET  {$set} WHERE id = {$id} LIMIT 1";
+                }
+            }   
+            return $this->query($sql, $fields);
+            
+        }else{
+            return false;
+        }
+    }
+
 }

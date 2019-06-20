@@ -6,18 +6,17 @@ class EpisodeManager
     private $_tab = 'episode';
 
 
-    public function __construct($modelName,$method)
+    public function __construct($modelName= null,$method= null)
     {    
-        $_db = DB::getInstance();
     }
 
     public function getSelection($parms=null)
     {
         if(!isset($parms))
         {
-            $this->selection = DB::getInstance()->query('SELECT * from ' . $_tab . 'order by id, chapter DESC','',$_tab);
+            $this->selection = DB::getInstance()->query('SELECT * from ' . $this->_tab,'',$this->_tab);
         }else{
-            $this->books = DB::getInstance()->get($_tab, array('id', '=', $parms));
+            $this->selection = DB::getInstance()->get($this->_tab, array('id', '=', $parms));
         }
         $x = 0;
         if(isset($this->selection) && !empty($this->selection))
@@ -25,7 +24,8 @@ class EpisodeManager
           
             foreach($this->selection as $table)
             {
-                $this->selection[$x] = new Episode($table);
+                $episode = new Episode($table);
+                $this->selection[$x] = $episode;
                 $x++;
             }
           
@@ -37,45 +37,79 @@ class EpisodeManager
 
     public function majTab($fields = array())
     {
+     
         if(isset($_POST['id']) && $_POST['id'] > 0){
             $id = $_POST['id'];
         }else{
             $id = null;
-        }       
-        $fields = [
+        }     
+        
+        if($_POST['action'] == 'del')
+        {
+            $this->delExec($this->_tab, $id,[]);
+        }else{
+     
+            $fields = [
             'id'        => $id,
-            'title'     => Input::get('title'),
-            'plot'      => Input::get('plot'),
+            'chapter'     => Input::get('chapter'),
+            'quote'      => Input::get('quote'),
            // 'onlineDat' => (empty(Input::get('onlineDat'))) ? null : Input::get('onlineDat') , // date('Y-m-d H:i:s'),
             'onlineDat' =>  (Input::get('onlineDat') !='') ? date('Y-m-d', strtotime(Input::get('onlineDat'))) : null , 
             'nbEps'     => (int) Input::get('nbEps'),
             'status'    => Input::get('status'),
             'isbn'      => Input::get('isbn'),
             'editYear'  => (int) Input::get('editYear') 
-        ];
-        if(isset($_POST['id']) && $_POST['id'] > 0)
-        {
-           $succes = DB::getInstance()->update($this->_tab, $id, $fields);
-           // if(!DB::getInstance()->update($this->_tab, $id, $fields))
-            if($succes == false)
+            ];
+
+            if(isset($_POST['id']) && $_POST['id'] > 0)
             {
-                throw new Exception('problem de maj' . $this->_tab);
+                $this->selExec($this->_tab, $id, $fields);
+              
             }else{
-                Session::flash($this->_tab, 'maj successful' );
-            }
+                $episode = new Episode($fields);
+                $this->addExec($this->_tab, $fields);
+                
+            }   
+               
         }
-        else{
-            $episode = new Episode($fields);
-            $succes = DB::getInstance()->insert($this->_tab, $fields);
-            if($succes == false)
-            {
-                throw new Exception('problem de creation' . $this->_tab);
-            }else{
-                Session::flash($this->_tab, 'crt successful' );
-                // header('location: index.phtml');
-                Redirect::to($this->_tab);
-            }  
+        // Redirect::to($this->_tab);
+    }
+
+    function selExec($tab, $id, $fields)
+    {
+        $succes = DB::getInstance()->update($tab, $id, $fields);
+        if($succes == false)
+        {
+            throw new Exception('problem de maj' . $tab);
+        }else{
+            Session::flash($tab, 'maj successful' );
         }
     }
 
+    function addExec($tab,  $fields)
+    {
+        $succes = DB::getInstance()->insert($tab, $fields);
+        if($succes == false)
+        {
+            throw new Exception('problem de creation' . $tab);
+        }else{
+            Session::flash($tab, 'crt successful' );
+        }  
+    }
+
+    function delExec($tab, $id,$fields)
+    {
+        $succes = DB::getInstance()->delete($tab, $id,[]);
+        if($succes == false)
+        {
+            throw new Exception('problem de suppression' . $tab);
+        }else{
+            Session::flash($tab, 'delete successful' );
+        }
+    }    
+    
+    function findLast()
+    {
+
+    }
 }

@@ -12,6 +12,7 @@
                 <th>Intrigue</th>
                 <th>Isbn</th>
                 <th>Année ed°</th>
+                <th>Statut</th>
                 <th>Der.mise en ligne</th>
                 <th>Nb.Episode</th>
                 <th>voir +</th>
@@ -25,10 +26,11 @@
             foreach($this->view_data as $book)
             {                                                                                                                                                                                                                        
                 $table .= '<tr>';
-                $table .= '<td>' . $book->getTitle() . '</td>';
+                $table .= '<td><a href= "' . HOME . 'episode/show-'. $book->getId() .'">' . $book->getTitle() . '</a></td>';
                 $table .= '<td>' . $book->getPlot() . '</td>';
                 $table .= '<td>' . $book->getIsbn() . '</td>';
                 $table .= '<td>' . $book->getEditYear() . '</td>';
+                $table .= '<td>' . $book->getStatus() . '</td>';
                 $table .= '<td>' . $book->getOnlineDat()  . '</td>';
                 $table .= '<td>' . $book->getNbEps()   . '</td>';
                 $table .= '<td><a href='.'book/edit-' . $book->getId() . '>Visu</a></td>';

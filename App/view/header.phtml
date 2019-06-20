@@ -15,22 +15,21 @@ $action = $this->getAction();
     <header>
     </header>
 
-
   <div class = "topbar">
     <div class ="fill">
         <div class ="container"> 
             <h3><a href="http://localhost/jfrblog/index.php">JFR</a></h3>
             <nav>
               <ul>
-                <li><a href=" <?php HOME ?> home" <?php echo($action == 'index' ? 'class="active"' :''); ?>>Home</a></li>
-                <li><a href=" <?php HOME ?> book" <?php echo($action =='book' ? 'class="active"' : '') ; ?>>Bibliographie</a></li> 
-                <li><a href=" <?php HOME ?> movie" <?php echo($action =='movie' ? 'class="active"' : '') ; ?>>Filmographie</a></li> 
-                <li><a href=" <?php HOME ?> aboutJFR" <?php echo($action =='aboutJFR' ? 'class="active"' : '') ; ?>>About JFR</a></li>
+                <li><a href="<?php echo HOME?>home" <?php echo($action == 'index' ? 'class="active"' :''); ?>>Home</a></li>
+                <li><a href="<?php echo HOME?>book" <?php echo($action =='book' ? 'class="active"' : '') ; ?>>Bibliographie</a></li> 
+                <li><a href="<?php echo HOME ?>movie" <?php echo($action =='movie' ? 'class="active"' : '') ; ?>>Filmographie</a></li> 
+                <li><a href="<?php echo HOME ?>aboutJFR" <?php echo($action =='aboutJFR' ? 'class="active"' : '') ; ?>>About JFR</a></li>
               </ul>
             </nav>
             <ul class="nav secondary-nav">
-                <li><a href=" <?php VIEW ?> login" class = "menu" >Connexion</a></li> 
-                <li><a href=" <?php VIEW ?> register" class = "menu" >Enregistrement</a></li> 
+                <li><a href=" <?php echo VIEW ?> login" class = "menu" >Connexion</a></li> 
+                <li><a href=" <?php echo VIEW ?> register" class = "menu" >Enregistrement</a></li> 
             </ul>
         </div>
     </div>
