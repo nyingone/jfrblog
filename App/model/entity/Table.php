@@ -4,6 +4,26 @@ class Table
 {
     protected $zNames = [];
 
+    public function __construct($dtas = [])
+    {
+        if(!empty($dtas) && is_array($dtas))
+        {      
+            $this->hydrate($dtas);
+        }
+    }
+  
+    public function hydrate(array $dtas)
+    {
+        foreach ($dtas as $key => $value)
+        {
+            $method = 'set' . ucfirst($key);
+            if(method_exists($this, $method))
+            {
+                $this->$method($value);
+            }
+        }
+    }
+
     public function isNew()
     {
         return empty($this->id);

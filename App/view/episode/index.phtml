@@ -26,7 +26,9 @@
                 $table .= '<td>' . $episode->getExcerpt() . '</td>';
                 $table .= '<td>' . $episode->getStatus() . '</td>';
                 $table .= '<td>' . $episode->getCommented()  . '</td>';
-                $table .= '<td><a href='.'episode/edit-' . $episode->getId() . '>Visu</a></td>';
+                $table .= '<td><a href='.'episode-show/' . $episode->getId() . '>Visu</a></td>';
+                $table .= '<td><a href='.'episode-edit/' . $episode->getId() . '-upd' . '>Maj</a></td>';
+                $table .= '<td><a href='.'episode-del/' . $episode->getId() . '-del' . '>Del</a></td>';
 
                 $table .= '<tr>';
             }

@@ -24,7 +24,7 @@ class Validate{
                 $item = escape($item);
                 if($rule === 'required' && $rule_value == true && empty($value))
                 {
-                    $this->addError("Renseigner obligatoirement:   {$item}  ");
+                    $this->addError("Renseigner obligatoirement l'information:   {$item}  ");
                 } else if(!empty($value)){
                     switch($rule)
                     {

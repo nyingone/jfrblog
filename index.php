@@ -30,7 +30,7 @@ $router->get('movie',"movie#index",'movie');
 $router->get('episode/:ref',"episode#index",'episodes');
 $router->get('episode-show/:ref',"episode#show",'episode-show');
 $router->get('episode-edit/:ref',"episode#edit",'episode-edit');
-$router->post('episode-edit/:ref',"episode#maj",'episode-p-maj');;
+// $router->post('episode-edit/:ref',"episode#maj",'episode-p-maj');;
 
 $router->get('login',"user#login",'login');
 $router->get('register',"user#register",'register');

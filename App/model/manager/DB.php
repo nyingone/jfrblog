@@ -192,7 +192,7 @@ class DB
     //******************************************************* */  
     public function addClsRcd($table, $class)
     {
-        // $this->_optf = 'insert';
+       $this->_optf = 'insert';
         return $this->gstFfd($table, $class, $this->_optf);  
     }
 
@@ -213,11 +213,11 @@ class DB
 
     public function gstFfd($table, $class)
     {
-       
         $optsav = $this->_optf;  // update insert => result bool.
         $this->_optf = 'select'; // forçage pour récup table ffd
         $this->dspffd = $class->getFfd($table);
         $this->_optf = $optsav;
+        var_dump($optsav);
          if (!empty($this->dspffd))
         {       
             $values = ' ';
@@ -270,6 +270,7 @@ class DB
                     $sql = "UPDATE {$table} SET  {$set} WHERE id = {$id} LIMIT 1";
                 }
             }   
+            var_dump($this->_optf, $sql, $fields);
             return $this->query($sql, $fields);
             
         }else{

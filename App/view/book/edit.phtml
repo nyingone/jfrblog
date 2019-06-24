@@ -1,21 +1,26 @@
 <?php include(VIEW . 'header.phtml'); 
 
-var_dump($this);
 $btn = $this->button_value;
 $opt = $this->page_opt;
 $readOnly = null;
-var_dump($btn);
 if( $this->page_opt == 'none' or  $this->page_opt == 'visu' or $this->page_opt == 'del')
 {
     $readOnly = (string) 'readOnly';
 }
-if(empty($this->view_data))
-{
-    $this->view_data = new Book();
-    // $book = new Book();
-}
+?>
+<?php  if(isset($_SESSION['errors']) && !empty($_SESSION['errors']) ):?>
+
+    <ul>
+    <?php foreach($_SESSION['errors'] as $error):?>
+            <li class = "alert"><?= $error;?></li>
+    <?php endforeach;?>
+    <?php unset($_SESSION['errors']);?>
+    </ul>
+<?php endif;?>
+
+<?php 
 foreach($this->view_data as $book)
-{  
+{ 
 ?>
 <h1> Book management </h1>
 <!--SELECT `id``title``plot``onlineDat``nbEps``status``isbn``editYear` FROM `book` -->
@@ -47,7 +52,7 @@ foreach($this->view_data as $book)
    <input type="hidden" name="url" value ="<?= 'book/edit-' . ($book->getId() > 0 ? $book->getId() .'-' . $opt :'') ; ?>"> 
     <input type='hidden' name="action" value ="<?php echo($opt); ?>">
     <div class="input">  
-      <input type="<?= $btn == 'none' ? 'hidden' : 'submit' ?>" value =" <?= $btn; ?>" /> -->
+      <input type="<?= $btn == 'none' ? 'hidden' : 'submit' ?>" value =" <?= $btn; ?>" /> 
     </div>
 </form>
 

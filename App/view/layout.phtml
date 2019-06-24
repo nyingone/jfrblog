@@ -21,9 +21,12 @@
 </div>      
 
 <div class="container">
-   <!-- <form action="">
-        <input type="text" placeholder="rechercher">
-    </form> -->
+    <?php if(isset($_SESSION['errors'])):?>
+        <?php foreach($errors as $error):?>
+            <li><?= $error;?></li>
+        <?php endforeach;?>
+        <?php unset($_SESSION['errors']);?>
+    <?php endif;?>
     <?php  echo $contentPage; ?>
 </div>
 </body>

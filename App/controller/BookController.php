@@ -3,12 +3,13 @@ class BookController extends Controller
 {
   public $data = [];
   private $_tab = 'book';
+  private $_entity = 'Book';
   private $_controller ;
   private $_manager ;
   private $_controllerId ;
   private $_managerId ;
   protected $result=[] ;
-
+  
   public function __construct()
   {
   $this->_controllerId = ucfirst($this->_tab . 'Controller');
@@ -33,87 +34,43 @@ class BookController extends Controller
     $this->view->render();
   
   }
-  public function edit($id,$opt=null)
+  public function edit($id = null,$opt=null)
   {
     $this->createmodel($this->_tab, '');
-    $datas = $this->model->getBooks($id);
+    ($id) ? $datas = $this->model->getBooks($id) : $datas[] = new Book();
     $this->createview($this->_tab . DS . 'edit', $datas);
     $this->view->page_object  = 'livre';
     $this->view->page_inzcst($id,$opt);
     $this->view->render($datas);
   }
 
-  public function maj()
+    public function maj()
   {
     $result = $this->isValid();
     $ok = $result[0];
-    // var_dump($ok, $result); die;
     if($ok)
     {
       if (isset($result[1]) && !empty($result[1]))
       {
         $class = $result[1];
         $this->model->majTab($class);
+        $this->createView($this->_tab );
+        $this->view->redirect($this->_tab);
       }
      
     }else {     
-      if(!empty($this->validate->errors()))
-    {
-        foreach($this->validate->errors() as $error)
-        {
-            echo '<br/>',  $error, '<br/>';
-        }
-        echo '<br/>';
-        return  $this->validate->errors(); 
-    }
+        $_SESSION['errors'] = $this->validate->errors();
+        $this->createview($this->_tab . DS . 'edit', $datas);
+        $this->view->redirect($_SESSION['redirect']);
+      // } 
+
     }
   }
 
   public function isValid()
   {
     $this->result = $this->validate->check($_POST, $this->_tab, 
-      array('id'        =>array(
-                            'Reference'     =>'Identifiant',
-                            'required'      => false
-                            ),
-            'title'     =>array(
-                            'Reference'     =>'Titre',
-                            'required'      => true,
-                            'min'           => 3,
-                            'max'           => 50
-                            ),
-            'plot'      =>array(
-                            'Reference'     =>'trame',
-                            'required'      => true,
-                            'min'           => 10,
-                            'max'           => 256
-                            ),
-            'onlineDat' =>array(
-                            'Reference'     =>'En ligne',
-                            'required'      => false,    
-                            ),
-            'nbEps'     =>array(
-                            'Reference'     =>'Nb Episodes',
-                            'required'      => false
-                          ),
-            'status'    =>array(
-                            'Reference'     =>'statut',
-                            'required'      => true,
-                            'max'           => 2,
-                            'list'          => '00;10;30;80;90'
-                          ),
-            'isbn'      =>array(
-                            'Reference'     =>'isbn',
-                            'required'      => false,
-                            'max'           => 20
-                            // 'unique'        => 'book'
-                          ),
-        'editYear'      =>array(
-                            'Reference'     =>'Année édit°',
-                            'required'      => false,
-                            'max'           => 4
-                          )
-      )); 
+     $this->_entity::validation() ); 
       return     $this->result;
   }
     

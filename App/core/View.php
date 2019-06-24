@@ -16,7 +16,14 @@ class View
         if(isset($_SERVER['REDIRECT_URL']))
         {
         $this->redirect_url =  $_SERVER['REDIRECT_URL'];
+        $_SESSION['redirect'] = $_SERVER['REDIRECT_URL'];
+        } else{
+            if(isset($_POST['url']))
+            {
+                $_SESSION['redirect'] = $_POST['url'];
+            } 
         }
+        
     }
 
     public function render()
@@ -32,6 +39,12 @@ class View
     public function getAction()
     {
         return(explode('\\', $this->view_file)[1]);
+    }
+
+    public function redirect($page)
+    {
+        header("Location: ".$page );
+        exit;
     }
 
     public function page_inzcst($id = null, $opt = null)

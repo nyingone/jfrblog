@@ -1,13 +1,14 @@
 <?php
-class Episode
+class Episode extends Table
 {
     private $_id;
     private $_quote;
     private $_content;
+    private $_excerpt;
     private $_created;
     private $_status;
     private $_onlinedat;
-    private $_commented;
+    private $_commented;              
     private $_nbComment;
     private $_bookId;
     private $_chapter;
@@ -17,33 +18,14 @@ class Episode
     /**
      * @param array $donnees
      */
-    public function __construct($dtas = [])
-    {
-        if(!empty($dtas))
-        {
-            $this->hydrate($dtas);
-        }
-    }
+  
 
-
-    public function hydrate(array $dtas)
-    {
-        foreach ($dtas as $key => $value)
-        {
-            $method = 'set' . ucfirst($key);
-            if(method_existe($this, $method))
-            {
-                $this->method($value);
-            }
-        }
-    }
-
-    public function isNew()
-    {
-        return empty($this->_id);
-    }
 
 // Setters
+    public function setId($id)
+    {
+        $this->_id = (int) $id;
+    }
     public function setQuote($quote)
     {
         $this->_quote = $quote;
@@ -51,6 +33,10 @@ class Episode
     public function setContent($content)
     {
         $this->_content = $content;
+    }
+    public function setExcerpt($excerpt)
+    {
+        $this->_content = $excerpt;
     }
     public function setCreatedDat($createdDat)
     {
@@ -98,6 +84,10 @@ class Episode
     {
         return $this->_content;
     }
+    public function getExcerpt()
+    {
+        return $this->_excerpt;
+    }
     public function getCreatedDat()
     {
         return $this->_createdDat;
@@ -133,6 +123,76 @@ class Episode
     public function getSlugEps()
     {
         return $this->_slugEps;
+    }
+
+    public static function ctlMaj()
+    {
+    array(
+        'id'                =>array(
+            'Reference'     =>'Identifiant',
+            'required'      => false
+        ),
+        'quote'             =>array(
+            'Reference'     =>'Entête',
+            'required'      => true,
+            'min'           => 3,
+            'max'           => 50
+        ),
+        'content'             =>array(
+            'Reference'     =>'texte',
+            'required'      => true,
+            'min'           => 10,
+            'max'           => 600
+        ),
+        'excerpt'             =>array(
+          'Reference'     =>'extrait',
+          'required'      => true,
+          'min'           => 10,
+          'max'           => 600
+        ),
+        'createdDat'         =>array(
+        'Reference'       =>'Date de création',
+        'required'        => false,    
+        ),
+        'status'             =>array(
+          'Reference'     =>'statut',
+          'required'      => true,
+          'max'           => 2,
+          'list'          => '00;10;30;80;90'
+        ),
+        'onlineDat'         =>array(
+            'Reference'     =>'En ligne le',
+            'required'      => false,    
+        ),
+        'commented'         =>array(
+          'Reference'     =>'Commenté le',
+          'required'      => false,    
+        ),
+        'nbComment'             =>array(
+            'Reference'     =>'Nb Commentaires',
+            'required'      => false
+        ),
+        'bookId'          =>array(
+          'Reference'     =>'Ref. livre',
+          'required'      => true,
+          'int'           => true
+        ), 
+        'chapter'          =>array(
+          'Reference'     =>'Chapître',
+          'required'      => true,
+          'max'           => 3
+        ),
+        'version'          =>array(
+          'Reference'     =>'version',
+          'required'      => true,
+          'max'           => 4
+        ),
+        'slugEps'         =>array(
+          'Reference'     =>'Slug',
+          'required'      => false,
+          'max'           => 30
+        )
+        );
     }
 
 }
