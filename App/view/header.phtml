@@ -7,8 +7,15 @@ $action = $this->getAction();
     <meta charset="utf-8">
       <!-- <link rel="stylesheet" href="<?php CSS;?>bootstrap.css"> --> 
      <!--<link rel="stylesheet" href="https://getbootstrap.com/1.4.0/assets/css/bootstrap.min.css"> -->
-   <link rel="stylesheet" href="http://localhost/jfrblog/style.css"> 
-    
+    <link rel="stylesheet" href="http://localhost/jfrblog/style.css"> 
+    <script type="text/javascript" src="http://localhost/jfrblog/js/jquery.min.js"></script>
+    <!--<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js"></script> -->
+    <script src="http://localhost/jfrblog/plugin/tinymce/tinymce.min.js"></script>
+    <script src="http://localhost/jfrblog/plugin/tinymce/themes/init-tinymce.js"></script>
+
+  
+</head>
+  
     <title> JFR blog</title>  
   </head>
   <body>
@@ -23,8 +30,8 @@ $action = $this->getAction();
               <ul>
                 <li><a href="<?php echo HOME?>home" <?php echo($action == 'index' ? 'class="active"' :''); ?>>Home</a></li>
                 <li><a href="<?php echo HOME?>book" <?php echo($action =='book' ? 'class="active"' : '') ; ?>>Bibliographie</a></li> 
-                <li><a href="<?php echo HOME ?>movie" <?php echo($action =='movie' ? 'class="active"' : '') ; ?>>Filmographie</a></li> 
-                <li><a href="<?php echo HOME ?>aboutJFR" <?php echo($action =='aboutJFR' ? 'class="active"' : '') ; ?>>About JFR</a></li>
+                <li><a href="<?php echo HOME?>movie" <?php echo($action =='movie' ? 'class="active"' : '') ; ?>>Filmographie</a></li> 
+                <li><a href="<?php echo HOME?>aboutJFR" <?php echo($action =='aboutJFR' ? 'class="active"' : '') ; ?>>About JFR</a></li>
               </ul>
             </nav>
             <ul class="nav secondary-nav">
@@ -35,3 +42,4 @@ $action = $this->getAction();
     </div>
   </div>
   
+  <textarea class="tinymce">Next, use our Get Started docs to setup Tiny!</textarea>

@@ -49,6 +49,7 @@ class Route
             $opt = '';
             if(!empty($this->_matches))
             {
+                var_dump($this->_matches);
                 $parm = $this->_matches[0];
                 $this->_params = explode('-',$parm);
                 if(isset($this->_params[1]))

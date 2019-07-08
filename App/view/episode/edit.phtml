@@ -1,42 +1,42 @@
 <?php include(VIEW . 'header.phtml'); 
 if(empty($this->view_data))
 {
-    $this->view_data = new Book();
-    // $book = new Book();
+    $this->view_data = new Episode();
+    // $episode = new Episode();
 }
-foreach($this->view_data as $book)
+foreach($this->view_data as $episode)
 {  
 ?>
-<h1> Book management </h1>
-<!--SELECT `id``title``plot``onlineDat``nbEps``status``isbn``editYear` FROM `book` -->
+<h1> Episode management </h1>
+<!--SELECT SELECT `id``quote``content``excerpt``createdDat``status``onlineDate``commented``nbComment``bookId``chapter``version``slugEps` from episode  -->
 <h2> <?=$this->page_title?> </h2>
 <form class ="dta-add-class" action ="<?= HOME . 'index.php' ?>" method = "post">
     <div class="input">                 
-            <label>Titre </label> :<input type="text" name="title" maxlength="50" value="<?=($book->getId()) > 0 ? $book->getTitle() : ''; ?>">
+            <label>Quote </label> :<input type="text" name="quote" maxlength="50" value="<?=($episode->getQuote()) > 0 ? $episode->getQuote() : ''; ?>">
     </div>
     <div class="input">  
-        <label for="plot">résumé</label>
-        <textarea  name = "plot" cols= 200 rows = 10 required> <?=($book->getId()) > 0 ? $book->getPlot(): ''; ?> </textarea wrap="type">
+        <label for="content">episode</label>
+        <textarea  class="tinymce" name = "content" cols= 200 rows = 10 required> <?=($episode->getContent()) > 0 ? $episode->getContent(): ''; ?> </textarea wrap="type">
     </div>
     <div class="input">  
-        <label>Status </label> :<input type="text" name="status" value="<?=($book->getId()) > 0 ? $book->getStatus():''; ?>"maxlength="2">
+        <label>Status </label> :<input type="text" name="status" value="<?=($episode->getId()) > 0 ? $episode->getStatus():''; ?>"maxlength="2">
     </div>
     <div class="input">                 
-        <label>ISBN </label> :<input type="text" name="isbn" value="<?=($book->getId()) > 0 ? $book->getIsbn():''; ?>"maxlength="20">
+        <label>ISBN </label> :<input type="text" name="isbn" value="<?=($episode->getId()) > 0 ? $episode->getIsbn():''; ?>"maxlength="20">
     </div>
     <div class="input">                 
-        <label>Année edition </label> :<input type="number" maxlength="4" name="editYear" value="<?=($book->getId()) > 0 ? $book->getEditYear():''; ?>"placeholder="SSAA" maxlength=4>
+        <label>Année edition </label> :<input type="number" maxlength="4" name="editYear" value="<?=($episode->getId()) > 0 ? $episode->getEditYear():''; ?>"placeholder="SSAA" maxlength=4>
     </div>
     <div class="input">                 
-        <label>Mis en ligne le </label> :<input type="date" maxlength="10" name="onlineDat" value="<?=($book->getId()) > 0 ? $book->getOnlineDat(): ''; ?>">
+        <label>Mis en ligne le </label> :<input type="date" maxlength="10" name="onlineDat" value="<?=($episode->getId()) > 0 ? $episode->getOnlineDat(): ''; ?>">
     </div>
     <div class="input">                 
-        <label>Nb épisodes </label> :<input type="number" maxlength="3" name="nbEps" value="<?= ($book->getId()) > 0 ? $book->getnbEps() : ''; ?>">
+        <label>Nb épisodes </label> :<input type="number" maxlength="3" name="nbEps" value="<?= ($episode->getId()) > 0 ? $episode->getnbEps() : ''; ?>">
     </div>
-    <input type="hidden" name="id" value="<?= ($book->getId()) > 0 ? $book->getId() :''; ?>">
-    <input type='hidden' name="url" value ='<?php echo($book->getId() > 0 ? 'book/maj-':'book/add-') . $book->getId(); ?>'>
+    <input type="hidden" name="id" value="<?= ($episode->getId()) > 0 ? $episode->getId() :''; ?>">
+    <input type='hidden' name="url" value ='<?php echo($episode->getId() > 0 ? 'episode/maj-':'episode/add-') . $episode->getId(); ?>'>
     <div class="input">  
-        <input type="submit" value ="<?=($book->getId()) > 0 ? 'MODIFIER' : 'AJOUTER'; ?>">
+        <input type="submit" value ="<?=($episode->getId()) > 0 ? 'MODIFIER' : 'AJOUTER'; ?>">
     </div>
 </form>
 

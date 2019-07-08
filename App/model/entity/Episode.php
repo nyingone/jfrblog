@@ -36,7 +36,7 @@ class Episode extends Table
     }
     public function setExcerpt($excerpt)
     {
-        $this->_content = $excerpt;
+        $this->_excerpt = $excerpt;
     }
     public function setCreatedDat($createdDat)
     {
@@ -108,7 +108,7 @@ class Episode extends Table
     {
         return $this->_nbComment;
     }
-    public function getBooId()
+    public function getBookId()
     {
         return $this->_bookId;
     }

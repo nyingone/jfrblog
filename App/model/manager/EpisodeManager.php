@@ -2,12 +2,14 @@
 class EpisodeManager
 {
     protected $selection ;
+    protected static $_db; // Instance de PDO
     protected $query;
     private $_tab = 'episode';
 
 
     public function __construct($modelName= null,$method= null)
     {    
+        $_db = DB::getInstance();
     }
 
     public function getSelection($parms=null)

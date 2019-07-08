@@ -35,7 +35,7 @@ class EpisodeController extends Controller
   {
     $this->createmodel($this->_tab, '');
     $datas = $this->model->getSelection($ref);
-    var_dump($datas);
+ 
     $this->createview($this->_tab . DS . 'edit', $datas);
     $this->view->page_object  = 'Episodes';
     $this->view->page_inzcst($ref,$opt);
@@ -47,13 +47,16 @@ class EpisodeController extends Controller
     $this->createmodel($this->_tab, '');
     $datas = $this->model->getSelection($ref);
     $this->createview($this->_tab . DS . 'show', $datas);
-    $this->view->page_object  = 'Episodes';
+    $this->view->page_object  = 'Episode';
     $this->view->page_inzcst($ref,$opt);
     $this->view->render($datas);
   }
+  
   public function isValid()
   {
-    return parent::isValid();
+    $this->result = $this->validate->check($_POST, $this->_tab, 
+     $this->_entity::validation() ); 
+    return     $this->result;
   }
 }
   

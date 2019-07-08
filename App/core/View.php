@@ -38,7 +38,7 @@ class View
 
     public function getAction()
     {
-        return(explode('\\', $this->view_file)[1]);
+        return(explode('\\', $this->view_file)[0]);
     }
 
     public function redirect($page)
