@@ -6,7 +6,6 @@ class BookManager
     protected $query;
     private $_tab = 'book';
 
-
     public function __construct($modelName,$method)
     {    
         $_db = DB::getInstance();
@@ -28,14 +27,13 @@ class BookManager
                 $book = new Book($table);
                 $this->books[$x] = $book;
                 $x++;
-                // att. conserver $x sinon crée un tableau de tableau et non
+                // att. conserver $x sinon crée un tableau de tableau et non un tableau d'objets
             }
           
         }else{
             $this->books[] = new Book();
         }
         return $this->books;
-        var_dump($this->books);
     }
 
     public function majTab($fields = array())

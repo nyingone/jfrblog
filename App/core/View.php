@@ -26,11 +26,24 @@ class View
         
     }
 
-    public function render()
+    public function render($datas = [])
     {
+        var_dump($datas);
         if(file_exists(VIEW . $this->view_file . '.phtml'))
         {
+            var_dump($this->view_file);
+            if($this->view_file == 'home\index' )
+            {
+                extract ($datas);
+                ob_start();
+            }
+          
             include (VIEW . $this->view_file . '.phtml');
+            if($this->view_file =='home/index' )
+            {
+                $contentPage = ob_get_clean();
+                include_once(VIEW. 'layout.phtml');
+            }
         }else{ echo VIEW . $this->view_file . '.phtml' . ' accesano';
 
         }

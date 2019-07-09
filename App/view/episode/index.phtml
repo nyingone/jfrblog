@@ -6,7 +6,9 @@
     <table class="table-striped" >
         <thead>
             <tr>
-                <th>Chapître</th>
+                <th>Rf. Livre</th>
+                <th>Rf. Volume</th>
+                <th>Rf. Chapître</th>
                 <th>quote</th>
                 <th>extrait</th>
                 <th>statut</th>
@@ -21,6 +23,8 @@
             foreach($this->view_data as $episode)
             {                                                                                                                                                                                                                        
                 $table .= '<tr>';
+                $table .= '<td>' . $episode->getbookId() . '</td>';
+                $table .= '<td>' . $episode->getVolume() . '</td>';
                 $table .= '<td>' . $episode->getChapter() . '</td>';
                 $table .= '<td>' . $episode->getQuote() . '</td>';
                 $table .= '<td>' . $episode->getExcerpt() . '</td>';
@@ -28,7 +32,7 @@
                 $table .= '<td>' . $episode->getCommented()  . '</td>';
   // var_dump('<td><a href= "\"' . HOME . 'episode-show/' . $episode->getBookId() .'-' . $episode->getId() . '>Visu</a></td>');die;
 
-                $table .= '<td><a href=' . HOME . 'episode-show/' . $episode->getBookId() .'-' . $episode->getId() . '>Visu</a></td>';
+                $table .= '<td><a href=' . HOME . 'episode-show/show-' . $episode->getbookId() . '.' . $episode->getVolume() . '.'. $episode->getId() . '>Visu</a></td>';
                 $table .= '<td><a href='.'episode-edit/' . $episode->getId() . '-upd' . '>Maj</a></td>';
                 $table .= '<td><a href='.'episode-del/' . $episode->getId() . '-del' . '>Del</a></td>';
 

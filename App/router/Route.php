@@ -47,9 +47,9 @@ class Route
             $action = $request[1];
             $parms = '';
             $opt = '';
+            var_dump($this->_matches);
             if(!empty($this->_matches))
             {
-                var_dump($this->_matches);
                 $parm = $this->_matches[0];
                 $this->_params = explode('-',$parm);
                 if(isset($this->_params[1]))
@@ -63,7 +63,7 @@ class Route
             }
             $controller = new $this->controller;
             return $controller->$action($parms,$opt);
-            
+
         }else{
             call_user_func_array($this->_callable, $this->_matches);
         }

@@ -58,8 +58,8 @@ class BookManager
      
             if(isset($_POST['id']) && $_POST['id'] > 0)
             {
-            $succes = DB::getInstance()->updClsRcd($this->_tab, $class);
-            // if(!DB::getInstance()->update($this->_tab, $id, $fields))
+                $succes = DB::getInstance()->updClsRcd($this->_tab, $class);
+                // if(!DB::getInstance()->update($this->_tab, $id, $fields))
                 if($succes == false)
                 {
                     throw new Exception('problem de maj' . $this->_tab);
@@ -75,10 +75,10 @@ class BookManager
                     Session::flash($this->_tab, 'crt successful' );
                     // header('location: index.phtml');
                 //  Redirect::to($this->_tab);
-            }  
-        }
+                }  
+            }
                
-    }
+        }
         // Redirect::to($this->_tab);
     }
 }

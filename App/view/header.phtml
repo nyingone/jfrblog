@@ -5,16 +5,14 @@ $action = $this->getAction();
 <html lang="fr">
   <head>
     <meta charset="utf-8">
-      <!-- <link rel="stylesheet" href="<?php CSS;?>bootstrap.css"> --> 
-     <!--<link rel="stylesheet" href="https://getbootstrap.com/1.4.0/assets/css/bootstrap.min.css"> -->
-    <link rel="stylesheet" href="http://localhost/jfrblog/style.css"> 
-    <script type="text/javascript" src="http://localhost/jfrblog/js/jquery.min.js"></script>
+    <!-- <link rel="stylesheet" href="?php CSS;?>bootstrap.css"> --> 
+    <!--<link rel="stylesheet" href="https://getbootstrap.com/1.4.0/assets/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="<?php echo HOME?>style.css"> 
+    <script type="text/javascript" src="<?php echo HOME?>js/jquery.min.js"></script>
     <!--<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js"></script> -->
-    <script src="http://localhost/jfrblog/plugin/tinymce/tinymce.min.js"></script>
-    <script src="http://localhost/jfrblog/plugin/tinymce/themes/init-tinymce.js"></script>
-
-  
-</head>
+    <script src="<?php echo HOME?>plugin/tinymce/tinymce.min.js"></script>
+    <!-- <script> tinymce . init ({ selector : "textarea" , contextmenu : "link image imagetools table spellchecker" });</script>-->
+    <script src="<?php echo HOME?>plugin/tinymce/themes/init-tinymce.js"></script> 
   
     <title> JFR blog</title>  
   </head>
@@ -25,7 +23,7 @@ $action = $this->getAction();
   <div class = "topbar">
     <div class ="fill">
         <div class ="container"> 
-            <h3><a href="http://localhost/jfrblog/index.php">JFR</a></h3>
+            <h3><a href="<?php echo HOME?>index.php">JFR</a></h3>
             <nav>
               <ul>
                 <li><a href="<?php echo HOME?>home" <?php echo($action == 'index' ? 'class="active"' :''); ?>>Home</a></li>
@@ -34,12 +32,9 @@ $action = $this->getAction();
                 <li><a href="<?php echo HOME?>aboutJFR" <?php echo($action =='aboutJFR' ? 'class="active"' : '') ; ?>>About JFR</a></li>
               </ul>
             </nav>
-            <ul class="nav secondary-nav">
-                <li><a href=" <?php echo VIEW ?> login" class = "menu" >Connexion</a></li> 
-                <li><a href=" <?php echo VIEW ?> register" class = "menu" >Enregistrement</a></li> 
-            </ul>
+            
         </div>
     </div>
   </div>
   
-  <textarea class="tinymce">Next, use our Get Started docs to setup Tiny!</textarea>
+ 

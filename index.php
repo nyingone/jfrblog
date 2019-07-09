@@ -27,9 +27,10 @@ $router->post('book/:id', "book#maj",'book_maj');
 
 $router->get('movie',"movie#index",'movie');
 
-$router->get('episode-index/:ref',"episode#index",'episodes');
-$router->get('episode-show/:ref',"episode#show",'episode-show');
-$router->get('episode-edit/:ref',"episode#edit",'episode-edit');
+$router->get('episode/:ref',"episode#index",'episodes');
+$router->get('episode-show/:ref',"episode#show",'episode_show');
+$router->get('episode-edit/:ref',"episode#edit",'episode_edit');
+$router->post('episode/:ref', "episode#maj",'episode_maj');
 // $router->post('episode-edit/:ref',"episode#maj",'episode-p-maj');;
 
 $router->get('login',"user#login",'login');

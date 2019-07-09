@@ -1,9 +1,12 @@
 <?php
-class Comment
+class Comment  extends Table
 {
+    // SELECT `id``bookId``bookVol``bookChap``bookEps``userId``comment``postDat``status``validDat` FROM `comment`
     private $_id;
     private $_bookId;
-    private $_chapterId;
+    private $_bookVol;
+    private $_bookChap;
+    private $_bookEps;
     private $_userId;
     private $_comment;
     private $_postDat;
@@ -30,9 +33,17 @@ class Comment
     {
         $this->_bookId = $bookId;
     }
-    public function setChapterId($chapterId)
+    public function setBookVol($_bookVol)
     {
-        $this->_chapterId = $chapterId;
+        $this->_bookVol = $bookVol;
+    }
+    public function setBookChap($_bookChap)
+    {
+        $this->_bookChap = $bookChap;
+    }
+    public function setBookEps($_bookEps)
+    {
+        $this->_bookEps = $bookEps;
     }
     public function setUserId($userId)
     {
@@ -42,7 +53,7 @@ class Comment
     {
         $this->_comment = $comment;
     }
-    public function setpostDat($postDat)
+    public function setPostDat($postDat)
     {
         $this->_postDat = $postDat;
     }
@@ -64,9 +75,17 @@ class Comment
     {
         return $this->_bookId;
     }
-    public function getChapterId()
+    public function getBookChap()
     {
-        return $this->_chapterId;
+        return $this->_bookChap;
+    }
+    public function getBookVol()
+    {
+        return $this->_bookVol;
+    }
+    public function getBookEps()
+    {
+        return $this->_bookEps;
     }
     public function getUserId()
     {

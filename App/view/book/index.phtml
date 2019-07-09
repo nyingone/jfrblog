@@ -26,7 +26,7 @@
             foreach($this->view_data as $book)
             {                                                                                                                                                                                                                        
                 $table .= '<tr>';
-                $table .= '<td><a href= "' . HOME . 'episode-index/'. $book->getId() .'">' . $book->getTitle() . '</a></td>';
+                $table .= '<td><a href= "' . HOME . 'episode/index-'. $book->getId() .'">' . $book->getTitle() . '</a></td>';
                 $table .= '<td>' . $book->getPlot() . '</td>';
                 $table .= '<td>' . $book->getIsbn() . '</td>';
                 $table .= '<td>' . $book->getEditYear() . '</td>';

@@ -2,6 +2,9 @@
 class HomeController extends Controller
 {
     private $_tag = 'home';
+    private $_tab = 'episode';
+    private $_entity = 'Episode';
+
     public function __construct()
     {
         $this->controllerId = ucfirst($this->_tag . 'Controller');
@@ -17,13 +20,15 @@ class HomeController extends Controller
         $datas = $this->findLastEpisode();
         $this->view->page_object  = 'Home page';
         $this->view->page_inzcst();
+        var_dump($this);
         $this->view->render($datas);
     }
 
     public function findLastEpisode()
     {
         $manager = new EpisodeManager();
-        $show  = $manager->findLast();
+        $datas  = $manager->findLast();
+        return $datas;
     }   
 
     public function aboutJFR()

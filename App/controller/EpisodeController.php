@@ -8,7 +8,7 @@ class EpisodeController extends Controller
   private $_manager ;
   private $_controllerId ;
   private $_managerId ;
-  protected $validate ;
+  protected $result=[] ;
 
   public function __construct()
   {
@@ -22,22 +22,27 @@ class EpisodeController extends Controller
  * @param $ref = id book
 */
   
-  public function index($id)
+  public function index($ref = null)
   {
+    var_dump($ref);
     $this->createModel($this->_tab, '');
-    $datas = $this->model->getSelection();
+    $datas = $this->model->getSelection($ref);
     $this->createView($this->_tab . DS . 'index', $datas);
     $this->view->page_object  = 'episodes en ligne';
     $this->view->page_inzcst();
     $this->view->render($datas);
   }
+
+  /** edit one episode of a known book 
+ * @param $ref = id episode
+*/
   public function edit($ref,$opt=null)
   {
     $this->createmodel($this->_tab, '');
     $datas = $this->model->getSelection($ref);
  
     $this->createview($this->_tab . DS . 'edit', $datas);
-    $this->view->page_object  = 'Episodes';
+    $this->view->page_object  = 'Episode';
     $this->view->page_inzcst($ref,$opt);
     $this->view->render($datas);
   }

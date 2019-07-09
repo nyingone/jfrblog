@@ -1,4 +1,7 @@
 <?php
+/**
+ * Classe représentant un épisode Table Episode de la base de donnée JFRBLOG
+ */
 class Episode extends Table
 {
     private $_id;
@@ -12,15 +15,26 @@ class Episode extends Table
     private $_nbComment;
     private $_bookId;
     private $_chapter;
-    private $_version;
+    private $_volume;
     private $_slugEps;
 
-    /**
+    
+     /**
+ * Constantes relatives aux erreurs liées aux méthodes ???
+ */
+const BOOK_ANO = 1;
+const CHAPTER_ANO = 2;
+const CONTENT_ANO = 3;
+
+/**
+     * Constructeur de la classe assignant -via fonction hydrate, les données si transmises
+     * géré via classe Table.
      * @param array $donnees
+     * @return void
      */
+
+
   
-
-
 // Setters
     public function setId($id)
     {
@@ -28,44 +42,67 @@ class Episode extends Table
     }
     public function setQuote($quote)
     {
-        $this->_quote = $quote;
+        if (!empty($quote) && is_string($quote))
+        {
+            $this->_quote = $quote;
+        }
+        
     }
     public function setContent($content)
     {
-        $this->_content = $content;
+        if (!empty($content) && is_string($content))
+        {
+            $this->_content = $content;
+        }
     }
     public function setExcerpt($excerpt)
     {
-        $this->_excerpt = $excerpt;
+        if (empty($excerpt))
+        {
+            substr(strip_tags($this->_content), 0, 300);
+        }
+        else
+        {
+            $this->_excerpt = $excerpt;
+        }
+        
     }
+
     public function setCreatedDat($createdDat)
     {
         $this->_createdDat = $createdDat;
     }
+
     public function setStatus($status)
     {
         $this->_status = $status;
     }
+
     public function setCommented($commented)
     {
         $this->_commented = $commented;
     }
+
     public function setNbComment($nbComment)
     {
-        $this->_nbComment = $nbComment;
+        $this->_nbComment = (int) $nbComment;
     }
+
     public function setBookId($bookId)
     {
         $this->_bookId = $bookId;
     }
+
+    public function setVolume($volume)
+    {
+        $this->_volume = $volume;
+    }
+    
     public function setChapter($chapter)
     {
         $this->_chapter = $chapter;
     }
-    public function setVersion($version)
-    {
-        $this->_version = $version;
-    }
+
     public function setSlugEps($slugEps)
     {
         $this->_slugEps = $slugEps;
@@ -116,83 +153,91 @@ class Episode extends Table
     {
         return $this->_chapter;
     }
-    public function getVersion()
+    public function getVolume()
     {
-        return $this->_version;
+        return $this->_volume;
     }
     public function getSlugEps()
     {
         return $this->_slugEps;
     }
 
-    public static function ctlMaj()
-    {
-    array(
-        'id'                =>array(
-            'Reference'     =>'Identifiant',
-            'required'      => false
-        ),
-        'quote'             =>array(
-            'Reference'     =>'Entête',
-            'required'      => true,
-            'min'           => 3,
-            'max'           => 50
-        ),
-        'content'             =>array(
-            'Reference'     =>'texte',
-            'required'      => true,
-            'min'           => 10,
-            'max'           => 600
-        ),
-        'excerpt'             =>array(
-          'Reference'     =>'extrait',
-          'required'      => true,
-          'min'           => 10,
-          'max'           => 600
-        ),
-        'createdDat'         =>array(
-        'Reference'       =>'Date de création',
-        'required'        => false,    
-        ),
-        'status'             =>array(
-          'Reference'     =>'statut',
-          'required'      => true,
-          'max'           => 2,
-          'list'          => '00;10;30;80;90'
-        ),
-        'onlineDat'         =>array(
-            'Reference'     =>'En ligne le',
-            'required'      => false,    
-        ),
-        'commented'         =>array(
-          'Reference'     =>'Commenté le',
-          'required'      => false,    
-        ),
-        'nbComment'             =>array(
-            'Reference'     =>'Nb Commentaires',
-            'required'      => false
-        ),
-        'bookId'          =>array(
-          'Reference'     =>'Ref. livre',
-          'required'      => true,
-          'int'           => true
-        ), 
-        'chapter'          =>array(
-          'Reference'     =>'Chapître',
-          'required'      => true,
-          'max'           => 3
-        ),
-        'version'          =>array(
-          'Reference'     =>'version',
-          'required'      => true,
-          'max'           => 4
-        ),
-        'slugEps'         =>array(
-          'Reference'     =>'Slug',
-          'required'      => false,
-          'max'           => 30
-        )
-        );
-    }
 
+    /**
+     * @return bool nouvel épisode fonction  isNew() géré classe amont Table
+     */
+   
+    /**
+     * Contrôle validité des saisies
+     * @return bool nouvel épisode
+     */
+    public static function validation()
+    {
+        $validTable =       array(
+            'id'        =>array(
+                            'Reference'     =>'Identifiant',
+                            'required'      => false
+                            ),
+            'quote'     =>array(
+                            'Reference'     =>'Intro',
+                            'required'      => true,
+                            'min'           => 3,
+                            'max'           => 300
+                            ),
+            'content'     =>array(
+                            'Reference'     =>'texte',
+                            'required'      => true,
+                            'min'           => 50
+                            ),
+            'excerpt'     =>array(
+                            'Reference'     =>'Extrait',
+                            'required'      => false,
+                            'max'           => 300
+                            ),
+            'createdDat' =>array(
+                            'Reference'     =>'Créé le',
+                            'required'      => false,    
+                            ),
+            'status'    =>array(
+                            'Reference'     =>'statut',
+                            'required'      => true,
+                            'max'           => 2,
+                            'list'          => '00;10;30;80;90'
+                            ),
+            'onlineDat' =>array(
+                            'Reference'     =>'En ligne',
+                            'required'      => false,    
+                            ),
+            'commented'     =>array(
+                            'Reference'     =>'Commenté le',
+                            'required'      => false
+                          ),
+            'nbComment'      =>array(
+                            'Reference'     =>'Nb commentaires',
+                            'required'      => false,
+                            'max'           => 5
+                          ),
+            'bookId'     =>array(
+                            'Reference'     =>'Livre',
+                            'required'      => true,
+                            'max'           => 2
+                            ),
+            'volume'     =>array(
+                            'Reference'     =>'Tome',
+                            'required'      => true,
+                            'max'           => 2
+                            ),
+            'chapter'      =>array(
+                            'Reference'     =>'Chapître',
+                            'required'      => true,
+                            'max'           => 3
+                            ),
+            'slugEps'      =>array(
+                            'Reference'     =>'Slug',
+                            'required'      => false,
+                            'max'           => 30
+                          )
+      ); 
+      return $validTable;
+    }
 }
