@@ -6,7 +6,7 @@ $action = $this->getAction();
   <head>
     <meta charset="utf-8">
     <!-- <link rel="stylesheet" href="?php CSS;?>bootstrap.css"> --> 
-    <!--<link rel="stylesheet" href="https://getbootstrap.com/1.4.0/assets/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="https://getbootstrap.com/1.4.0/assets/css/bootstrap.min.css"> 
     <link rel="stylesheet" href="<?php echo HOME?>style.css"> 
     <script type="text/javascript" src="<?php echo HOME?>js/jquery.min.js"></script>
     <!--<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js"></script> -->
@@ -32,7 +32,10 @@ $action = $this->getAction();
                 <li><a href="<?php echo HOME?>aboutJFR" <?php echo($action =='aboutJFR' ? 'class="active"' : '') ; ?>>About JFR</a></li>
               </ul>
             </nav>
-            
+            <ul class="nav secondary-nav">  
+            <li><a href="<?php echo HOME?>login" class = "menu" >Connexion</a></li> 
+             <li><a href="<?php echo HOME?>register" class = "menu" >Enregistrement</a></li> 
+          </ul>
         </div>
     </div>
   </div>

@@ -20,7 +20,7 @@ class HomeController extends Controller
         $datas = $this->findLastEpisode();
         $this->view->page_object  = 'Home page';
         $this->view->page_inzcst();
-        var_dump($this);
+     //   var_dump($datas);  var_dump($this->view);
         $this->view->render($datas);
     }
 

@@ -11,6 +11,7 @@ error_reporting(E_ALL);
       define('MANAGER', MODEL . 'manager' . DIRECTORY_SEPARATOR);
       define('ENTITY', MODEL . 'entity' . DIRECTORY_SEPARATOR);
       define('VIEW', APP . 'view' . DIRECTORY_SEPARATOR);
+      define('USER', VIEW . 'user' . DIRECTORY_SEPARATOR);
       define('CONTROLLER', APP . 'controller' . DIRECTORY_SEPARATOR);
       define('CORE', APP . 'core' . DIRECTORY_SEPARATOR);
       define('DATA', APP . 'data' . DIRECTORY_SEPARATOR);
