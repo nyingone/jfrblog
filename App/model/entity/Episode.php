@@ -8,9 +8,9 @@ class Episode extends Table
     private $_quote;
     private $_content;
     private $_excerpt;
-    private $_created;
+    private $_createdDat;
     private $_status;
-    private $_onlinedat;
+    private $_onlineDat;
     private $_commented;              
     private $_nbComment;
     private $_bookId;
@@ -50,10 +50,7 @@ const CONTENT_ANO = 3;
     }
     public function setContent($content)
     {
-        if (!empty($content) && is_string($content))
-        {
             $this->_content = $content;
-        }
     }
     public function setExcerpt($excerpt)
     {
@@ -68,9 +65,10 @@ const CONTENT_ANO = 3;
         
     }
 
-    public function setCreatedDat($createdDat)
+    public function setCreatedDat($createdDat=null)
     {
-        $this->_createdDat = $createdDat;
+        $date = new DateTime();
+        $this->_createdDat = ($createdDat !='') ? date('Y-m-d', strtotime($createdDat)) : null;
     }
 
     public function setStatus($status)
@@ -78,9 +76,16 @@ const CONTENT_ANO = 3;
         $this->_status = $status;
     }
 
-    public function setCommented($commented)
+    public function setOnlineDat($onlineDat=null)
     {
-        $this->_commented = $commented;
+        $date = new DateTime();
+        $this->_onlineDat = ($onlineDat !='') ? date('Y-m-d', strtotime($onlineDat)) : null;
+    }
+
+    public function setCommented($commented= null)
+    {
+        $date = new DateTime();
+        $this->_commented = ($commented !='') ? date('Y-m-d', strtotime($commented)) : null; 
     }
 
     public function setNbComment($nbComment)
@@ -90,17 +95,17 @@ const CONTENT_ANO = 3;
 
     public function setBookId($bookId)
     {
-        $this->_bookId = $bookId;
+        $this->_bookId = (int) $bookId;
     }
 
     public function setVolume($volume)
     {
-        $this->_volume = $volume;
+        $this->_volume = (int) $volume;
     }
     
     public function setChapter($chapter)
     {
-        $this->_chapter = $chapter;
+        $this->_chapter = (int) $chapter;
     }
 
     public function setSlugEps($slugEps)
@@ -182,7 +187,7 @@ const CONTENT_ANO = 3;
                             'Reference'     =>'Intro',
                             'required'      => true,
                             'min'           => 3,
-                            'max'           => 300
+                            'max'           => 2000
                             ),
             'content'     =>array(
                             'Reference'     =>'texte',
@@ -206,7 +211,7 @@ const CONTENT_ANO = 3;
                             ),
             'onlineDat' =>array(
                             'Reference'     =>'En ligne',
-                            'required'      => false,    
+                            'required'      => false    
                             ),
             'commented'     =>array(
                             'Reference'     =>'Commenté le',
@@ -224,7 +229,7 @@ const CONTENT_ANO = 3;
                             ),
             'volume'     =>array(
                             'Reference'     =>'Tome',
-                            'required'      => true,
+                            'required'      => false,
                             'max'           => 2
                             ),
             'chapter'      =>array(

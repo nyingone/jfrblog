@@ -1,33 +1,41 @@
 <?php include(VIEW . 'header.phtml'); ?>
 
-<div class="container" style="margin-top:60px;">
-    <div class="row">
-        <div class="span=9"> 
-            <div class="hero-unit">
-                <div class="page-header">
-                    <h1>A lire et à relire </h1>
-                        <small> Romans divers, contes, légendes ou culture générale</small>
+    <div class="container" style="margin-top:60px;">
+        <div class="row">
+            <div class="span=9"> 
+                <div class="hero-unit">
+                    <div class="page-header">
+                        <h1>A lire et à relire </h1>
+                            <small> Romans divers, contes, légendes ou culture générale</small>
+                    </div>
                 </div>
             </div>
+            <div class="span= 5 offset=2"> 
+                <img src="https://picsum.photos/100/150" alt="Dernière actu picsum" /> 
+                <blockquote>
+                        <p> Rien ne va plus sans le soleil</p>
+                        <small>Nahl</small>
+                </blockquote>
+            </div>
         </div>
-        <div class="span = 5 offset=2"> 
-            <img src="https://picsum.photos/100/150" alt="Dernière actu picsum" /> 
-            <blockquote>
-                    <p> Rien ne va plus sans le soleil</p>
-                    <small>Nahl</small>
-            </blockquote>
+    </div>      
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12"> 
+
+                <?php  if(isset($_SESSION['errors']) && !empty($_SESSION['errors']) ):?>
+
+                    <?php foreach($_SESSION['errors'] as $error):?>
+                        <li><?= $error;?></li>
+                    <?php endforeach;?>
+                    <?php unset($_SESSION['errors']);?>
+                <?php endif;?>
+
+                <h1><?=$this->page_title?></h1>
+                <?php  echo $contentPage; ?>
+            </div>
         </div>
     </div>
-</div>      
-
-<div class="container">
-    <?php if(isset($_SESSION['errors'])):?>
-        <?php foreach($errors as $error):?>
-            <li><?= $error;?></li>
-        <?php endforeach;?>
-        <?php unset($_SESSION['errors']);?>
-    <?php endif;?>
-    <?php  echo $contentPage; ?>
-</div>
 </body>
 <?php include(VIEW . 'footer.phtml'); ?>

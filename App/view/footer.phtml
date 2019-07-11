@@ -1,15 +1,21 @@
     
-        <textarea class="tinymce">Next, use our Get Started docs to setup Tiny!</textarea> 
+       
 
         
     
     </body>
-   <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
-    
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
+    <script type="text/javascript" src="<?php echo HOME?>js/jquery.min.js"></script>
     <script type="text/javascript" src="http://localhost/jfrblog/js/tablesorter.js"></script>
     <script type="text/javascript">
         jQuery(function($) {
             $("table#sortTableExample").tablesorter({ sortList: [[1,0]] });
         });
     </script>
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js"></script>  
+    <script>tinymce.init({selector:"textarea.tinymce"})</script>
+   <!--        
+        <script src="<?php echo HOME?>plugin/tinymce/tinymce.min.js"></script>
+        <script src="<?php echo HOME?>plugin/tinymce/init-tinymce.js"></script>   
+        --> 
 </html>

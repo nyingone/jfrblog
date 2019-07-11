@@ -54,7 +54,7 @@ class Book extends Table
     public function setOnlineDate(datetime $onlineDate)
     {
         $date = new DateTime();
-       $this->_onlineDate = ($onlineDate !='') ? date('Y-m-d', strtotime(onlineDate)) : null;
+       $this->_onlineDate = ($onlineDate !='') ? date('Y-m-d', strtotime($onlineDate)) : null;
     }
     public function setNbEps($nbEps)
     {
@@ -125,10 +125,10 @@ class Book extends Table
                             'max'           => 50
                             ),
             'plot'      =>array(
-                            'Reference'     =>'trame',
+                            'Reference'     =>'intrigue',
                             'required'      => true,
                             'min'           => 10,
-                            'max'           => 256
+                            'max'           => 2000
                             ),
             'onlineDat' =>array(
                             'Reference'     =>'En ligne',

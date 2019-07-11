@@ -1,4 +1,5 @@
 <?php 
+
 if(empty($this->view_data))
 {
     $this->view_data = new Episode();
@@ -7,34 +8,76 @@ if(empty($this->view_data))
 foreach($this->view_data as $episode)
 {  
 ?>
-<h1> Episode management </h1>
+<?php  if(isset($_SESSION['errors']) && !empty($_SESSION['errors']) ):?>
+
+    <ul>
+    <?php foreach($_SESSION['errors'] as $error):?>
+            <li class = "alert"><?= $error;?></li>
+    <?php endforeach;?>
+    <?php unset($_SESSION['errors']);?>
+    </ul>
+<?php endif;?>
 <!--SELECT SELECT `id``quote``content``excerpt``createdDat``status``onlineDate``commented``nbComment``bookId``chapter``version``slugEps` from episode  -->
-<h2> <?=$this->page_title?> </h2>
-<form class ="dta-add-class" action ="<?= HOME . 'index.php' ?>" method = "post">
-    <div class="input">                 
-            <label>Quote </label> :<input type="text" name="quote" maxlength="50" value="<?=($episode->getQuote()) > 0 ? $episode->getQuote() : ''; ?>">
+<h2>  </h2>
+<form  action ="<?= HOME . 'index.php' ?>" method = "post">
+ 
+    <div ><?php $label = "Quote...........:";?>   
+        <label for="content"><?=$label?></label>
+        <textarea  class="tinymce" name = "quote" cols= 200 rows = 10 maxlength="2000" required> <?=($episode->getId()) > 0 ? $episode->getQuote(): ''; ?> </textarea wrap="type">
     </div>
-    <div class="input">  
-        <label for="content">episode</label>
-        <textarea  class="tinymce" name = "content" cols= 200 rows = 10 required> <?=($episode->getContent()) > 0 ? $episode->getContent(): ''; ?> </textarea wrap="type">
+
+    <div ><?php $label = "texte..........:";?>   
+        <label for="content"><?=$label?></label>
+        <textarea  class="tinymce" name = "content" cols= 200 rows = 10 required> <?=($episode->getId()) > 0 ? $episode->getContent(): ''; ?> </textarea wrap="type">
     </div>
-    <div class="input">  
-        <label>Status </label> :<input type="text" name="status" value="<?=($episode->getId()) > 0 ? $episode->getStatus():''; ?>"maxlength="2">
-    </div>
-    <div class="input">                 
-        <label>ISBN </label> :<input type="text" name="isbn" value="<?=($episode->getId()) > 0 ? $episode->getIsbn():''; ?>"maxlength="20">
-    </div>
-    <div class="input">                 
-        <label>Année edition </label> :<input type="number" maxlength="4" name="editYear" value="<?=($episode->getId()) > 0 ? $episode->getEditYear():''; ?>"placeholder="SSAA" maxlength=4>
-    </div>
-    <div class="input">                 
-        <label>Mis en ligne le </label> :<input type="date" maxlength="10" name="onlineDat" value="<?=($episode->getId()) > 0 ? $episode->getOnlineDat(): ''; ?>">
-    </div>
-    <div class="input">                 
-        <label>Nb épisodes </label> :<input type="number" maxlength="3" name="nbEps" value="<?= ($episode->getId()) > 0 ? $episode->getnbEps() : ''; ?>">
-    </div>
+
+    <p><?php $label = "Extrait............:";?>  
+        <label><?=$label?></label><input type="text" name="excerpt" value="<?=($episode->getId()) > 0 ? $episode->getExcerpt():''; ?>"maxlength="300">
+    </p>
+  
+    <p><?php $label = "Date création......:";?>                
+        <label><?=$label?></label> :<input type="date" maxlength="10" name="createdDat"   value="<?=($episode->getId()) > 0 ? $episode->getCreatedDat(): null; ?>"  >
+    </p>
+
+    <p><?php $label = "Status.............:";?>  
+        <label><?=$label?></label><input class="form-control" type="text" name="status" value="<?=($episode->getId()) > 0 ? $episode->getStatus():''; ?>"maxlength="2" />
+    </p> 
+
+        <?php if($episode->getStatus() == '20')
+            {
+                $label = "Mis en ligne le....:";
+                $type  = "date";
+            }else{
+                $label ="hors ligne";
+                $type  = "hidden";
+            }
+        ?>       
+        <label><?=$label?> </label> :<input type="<?=$type?>" maxlength="10" name="onlineDat" value="<?=($episode->getId()) > 0 ? $episode->getOnlineDat(): ''; ?>" readOnly>
+    </p>
+
+    <p><?php $label = "Ref. livre ........:";?>                 
+        <label><?=$label?></label><input type="numeric" maxlength="3" name="bookId" value="<?=($episode->getId()) > 0 ? $episode->getBookId(): ''; ?>">
+    </p>
+    <p><?php $label = "Tome  .............:";?>               
+        <label><?=$label?></label> :<input type="numeric" maxlength="3" name="volume" value="<?=($episode->getId()) > 0 ? $episode->getVolume(): ''; ?>">
+    </p>
+    <p><?php $label = "Chapître...........:";?>                
+        <label><?=$label?></label> :<input type="numeric" maxlength="3" name="chapter" value="<?=($episode->getId()) > 0 ? $episode->getChapter(): ''; ?>">
+    </p>
+    <p><?php $label = "Slug...............:";?>                 
+        <label><?=$label?></label> :<input type="text" maxlength="30" name="slugEps" value="<?=($episode->getId()) > 0 ? $episode->getslugEps(): ''; ?>">
+    </p>
+    
     <input type="hidden" name="id" value="<?= ($episode->getId()) > 0 ? $episode->getId() :''; ?>">
-    <input type='hidden' name="url" value ='<?php echo($episode->getId() > 0 ? 'episode/maj-':'episode/add-') . $episode->getId(); ?>'>
+    <input type="hidden" name="commented" value="<?= ($episode->getId()) > 0 ? $episode->getCommented() :''; ?>">
+    <input type="hidden" name="nbComment" value="<?= ($episode->getId()) > 0 ? $episode->getNbComment() :''; ?>">
+
+
+    <?php $episode->getId() > 0 ? $opt = 'upd': $opt= 'add'; ?>
+    <input type="hidden" name="url" value ="<?= 'episode/edit-' . ($episode->getId() > 0 ? $episode->getId() .'-' . $opt :'') ; ?>"> 
+    <input type='hidden' name="action" value ="<?php echo($opt); ?>">
+
+
     <div class="input">  
         <input type="submit" value ="<?=($episode->getId()) > 0 ? 'MODIFIER' : 'AJOUTER'; ?>">
     </div>

@@ -5,7 +5,7 @@ class EpisodeManager
     protected $selection ;
     protected $query;
     private $_tab = 'episode';
-
+    
     public function __construct($modelName= null,$method= null)
     {    
         $_db = DB::getInstance();
@@ -55,7 +55,7 @@ class EpisodeManager
     * @return [objets]
     */
     public function majTab($class)
-    {
+    { 
      
         if(isset($_POST['id']) && $_POST['id'] > 0){
             $id = $_POST['id'];

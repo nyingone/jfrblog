@@ -2,8 +2,8 @@
 class EpisodeController extends Controller
 {
   public $data = [];
-  private $_tab = 'episode';
-  private $_entity = 'Episode';
+  public $_tab = 'episode';
+  public $_entity = 'Episode';
   private $_controller ;
   private $_manager ;
   private $_controllerId ;
@@ -38,9 +38,9 @@ class EpisodeController extends Controller
 */
   public function edit($ref,$opt=null)
   {
+    $opt= 'upd';
     $this->createmodel($this->_tab, '');
     $datas = $this->model->getSelection($ref);
- 
     $this->createview($this->_tab . DS . 'edit', $datas);
     $this->view->page_object  = 'Episode';
     $this->view->page_inzcst($ref,$opt);

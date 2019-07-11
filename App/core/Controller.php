@@ -39,6 +39,7 @@ class Controller
     
   public function isValid()
   {
+    var_dump($_POST, $this->_tab,$this->_entity);die;
     $this->result = $this->validate->check($_POST, $this->_tab, 
      $this->_entity::ctlMaj() ); 
       return     $this->result;
@@ -46,10 +47,13 @@ class Controller
 
   public function maj()
   {
+    
     $result = $this->isValid();
     $ok = $result[0];
     if($ok)
     {
+      var_dump($this);
+      var_dump($_POST);die;
       if (isset($result[1]) && !empty($result[1]))
       {
         $class = $result[1];

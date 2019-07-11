@@ -21,39 +21,68 @@ if( $this->page_opt == 'none' or  $this->page_opt == 'visu' or $this->page_opt =
 foreach($this->view_data as $book)
 { 
 ?>
-<h1> Book management </h1>
 <!--SELECT `id``title``plot``onlineDat``nbEps``status``isbn``editYear` FROM `book` -->
-<h2> <?=$this->page_title?> </h2>
-<form class ="dta-add-class" action ="<?= HOME . 'index.php' ?>" method = "post">
-    <div class="input">                 
-        <label>Titre </label> :<input type="text" name="title"  value="<?=($book->getId()) > 0 ? $book->getTitle() : ' '; ?> "   maxlength="50"  <?=$readOnly;?>/>
-    </div>
-    <div class="input">  
-        <label for="plot">résumé</label>
-        <textarea  class="tinymce" name = "plot" cols= 120 rows = 5 required <?=$readOnly;?>> <?=($book->getId()) > 0 ? $book->getPlot(): ''; ?> </textarea wrap="type" >
-    </div>
-    <div class="input">  
-        <label>Status </label> :<input type="text" name="status" value="<?=($book->getId()) > 0 ? $book->getStatus():''; ?>"maxlength="2" <?=$readOnly;?>/>
-    </div>
-    <div class="input">                 
-        <label>ISBN </label> :<input type="text" name="isbn" value="<?=($book->getId()) > 0 ? $book->getIsbn():''; ?>"maxlength="20"  <?=$readOnly;?>/>
-    </div>
-    <div class="input">                 
-        <label>Année edition </label> :<input type="number" maxlength="4" name="editYear" value="<?=($book->getId()) > 0 ? $book->getEditYear():''; ?>"placeholder="SSAA" maxlength=4 <?=$readOnly;?>/>
-    </div>
-    <div class="input">                 
-        <label>Mis en ligne le </label> :<input type="date" maxlength="10" name="onlineDat" value="<?=($book->getId()) > 0 ? $book->getOnlineDat(): '';  ?>"  <?=$readOnly;?>/>
-    </div>
-    <div class="input">                 
-        <label>Nb épisodes </label> :<input type="number" maxlength="3" name="nbEps" value="<?= ($book->getId()) > 0 ? $book->getnbEps() : ''; ?>" <?=$readOnly;?>/>
-    </div>
-    <input type="hidden" name="id" value="<?= ($book->getId()) > 0 ? $book->getId() :''; ?>">
-   <input type="hidden" name="url" value ="<?= 'book/edit-' . ($book->getId() > 0 ? $book->getId() .'-' . $opt :'') ; ?>"> 
-    <input type='hidden' name="action" value ="<?php echo($opt); ?>">
-    <div class="input">  
-      <input type="<?= $btn == 'none' ? 'hidden' : 'submit' ?>" value =" <?= $btn; ?>" /> 
-    </div>
-</form>
+<h2><?=($book->getId()) > 0 ? $book->getTitle() : ' '; ?> </h2>
+<br>
+<div class="container">
+    <form class ="dta-add-class" action ="<?= HOME . 'index.php' ?>" method = "post">
+      
+            <p><?php $label = "Titre..............:";?>                 
+                <label><?=$label?></label><input class="form-control" type="text" name="title"  value="<?=($book->getId()) > 0 ? $book->getTitle() : ' '; ?> "   maxlength="50"  <?=$readOnly;?>/>
+            </p>
+            
+            <div id="myeditablediv"><?php $label = "Résumé.............:";?>
+                <label for="plot"> <?=$label?></label>
+                <textarea  class="tinymce" name = "plot" cols= 150 rows = 10 required <?=$readOnly;?>> <?=($book->getId()) > 0 ? $book->getPlot(): ''; ?> </textarea wrap="type">
+            </div>
+
+            <p><?php $label = "Status.............:";?>  
+                <label><?=$label?></label><input class="form-control" type="text" name="status" value="<?=($book->getId()) > 0 ? $book->getStatus():''; ?>"maxlength="2" <?=$readOnly;?>/>
+            </p>  
+
+            <p><?php $label = "ISBN...............:";?>                 
+                <label><?=$label?></label><input class="form-control" type="text" name="isbn" value="<?=($book->getId()) > 0 ? $book->getIsbn():''; ?>"maxlength="20"  <?=$readOnly;?>/>
+            </p>
+
+            <p><?php $label = "Année edition......:";?>                 
+                <label><?=$label?></label><input class="form-control" type="number" maxlength="4" name="editYear" value="<?=($book->getId()) > 0 ? $book->getEditYear():''; ?>"placeholder="SSAA" maxlength=4 <?=$readOnly;?>/>
+            </p>
+
+            <p>
+                <?php if($book->getStatus() == '20')
+                {
+                    $label = "Mis en ligne le....:";
+                    $type  = "date";
+                }else{
+                    $label ="hors ligne";
+                    $type  = "hidden";
+                }
+                ?>                 
+                <label><?=$label?></label><input class="form-control" type="<?=$type;?>" maxlength="10" name="onlineDat" value="<?=($book->getId()) > 0 ? $book->getOnlineDat(): '';  ?>"  <?=$readOnly;?>/>
+            </p>
+
+            <p> 
+                <?php if($book->getStatus() == '20')
+                {
+                    $label = "Nb épisodes........:";
+                    $type  = "number";
+                }else{
+                    $label ="";
+                    $type  = "hidden";
+                }
+                ?>                   
+                <label><?=$label?></label><input class="form-control" type="<?=$type;?>" maxlength="3" name="nbEps" value="<?= ($book->getId()) > 0 ? $book->getnbEps() : ''; ?>" <?=$readOnly;?>/>
+            </p>
+
+            <input type="hidden" name="id" value="<?= ($book->getId()) > 0 ? $book->getId() :''; ?>">
+            <input type="hidden" name="url" value ="<?= 'book/edit-' . ($book->getId() > 0 ? $book->getId() .'-' . $opt :'') ; ?>"> 
+            <input type='hidden' name="action" value ="<?php echo($opt); ?>">
+            
+            <br>
+            <input class="pull-right" type="<?= $btn == 'none' ? 'hidden' : 'submit' ?>" value =" <?= $btn; ?>" /> 
+     
+    </form>
+</div>
 
 <?php
 }

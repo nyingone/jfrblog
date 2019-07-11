@@ -1,6 +1,19 @@
 
 <h1> Show episode list </h1>
-
+<div>
+    <?php 
+    foreach ($this->view_data as $table)
+    { 
+        if(!isset($episode))
+        {
+            $episode = $table;    
+    ?>
+        <li><a href= "<?php echo HOME ?>episode-edit/edit-<?php echo $episode->getBookId()?>">Ajouter un page/épisode</a></li>
+    <?php
+         } 
+    } ?>
+</div>
+ 
 <!-- `quote``content``excerpt``createdDat``status``onlineDate``commented``nbComment``bookId``chapter``version``slugEps` -->
 <div id="container" class="row">
     <table class="table-striped" >
@@ -23,7 +36,7 @@
             foreach($this->view_data as $episode)
             {                                                                                                                                                                                                                        
                 $table .= '<tr>';
-                $table .= '<td>' . $episode->getbookId() . '</td>';
+                $table .= '<td>' . $episode->getBookId() . '</td>';
                 $table .= '<td>' . $episode->getVolume() . '</td>';
                 $table .= '<td>' . $episode->getChapter() . '</td>';
                 $table .= '<td>' . $episode->getQuote() . '</td>';
@@ -32,9 +45,9 @@
                 $table .= '<td>' . $episode->getCommented()  . '</td>';
   // var_dump('<td><a href= "\"' . HOME . 'episode-show/' . $episode->getBookId() .'-' . $episode->getId() . '>Visu</a></td>');die;
 
-                $table .= '<td><a href=' . HOME . 'episode-show/show-' . $episode->getbookId() . '.' . $episode->getVolume() . '.'. $episode->getId() . '>Visu</a></td>';
-                $table .= '<td><a href='.'episode-edit/' . $episode->getId() . '-upd' . '>Maj</a></td>';
-                $table .= '<td><a href='.'episode-del/' . $episode->getId() . '-del' . '>Del</a></td>';
+                $table .= '<td><a href='. HOME . 'episode-show/show-' . $episode->getBookId() . '.' . $episode->getVolume() . '.'. $episode->getId() . '>Visu</a></td>';
+                $table .= '<td><a href='. HOME .'episode-edit/edit-' . $episode->getBookId() . '.' . $episode->getVolume() . '.'. $episode->getId() .'>Maj</a></td>';
+                $table .= '<td><a href='. HOME. 'episode-edit/del-' . $episode->getId() . '>Del</a></td>';
 
                 $table .= '<tr>';
             }
