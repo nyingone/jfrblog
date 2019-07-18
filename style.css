@@ -1,23 +1,25 @@
 header nav
 {
     margin-top: 3px;
-    margin-left: 50px;
-    width: 90%;
+    margin-left: 15px;
     align-self: flex-start;
-    text-align: center;
+    /* text-align: center;*/
 }
 nav
  {
     background: deepskyblue;
     color:white;
-    font-size: 2em;
-
+    font-size: 1em;
+ }
+ .lower
+ {
+    font-size: 0.5em;
  }
 
  nav ul li
  {
      display:inline-block;
-     padding-right:10px;
+     /* padding-right:10px;*/
  }
 
  nav li a:visited, nav li a:link
@@ -34,9 +36,9 @@ nav
  #container
  {
     border:1px solid darkgrey;
-    width: 90%;
+    background-color: paleturquoise;
     margin:5px auto;
-    min-height: 600px;
+    line-height: 40px;
  }
 
  .active
@@ -45,12 +47,16 @@ nav
  }
 
  /* [class*="col-"], footer */
- .col-lg-12
+ [class*="col-"], footer
  {
      background-color: lightseagreen;
      border: 2px solid black;
      border-radius: 6px;
      line-height:40px;
  }
- 
+
+ .thema
+ {
+    background-image: url("img/Js.jpg");
+ }
  

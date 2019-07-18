@@ -3,16 +3,19 @@ class View
 {
     protected $view_file;
     protected $view_data = [];
+    protected $view_infos = [];
     protected $redirect_url;
     public $page_opt = '';
     public $button_value = 'none';
     public $page_object ;
     public $page_title = "Visualisation d'un ";
 
-    public function __construct($view_file,$view_data)
+    public function __construct($view_file,$view_data, $view_infos= null)
     {
         $this->view_file   = $view_file;
         $this->view_data   = $view_data;
+        $this->view_infos  = $view_infos;
+        
         if(isset($_SERVER['REDIRECT_URL']))
         {
         $this->redirect_url =  $_SERVER['REDIRECT_URL'];
@@ -26,7 +29,7 @@ class View
         
     }
 
-    public function render($datas = [])
+    public function render($datas = [], $infos = null)
     {
         if(file_exists(VIEW . $this->view_file . '.phtml'))
         {

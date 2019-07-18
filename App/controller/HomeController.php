@@ -18,17 +18,27 @@ class HomeController extends Controller
                                     'id'   => $id
         ]);
         $datas = $this->findLastEpisode();
+        $this->view->page_title = "Our last episode !";
         $this->view->page_object  = 'Home page';
         $this->view->page_inzcst();
-     //   var_dump($datas);  var_dump($this->view);
-        $this->view->render($datas);
+        $episode = $datas[0];
+        $infos = $this->findBookInfos($episode->getBookId());
+        $this->view_infos = $infos[0];
+        $this->view->render($datas, $infos[0]);
     }
 
     public function findLastEpisode()
     {
         $manager = new EpisodeManager();
-        $datas  = $manager->findLast();
+        $datas  =   $manager->findLast();
         return $datas;
+    }   
+    public function findBookInfos($bookId)
+    {
+        $manager = new BookManager();
+        $infos  = $manager->getBooks($bookId);
+       //  var_dump($infos); ok array avec un objet book
+        return $infos;
     }   
 
     public function aboutJFR()

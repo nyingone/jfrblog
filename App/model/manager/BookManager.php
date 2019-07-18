@@ -7,7 +7,7 @@ class BookManager
     private $_tab = 'book';
 
 
-    public function __construct($modelName,$method)
+    public function __construct($modelName = null,$method= null)
     {    
         $_db = DB::getInstance();
     }

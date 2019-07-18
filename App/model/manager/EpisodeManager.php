@@ -99,6 +99,7 @@ class EpisodeManager
     */
     public function formatSelection()
     {
+        
         if(isset($this->selection) && !empty($this->selection))
         {  
             $x = 0;
@@ -120,8 +121,9 @@ class EpisodeManager
     */
     public function findLast($parms=null)
     {
-        $this->selection = DB::getInstance()->query('SELECT * from ' . $this->_tab . ' order by bookId,volume DESC,chapter DESC, id DESC LIMIT 1','',$this->_tab);
+        $this->selection = DB::getInstance()->query('SELECT * from ' . $this->_tab . " where status >= '30' order by id DESC LIMIT 1",'',$this->_tab);
         $this->formatSelection();
+      
         return $this->selection;
     }
 }

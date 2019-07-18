@@ -1,12 +1,13 @@
 <?php 
+// var_dump($this);
 if(empty($this->view_data))
 {
     $this->view_data = new Episode();
 }
+
 foreach($this->view_data as $episode)
 {  
 ?>
-<h1> Episode management </h1>
 <!--SELECT SELECT `id``quote``content``excerpt``createdDat``status``onlineDate``commented``nbComment``bookId``chapter``version``slugEps` from episode -->
 <h2> <?= $episode->getQuote();?> </h2>
 <p> <?=  $episode->getContent();?> </p>

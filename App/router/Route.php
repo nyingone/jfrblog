@@ -47,7 +47,6 @@ class Route
             $action = $request[1];
             $parms = '';
             $opt = '';
-            var_dump($this->_matches);
             if(!empty($this->_matches))
             {
                 $parm = $this->_matches[0];

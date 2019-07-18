@@ -15,9 +15,9 @@ class Controller
   /**
    * Define view for each action
    */
-  public function createView($viewName,$datas=[])
+  public function createView($viewName,$datas=[],$infos=[])
   {
-      $this->view = new View($viewName, $datas); 
+      $this->view = new View($viewName, $datas, $infos); 
       $this->view->managerId = $this->managerId;
       $this->view->controllerId = $this->controllerId;
       return $this->view;
@@ -52,9 +52,7 @@ class Controller
     $ok = $result[0];
     if($ok)
     {
-      var_dump($this);
-      var_dump($_POST);die;
-      if (isset($result[1]) && !empty($result[1]))
+            if (isset($result[1]) && !empty($result[1]))
       {
         $class = $result[1];
         $this->model->majTab($class);

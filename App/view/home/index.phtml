@@ -1,5 +1,18 @@
-<h1> Home page index.phtml dossier app/view/shome </h1>
 <?php 
 $this->view_data = $datas;
+
+$this->view_infos = $infos;
+
+if(empty($this->view_infos))
+{
+    $this->view_infos = new Book();
+}else{
+    $book = $this->view_infos;
+}
+
+ 
+?>
+<h1> <?= $book->getTitle();?> </h1>
+<?php 
 include (VIEW . 'episode\show.phtml');
 ?>
