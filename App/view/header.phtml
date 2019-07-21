@@ -2,54 +2,62 @@
 <!DOCTYPE html>
 <html lang="fr">
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
+    <!-- ??? <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">--> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- <link rel="stylesheet" href="?php CSS;?>bootstrap.css"> --> 
+    <title><?= $title ?? "JFR blog";?></title> 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
     <link rel="stylesheet" href="<?php echo HOME?>style.css"> 
-    <title> Site fictif de l'auteur Jean ForteRoche</title>  
-  
+    
+    
   </head>
   <?php
   $action = $this->getAction();
   ?>
   <body>
-    <div class ="container">  
+    <!-- Navigation -->   
       <header>
-        <nav class = "topbar">
-          <div class ="row">   
-            <div class ="col-md-12">    
-              <ul>
-                <div class ="row">  
-                  <div class ="col-md-4"> 
-                    <li><h1><a href="<?php echo HOME?>home"><img src="<?php echo HOME?>img/jf.jpg" alt ="JFR"></a> EAN FORTEROCHE</h1></li>
-                  </div>
-                  <div class ="col-md-8"> 
-                    <section>
-                      <ul class="right">
-                        <li><a href="<?php echo HOME?>home" <?php echo($action == 'index' ? 'class="active"' :''); ?>>Accueil</a></li>
-                        <li><a href="<?php echo HOME?>book" <?php echo($action =='book' ? 'class="active"' : '') ; ?>>Livres</a></li> 
-                        <li><a href="<?php echo HOME?>blog" <?php echo($action =='blog' ? 'class="active"' : '') ; ?>>Blog</a></li> 
-                        <li><a href="<?php echo HOME?>movie" <?php echo($action =='movie' ? 'class="active"' : '') ; ?>>Films</a></li> 
-                        <li><a href="<?php echo HOME?>aboutJFR" <?php echo($action =='aboutJFR' ? 'class="active"' : '') ; ?>>A propos</a></li>
-                      </ul>  
-                      <br>      
-                      <br>          
-                    </section>  
-                    <div class ="row">  
-                    <div id ="thema">  
-                        
-                    </div>    
-                    </div>       
-                  </div>
-                </ul>
-              </div>    
+        <nav class = "navbar navbar-expand-md navbar-light bg-light sticky-top">
+          <div class ="container-fluid">  
+            <a class="navbar-brand" href="<?php echo HOME?>home"><img class="img-responsive" src="<?php echo HOME?>img/jf.jpg" alt ="JFR"></a><h1>EAN FORTEROCHE</h1>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+              <ul class="navbar-nav ml-auto">
+                <li class="nav-item active"><a href="<?php echo HOME?>home" >Accueil</a></li>
+                <li class="nav-item"><a href="<?php echo HOME?>book" <?php echo($action =='book' ? 'class="active"' : '') ; ?>>Livres</a></li> 
+                <li class="nav-item"><a href="<?php echo HOME?>blog" <?php echo($action =='blog' ? 'class="active"' : '') ; ?>>Blog</a></li> 
+                <li class="nav-item"><a href="<?php echo HOME?>movie" <?php echo($action =='movie' ? 'class="active"' : '') ; ?>>Films</a></li> 
+                <li class="nav-item"><a href="<?php echo HOME?>aboutJFR" <?php echo($action =='aboutJFR' ? 'class="active"' : '') ; ?>>A propos</a></li>
+                <li class="nav-item"><a href="<?php echo HOME?>login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+              </ul>
+            </div>  
+          </div>
+        </nav>  
+        <div class ="row">                       
+                      
+                                       
+          <div class ="col-md-2 "> 
+        <!-- <div class ="col-lg-6 col-lg-offset-6"> -->
+            <div id ="thema" class = "card">
+              <img class ="card-img-body" src="<?php echo HOME?>img/the_portal" alt="Portail de glace">  
+              <div class="card-img-overlay">
+                <h3 class="card-title">Dernier billet </h3>
+                                <h4 style="text-align:right"> ...pour l'Alaska</h4>
+              </div>
             </div>
           </div>
-        </nav>
+                    
+        </div>       
+        
       </header>
-      </div>
   
 
   
