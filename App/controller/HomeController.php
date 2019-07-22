@@ -45,6 +45,19 @@ class HomeController extends Controller
     {
         $this->createview('home\aboutJFR');
         $this->view->page_title = "This is all about Jean";
-        $this->view->render();
+        $datas = $this->findAboutJFR();
+       
+        $this->view->page_inzcst();
+        $episode = $datas[0];
+        $infos = $this->findBookInfos($episode->getBookId());
+        $this->view_infos = $infos[0];
+        $this->view->render($datas, $infos[0]);
+       
     }
+    public function findAboutJFR()
+    {
+        $manager = new EpisodeManager();
+        $datas  =   $manager->findAboutJFR();
+        return $datas;
+    }  
 }

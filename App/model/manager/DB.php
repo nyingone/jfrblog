@@ -48,18 +48,28 @@ class DB
             { 
                 $x = 1;
                // echo '<br /> liste paramètres to bind';
+                
                 foreach($params as $parm)
                 {   
+                    $y = 0;
                     if(is_array($parm))
                     {
-                        $val = $parm[0];
+                        for($y = 0; $y < count($parm); ++$y)
+                        {
+                            $val = $parm[$y];
+                            $this->_query->bindValue($x, $val); 
+                        $x++;
+                        }
+                        
                     }else{
-                        $val = $parm;
-                    }
-                    $this->_query->bindValue($x, $val);
-                    $x++;
+                        $val = $parm;                               
+                        $this->_query->bindValue($x, $val);   
+                        $x++;
+                    }   
+                    
                 }
             }
+            
             if($this->_query->execute())
             {  
                 if( $this->_optf == 'select')
@@ -83,22 +93,49 @@ class DB
 
   public function action($action, $table, $where = array())
     {
-        if(count($where) === 3)
+        
+        if(count($where) >= 3 )
         {
             $operators = array('=','>','<', '>=', '<=','<>');
-            $field = $where[0];
-            $operator = $where[1];
-            $value[] = $where[2];
+            $x = 0;
+            $field = $where[$x];
+            $operator = $where[$x+1];
+            $value[] = $where[$x+2];
             if(in_array($operator,$operators))
             {
-                $sql = "($action $table WHERE $field $operator ?)";
-               // var_dump($sql);
-                // if(!$this->query($sql,array($value),[])->error())
-                if($this->query($sql,array($value),$table))
-                {
-                    return $this->results(); 
+                $sql = "($action $table WHERE $field $operator ? ";
+               
+                if(count($where) >= 6 )
+                { 
+                    $x = 3;
+                    $field = $where[$x];
+                    $operator = $where[$x+1];
+                    $value[] = $where[$x+2];
+                    if(in_array($operator,$operators))
+                    {
+                        $sql .= " and $field $operator ? ";
+                        if(count($where) >= 9 )
+                            { 
+                            $x = 6;
+                            $field = $where[$x];
+                            $operator = $where[$x+1];
+                            $value[] = $where[$x+2];
+                            if(in_array($operator,$operators))
+                            {
+                                $sql .= " and $field $operator ? ";
+                            }
+                        }
+                    }
                 }
             }
+            $sql .= " )";
+            
+            if($this->query($sql,array($value),$table))
+            {
+                return $this->results(); 
+            }
+              
+           
         }else{
             return false;
         }   
@@ -107,7 +144,7 @@ class DB
 
     public function get($table, $where )
     {
-      // var_dump($table, $where);
+     // var_dump($table, $where);
        return $this->action('SELECT * FROM', $table , $where);
     }
 

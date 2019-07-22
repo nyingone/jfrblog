@@ -24,13 +24,22 @@ class EpisodeController extends Controller
   
   public function index($ref = null)
   {
-    var_dump($ref);
+    
     $this->createModel($this->_tab, '');
     $datas = $this->model->getSelection($ref);
     $this->createView($this->_tab . DS . 'index', $datas);
     $this->view->page_object  = 'episodes en ligne';
     $this->view->page_inzcst();
-    $this->view->render($datas);
+    if(isset($ref) && !empty($ref)) 
+    {
+      $keys = explode('.',$ref);
+      $infos = $this->findBookInfos($keys[0]);
+      $this->view_infos = $infos[0];
+      $book = $this->view_infos;
+      $this->view->page_title = $book->getTitle();
+    } 
+    
+    $this->view->render($datas, $infos[0]);
   }
 
   /** edit one episode of a known book 
@@ -39,11 +48,20 @@ class EpisodeController extends Controller
   public function edit($ref,$opt=null)
   {
     $opt= 'upd';
+    
     $this->createmodel($this->_tab, '');
     $datas = $this->model->getSelection($ref);
     $this->createview($this->_tab . DS . 'edit', $datas);
+    $episode = $datas[0];   
+    $infos = $this->findBookInfos($episode->getBookId()); 
+   
+    $this->view_infos = $infos[0];
+
     $this->view->page_object  = 'Episode';
     $this->view->page_inzcst($ref,$opt);
+    $book = $this->view_infos;
+    $this->view->page_title = $book->getTitle();
+  
     $this->view->render($datas);
   }
 
@@ -51,10 +69,20 @@ class EpisodeController extends Controller
   {
     $this->createmodel($this->_tab, '');
     $datas = $this->model->getSelection($ref);
+    var_dump($ref);
     $this->createview($this->_tab . DS . 'show', $datas);
+    $episode = $datas[0];
+      
+    $infos = $this->findBookInfos($episode->getBookId());
+    $this->view_infos = $infos[0];
     $this->view->page_object  = 'Episode';
+    
     $this->view->page_inzcst($ref,$opt);
-    $this->view->render($datas);
+    $book = $this->view_infos;
+    $this->view->page_title = $book->getTitle();
+   
+    $this->view->render($datas, $infos[0]);
+   
   }
   
   public function isValid()
@@ -63,5 +91,14 @@ class EpisodeController extends Controller
      $this->_entity::validation() ); 
     return     $this->result;
   }
+
+
+  public function findBookInfos($bookId)
+    {
+        $manager = new BookManager();
+        $infos  = $manager->getBooks($bookId);
+       //  var_dump($infos); ok array avec un objet book
+        return $infos;
+    }  
 }
   

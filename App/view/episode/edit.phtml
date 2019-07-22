@@ -5,6 +5,7 @@ if(empty($this->view_data))
     $this->view_data = new Episode();
     // $episode = new Episode();
 }
+
 foreach($this->view_data as $episode)
 {  
 ?>
@@ -65,9 +66,14 @@ foreach($this->view_data as $episode)
         <label><?=$label?></label> :<input type="numeric" maxlength="3" name="chapter" value="<?=($episode->getId()) > 0 ? $episode->getChapter(): ''; ?>">
     </p>
     <p><?php $label = "Slug...............:";?>                 
-        <label><?=$label?></label> :<input type="text" maxlength="30" name="slugEps" value="<?=($episode->getId()) > 0 ? $episode->getslugEps(): ''; ?>">
+        <label><?=$label?></label> :<input type="text" maxlength="30" name="slugEps" value="<?=($episode->getId()) > 0 ? $episode->getSlugEps(): ''; ?>">
     </p>
-    
+    <p><?php $label = "Image..............:";?>                 
+        <label><?=$label?></label> :<input type="text" maxlength="30" name="image" value="<?=($episode->getId()) > 0 ? $episode->getImage(): ''; ?>">
+    </p>
+    <p><?php $label = "Légende..............:";?>                 
+        <label><?=$label?></label> :<input type="text" maxlength="50" name="imageAlt" value="<?=($episode->getId()) > 0 ? $episode->getImageAlt(): ''; ?>">
+    </p>
     <input type="hidden" name="id" value="<?= ($episode->getId()) > 0 ? $episode->getId() :''; ?>">
     <input type="hidden" name="commented" value="<?= ($episode->getId()) > 0 ? $episode->getCommented() :''; ?>">
     <input type="hidden" name="nbComment" value="<?= ($episode->getId()) > 0 ? $episode->getNbComment() :''; ?>">

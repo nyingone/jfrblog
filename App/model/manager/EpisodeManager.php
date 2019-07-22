@@ -23,13 +23,15 @@ class EpisodeManager
         }else
         {
             $keys = explode('.',$parms);
+            
             $x = count($keys);
-            if($x = 1)
+          
+            if($x === 1)
             {
                 $ksel = array('bookId'    , '=', $keys[0]);  
         
             }else{
-                if($x = 2)
+                if($x === 2)
                 {
                     $ksel = array(  'bookId'    , '=', $keys[0],
                                     'volume'    , '=', $keys[1]);  
@@ -39,14 +41,12 @@ class EpisodeManager
                                     'id'        , '=', $keys[2]);  
                 }
             }
-           
             // $this->selection = DB::getInstance()->get($this->_tab, array('id', '=', $parms));
             $this->selection = DB::getInstance()->get($this->_tab, $ksel);
-         
         }  
         $this->formatSelection();
 
-                return $this->selection;
+        return $this->selection;
     }
 
     /**
@@ -126,4 +126,19 @@ class EpisodeManager
       
         return $this->selection;
     }
+    public function findAboutJFR($parms=null)
+    {
+        $this->selection = DB::getInstance()->query('SELECT * from ' . $this->_tab . " where status >= '00' order by chapter DESC LIMIT 1",'',$this->_tab);
+        $this->formatSelection();
+      
+        return $this->selection;
+    }
+
+    public function findBookInfos($bookId)
+    {
+        $manager = new BookManager();
+        $infos  = $manager->getBooks($bookId);
+       //  var_dump($infos); ok array avec un objet book
+        return $infos;
+    }   
 }

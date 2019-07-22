@@ -35,6 +35,7 @@ $router->post('episode/:ref', "episode#maj",'episode_maj');
 
 $router->get('login',"user#login",'login');
 $router->get('register',"user#register",'register');
+$router->post('login',"user#login",'login');
 
 $router->post('movie', "movie#index",'movie');
 

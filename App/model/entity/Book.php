@@ -9,6 +9,9 @@ class Book extends Table
     private $_status;
     private $_isbn;
     private $_editYear;
+    private $_cover;
+    private $_coverAlt;
+    private $_promoted;
 
     /**
      * @param array $donnees
@@ -72,6 +75,19 @@ class Book extends Table
     {
         $this->_editYear = (int) $editYear;
     }
+    public function setCover($cover)
+    {
+        $this->_cover =  $cover;
+    }
+    public function setCoverAlt($coverAlt)
+    {
+        $this->_coverAlt =  $coverAlt;
+    }
+
+    public function setPromoted($promoted)
+    {
+        $this->_promoted =  (int) $promoted;
+    }
 
     // Getters
     public function getId()
@@ -105,6 +121,18 @@ class Book extends Table
     public function getEditYear()
     {
         return $this->_editYear;
+    }
+    public function getCover()
+    {
+        return $this->_cover;
+    }
+    public function getCoverAlt()
+    {
+        return $this->_coverAlt;
+    }
+    public function getPromoted()
+    {
+        return $this->_promoted;
     }
 
     public function isNew()
@@ -150,11 +178,27 @@ class Book extends Table
                             'max'           => 20
                             // 'unique'        => 'book'
                           ),
-        'editYear'      =>array(
-                            'Reference'     =>'Année édit°',
+            'editYear'      =>array(
+                                'Reference'     =>'Année édit°',
+                                'required'      => false,
+                                'max'           => 4
+                            ),
+            'cover'         =>array(
+                                'Reference'     =>'Couverture',
+                                'required'      => false,
+                                'max'           => 30
+                            ),
+            'coverAlt'         =>array(
+                            'Reference'     =>'Legende',
                             'required'      => false,
-                            'max'           => 4
-                          )
+                            'max'           => 50
+                            ),
+            'promoted'        =>array(
+                                'Reference'     =>'Mis en avant',
+                                'required'      => false,
+                                'max'           => 1
+                            )
+                                        
       ); 
       return $validTable;
     }

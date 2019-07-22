@@ -1,16 +1,54 @@
 <?php 
-// var_dump($this);
 if(empty($this->view_data))
 {
     $this->view_data = new Episode();
 }
 
+$book = $infos;
+$status = $book->getStatus();
+?>
+<p><?php echo $book->getPlot()?></p>   
+<?php
 foreach($this->view_data as $episode)
 {  
+
 ?>
-<!--SELECT SELECT `id``quote``content``excerpt``createdDat``status``onlineDate``commented``nbComment``bookId``chapter``version``slugEps` from episode -->
-<h2> <?= $episode->getQuote();?> </h2>
-<p> <?=  $episode->getContent();?> </p>
+    <div class = "container-fluid">
+        <div class = "row">
+            <!--SELECT SELECT `id``quote``content``excerpt``createdDat``status``onlineDate``commented``nbComment``bookId``chapter``version``slugEps` from episode -->
+            <?php 
+            $subTitle = '';
+            if($status === '00')
+            {
+                (!$episode->getChapter() === '99') ? $subTitle =  $episode->getQuote() : '';
+            }else{
+                $subTitle = "Chapître..." . $episode->getChapter();
+            }
+            ?>
+            <h2><?php echo $subTitle;?></h2>   
+        </div>
+    <div class="row">  
+        <div class = "col-md-6 offset-md-2">
+             
+        <blockquote class="blockquote">
+        <p>
+            <b><?php echo $episode->getQuote();?></b>
+        </p>
+        </blockquote>
+        
+        </div>   
+       
+        <div  class = "col-md-4 ">
+                <?php $alt = $episode->getImageAlt();?>
+                <?php $src= IMG . $episode->getImage();?>
+                <img  src="<?php echo $src?>" alt="<?php echo $alt?>" title ="<?php echo $alt?>"> 
+        </div>
+    </div>
+    <div class="row">
+        <p> <?=  $episode->getContent();?> </p>
+    </div>  
+</div>  
+
 <?php
 }
 

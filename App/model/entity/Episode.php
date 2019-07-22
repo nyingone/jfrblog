@@ -17,6 +17,8 @@ class Episode extends Table
     private $_chapter;
     private $_volume;
     private $_slugEps;
+    private $_image;
+    private $_imageAlt;
 
     
      /**
@@ -113,6 +115,15 @@ const CONTENT_ANO = 3;
         $this->_slugEps = $slugEps;
     }
 
+    public function setImage($image)
+    {
+        $this->_image = $image;
+    }
+    public function setImageAlt($imageAlt)
+    {
+        $this->_imageAlt = $imageAlt;
+    }
+
     // Getters
     public function getId()
     {
@@ -165,6 +176,14 @@ const CONTENT_ANO = 3;
     public function getSlugEps()
     {
         return $this->_slugEps;
+    }
+    public function getImage()
+    {
+        return $this->_image;
+    }
+    public function getImageAlt()
+    {
+        return $this->_imageAlt;
     }
 
 
@@ -241,7 +260,17 @@ const CONTENT_ANO = 3;
                             'Reference'     =>'Slug',
                             'required'      => false,
                             'max'           => 30
-                          )
+                            ),
+            'image'      =>array(
+                            'Reference'     =>'Image',
+                            'required'      => false,
+                            'max'           => 30
+                            ),
+            'imageAlt'      =>array(
+                            'Reference'     =>'Légende',
+                            'required'      => false,
+                            'max'           => 50
+                            )
       ); 
       return $validTable;
     }

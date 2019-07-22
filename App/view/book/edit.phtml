@@ -49,7 +49,7 @@ foreach($this->view_data as $book)
             </p>
 
             <p>
-                <?php if($book->getStatus() == '20')
+                <?php if($book->getStatus() == '30')
                 {
                     $label = "Mis en ligne le....:";
                     $type  = "date";
@@ -62,7 +62,7 @@ foreach($this->view_data as $book)
             </p>
 
             <p> 
-                <?php if($book->getStatus() == '20')
+                <?php if($book->getStatus() == '30')
                 {
                     $label = "Nb épisodes........:";
                     $type  = "number";
@@ -71,7 +71,43 @@ foreach($this->view_data as $book)
                     $type  = "hidden";
                 }
                 ?>                   
-                <label><?=$label?></label><input class="form-control" type="<?=$type;?>" maxlength="3" name="nbEps" value="<?= ($book->getId()) > 0 ? $book->getnbEps() : ''; ?>" <?=$readOnly;?>/>
+                <label><?=$label?></label><input class="form-control" type="<?=$type;?>" maxlength="3" name="nbEps" value="<?= ($book->getId()) > 0 ? $book->getNbEps() : ''; ?>" <?=$readOnly;?>/>
+            </p>
+            <p> 
+                <?php if($book->getStatus() == '30')
+                {
+                    $label = "Couverture........:";
+                    $type  = "text";
+                }else{
+                    $label ="";
+                    $type  = "hidden";
+                }
+                ?>                   
+                <label><?=$label?></label><input class="form-control" type="<?=$type;?>" maxlength="30" name="cover" value="<?= ($book->getId()) > 0 ? $book->getCover() : ''; ?>" <?=$readOnly;?>/>
+            </p>
+            <p> 
+                <?php if($book->getStatus() == '30')
+                {
+                    $label = "Légende...........:";
+                    $type  = "text";
+                }else{
+                    $label ="";
+                    $type  = "hidden";
+                }
+                ?>                   
+                <label><?=$label?></label><input class="form-control" type="<?=$type;?>" maxlength="50" name="coverAlt" value="<?= ($book->getId()) > 0 ? $book->getCoverAlt() : ''; ?>" <?=$readOnly;?>/>
+            </p>
+            <p> 
+                <?php if($book->getStatus() == '30')
+                {
+                    $label = "Mise en avant.....:";
+                    $type  = "text";
+                }else{
+                    $label ="";
+                    $type  = "hidden";
+                }
+                ?>                   
+                <label><?=$label?></label><input class="form-control" type="<?=$type;?>" maxlength="1" name="promoted" value="<?= ($book->getId()) > 0 ? $book->getPromoted() : ''; ?>" <?=$readOnly;?>/>
             </p>
 
             <input type="hidden" name="id" value="<?= ($book->getId()) > 0 ? $book->getId() :''; ?>">

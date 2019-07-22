@@ -91,6 +91,12 @@ class View
             $this->page_title .=  $this->page_object;  
         }
     } 
+
+
+    public function setTitle($title)
+    {
+        
+    }
         
 
 }

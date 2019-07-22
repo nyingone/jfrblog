@@ -59,8 +59,15 @@ class Validate{
 
         if(empty($this->_errors)){
             $this->_passed = true;
-            $this->class = new $tab($source);
-        return [$this->_passed , $this->class];
+            if(isset($tab))
+            {
+                $this->class = new $tab($source);
+                return [$this->_passed , $this->class];
+            }else{
+                return [$this->_passed , null];
+            }
+    
+            
         }
     }
 
