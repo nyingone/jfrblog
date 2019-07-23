@@ -2,37 +2,93 @@
 class UserController extends Controller
 {
   public $data = '';
-  private $ctl = 'user';
+  protected $ctl = 'user';
+  protected $_tag = 'home';
+  protected $_tab = 'user';
+  protected $_entity = 'User';
 
-  public function __construct(){
-    $this->createModel($this->ctl, '');
-  }
- 
+  /**
+     * Constructeur de la classe      * géré via classe Table.
+     * @param array $donnees
+     * @return void
+     */
+  
 
 /** create all the actions we can have */
-    public function index(){
-      $datas = $this->model->getUsers();
-      $this->createView($this->ctl . DS . 'index', $datas);
-      $this->view->page_title = "Abonnés";
-      $this->view->render();
+  public function index()
+  {
+    $datas = $this->model->getUsers();
+    $this->createView($this->ctl . DS . 'index', $datas);
+    $this->view->page_title = "Abonnés";
+    $this->view->render();
+    
+  }
+
+  public function register()
+  {
+    $datas = $this->model->register();
+    $this->createView($this->ctl . DS . 'register', $datas);
+    $this->view->page_title = "Abonnés";
+    $this->view->render();
+  }
+
+  public function login()
+  {
+    // $datas = $this->model->login();
+    $datas = '';
+    $this->createView($this->ctl . DS . 'login', $datas);
+    $this->view->page_title = "Connexion";
+    $this->view->render();
+  }
+
+  public function connect()
+  {
+    $opt = 'login';
+    $result = $this->isValid($opt);
+    $ok = $result[0];
+    if($ok)
+    {
+      // ($result[1]) est objet User;
+      if (isset($result[1]) && !empty($result[1]))
+      {
+        $class = $result[1];
+        $this->model->login($class);
+        var_dump($_POST, $this); die;
+        $this->createView($this->_tab );
+        $this->view->redirect($this->_tab);
+      }
      
+    }else{     
+        $_SESSION['errors'] = $this->validate->errors();
+        $this->createview($this->_tab . DS . 'edit', $datas);
+        $this->view->redirect($_SESSION['redirect']);
+    } 
+  }
+  public function addUser()
+  {
+    $opt = 'register';
+    $result = $this->isValid($opt);
+    $ok = $result[0];
+    if($ok)
+    {
+      if (isset($result[1]) && !empty($result[1]))
+      {
+        $class = $result[1];
+        $this->model->majTab($class);
+        $this->createView($this->_tab );
+        $this->view->redirect($this->_tab);
+      } 
+    }else{     
+        $_SESSION['errors'] = $this->validate->errors();
+        $this->createview($this->_tab . DS . 'register', $datas);
+        $this->view->redirect($_SESSION['redirect']);
+      }
     }
 
-    public function register()
-    {
-      $datas = $this->model->register();
-      $this->createView($this->ctl . DS . 'register', $datas);
-      $this->view->page_title = "Abonnés";
-      $this->view->render();
-    }
-
-    public function login()
-    {
-      $datas = $this->model->login();
-      $this->createView($this->ctl . DS . 'login', $datas);
-      $this->view->page_title = "Connexion
-      
-      ";
-      $this->view->render();
-    }
+    public function isValid($opt=null)
+  {
+    $this->result = $this->validate->check($_POST, $this->_tab, 
+     $this->_entity::validation($opt) ); 
+      return     $this->result;
+  }
 }

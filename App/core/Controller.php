@@ -8,8 +8,11 @@ class Controller
   protected $validate ;
   
   public function __construct()
-  {
-    
+  { 
+    $this->_controllerId = ucfirst($this->_tab . 'Controller');
+    $this->createModel($this->_tab, '');
+    $this->_managerId = ucfirst($this->_tab . 'Manager');
+    $this->validate = new Validate();
   }
  
   /**
@@ -37,9 +40,8 @@ class Controller
           echo MANAGER . $modelName . '.php' . ' non trouvé';   }
   }
     
-  public function isValid()
+  public function isValid($opt = null)
   {
-    var_dump($_POST, $this->_tab,$this->_entity);die;
     $this->result = $this->validate->check($_POST, $this->_tab, 
      $this->_entity::ctlMaj() ); 
       return     $this->result;

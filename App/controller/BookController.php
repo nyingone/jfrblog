@@ -67,8 +67,9 @@ class BookController extends Controller
     }
   }
 
-  public function isValid()
+  public function isValid($opt=null)
   {
+    var_dump($this);
     $this->result = $this->validate->check($_POST, $this->_tab, 
      $this->_entity::validation() ); 
       return     $this->result;

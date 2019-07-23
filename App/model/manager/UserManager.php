@@ -2,24 +2,94 @@
 
 class UserManager 
 {
-// to get all users
-public function getUsers()
-{
+    protected static $_db; // Instance de PDO
+    protected $selection ;
+    protected $query;
+    private $_tab = 'user';
     
-}
+    public function __construct($modelName= null,$method= null)
+    {    
+        $_db = DB::getInstance();
+    }
+
+
+    public function find($selusr)
+    {
+        if($selusr){
+            $field = (is_numeric($selusr)) ? 'id' : 'userId';
+            $this->selection = DB::getInstance()->get('user', array($field, '=', $selusr));
+            
+            if(count($this->selection))
+            {
+                 return $this->selection;
+                // return true;
+            }
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function login($userObj)
+    {
+        $userTx = get_object_vars($userObj );  
+        $userT = $this->find($userTx['_userId']);
+        $userT0 = $userT[0];
+        if(isset($userT0)  && !empty($userT0))
+        {        
+            // $user0 = new User($userT0);    
+            if($userT0['password'] === Hash::make($userTx['_password'], $userT0['salt']))
+            {
+               // echo  'ok';
+               Session::put($this->_sessionName, $this->$user0->getId());
+               
+               if($remember)
+               {             
+               }
+               
+               return true;
+            }
+        }
+        return false;
+
+    }
+
+    public function logout()
+    {
+        Session::delete($this->_sessionName);
+    }
+   public function data()
+    {
+        return $this->_data;
+    }
+
+    public function isLoggedIn()
+    {
+        return $this->_isLoggedIn;
+    }
+    public function create($fields = array())
+    {
+        if(!$this->_db->insert('user', $fields))
+        {
+            throw new Exception('problem de creation profil');
+        }
+    }
+
+
+
+// to get all users
+    public function getUsers()
+    {
+        
+    }
     // login
 
     //logout
 
     // register
-public function register()
-{
-    
-}
-
-public function login()
-{
-    
-}
-    // edit/update profile & Password
+    public function register()
+    {
+        
+    }
+  // edit/update profile & Password
 }

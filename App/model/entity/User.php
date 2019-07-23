@@ -1,88 +1,152 @@
 <?php
-class User
+class User extends Table
 {
-    private $_db;                                                                             
-    private $_data;
-    private $_sessionName;
-    private $_isLoggedIn;
+    public $_id;
+    public $_userId;
+    public $_password;
+    private $_salt;
+    private $_email;
+    private $_lastName;
+    private $_pseudo;
+    private $_joigned;
+    private $_groupId;
 
-    public function __construct($user = null){
-        $this->_db = DB::getInstance();
-        $this->_sessionName = Config ::get('session/session_name');
-        
-        if(!$user){
-            if(Session::exists($this->_sessionName)){
-               if($this->find($user)){
-                   $this->_isLoggedIn = true;
-               } else {
-                   // process Logout
-               }
-            }
-        } else {
-            $this->find($user);
-        }
+    public $_remember;
+
+   /**
+     * Constructeur de la classe assignant -via fonction hydrate, les données si transmises
+     * géré via classe Table.
+     * @param array $donnees
+     * @return void
+     */
+
+    // Setters
+    public function setId($id)
+    {
+        $this->_id = (int) $id;
+    }
+    public function setUserId($userId)
+    {
+        $this->_userId =  $userId;
+    }
+    public function setPassword($password)
+    {
+        $this->_password =  $password;
+    }
+    public function setSalt($salt)
+    {
+        $this->_salt =  $salt;
+    }
+    public function setEmail($email)
+    {
+        $this->_email =  $email;
+    }
+    public function setLastName($lastName)
+    {
+        $this->_lastName =  $lastName;
+    } 
+    public function setPseudo($pseudo)
+    {
+        $this->_pseudo =  $pseudo;
+    }
+    public function setJoigned($joigned=null)
+    {
+        $date = new DateTime();
+        $this->_joigned = ($joigned !='') ? date('Y-m-d', strtotime($joigned)) : null;
+    }
+    public function setGroupId($groupId)
+    {
+        $this->_groupId =  $groupId;
     }
 
-    public function create($fields = array())
+     // Getters
+     public function getId()
+     {
+         return $this->_id;
+     }
+     public function getPassword()
     {
-        if(!$this->_db->insert('user', $fields))
-        {
-            throw new Exception('problem de creation profil');
-        }
+        return $this->_password;
+    }
+    public function getSalt($salt)
+    {
+        return $this->_salt ;
+    }
+    public function getEmail()
+    {
+        return $this->_email;
+    }
+    public function getLastName()
+    {
+        return $this->_lastName;
+    } 
+    public function getPseudo()
+    {
+        return $this->_pseudo;
+    }
+    public function getJoigned()
+    {
+        return $this->_joigned;
+    }
+    public function getGroupId()
+    {
+        return $this->_groupId;
     }
 
-    public function find($user = null)
+    /**
+     * Contrôle validité des saisies
+     * @return 
+     */
+    public static function validation($opt)
     {
-        if($user){
-            $field = (is_numeric($user)) ? 'id' : 'userId';
-            $data = $this->_db->get('user', array($field, '=', $user));
-            
-            if($data->count()){
-                $this->_data = $data->first() ; // $data->first();
-                return true;
-            }
-        }
-        else {
-            return false;
-        }
-    }
-
-    public function login($userId= null, $password = null, $remember)
-    {
-        $user = $this->find($userId);
-        // if(isset($userId) )
-        if($user)
-        {           
-            if($this->data()->password === Hash::make($password, $this->data()->salt))
+       if($opt == 'login')
+       {
+        $validTable =       array(
+            'userId'        => array(
+                'required'  => true
+                ),
+            'password'      => array(
+                'required'  => true
+            ));
+       }else{
+            if($opt == 'register')
             {
-               // echo  'ok';
-               Session::put($this->_sessionName, $this->data()->id);
-               
-               if($remember) {
-                   
-               }
-               
-               return true;
+                $validTable =       array(
+                    'userId'        => array(
+                        'Reference' => 'Identifiant',
+                        'required'  => true,
+                        'min'       => 2,
+                        'max'       => 20,
+                        'unique'    => 'user',
+                        ),
+                    'password'      => array(
+                        'Reference' => 'Mot de passe',
+                        'required'  => true,
+                        'min'       => 6
+                        ),
+                    'passwordBis'   => array(
+                        'Reference' => 'Confirmation du Mot de passe',
+                        'required'  => true,
+                        'matches'   =>  'password'
+                    ),
+                    'email'         => array(
+                        'Reference' => 'Adresse mail',
+                        'required'  => false
+                    ),
+                    'lastName'      => array(
+                        'Reference' => 'Nom ',
+                        'required'  => false,
+                        'max'       => 50
+                    ),
+                    'pseudo'        => array(
+                        'Reference' => 'Pseudo',
+                        'required'  => false,
+                        'max'       => 50
+                    )
+                
+                ); 
             }
         }
-        
-        return false;
-
-    }
-
-    public function logout()
-    {
-        Session::delete($this->_sessionName);
-    }
-   public function data()
-    {
-        return $this->_data;
-    }
-
-    public function isLoggedIn()
-    {
-        return $this->_isLoggedIn;
-    }
-
-    
+        return $validTable;
+    }   
 }
