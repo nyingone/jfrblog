@@ -57,7 +57,7 @@ class DB
                         for($y = 0; $y < count($parm); ++$y)
                         {
                             $val = $parm[$y];
-                            var_dump($val);exit;
+                          
                             $this->_query->bindValue($x, $val); 
                         $x++;
                         }
