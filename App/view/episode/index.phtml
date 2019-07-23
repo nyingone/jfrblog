@@ -2,15 +2,16 @@
 <h2> Liste des episodes</h2>
 <div>
     <?php 
+    $book = $infos; 
+    ?>        
+    <li><a href= "<?php echo HOME ?>episode-edit/edit-<?php echo $book->getId(). '. . .' ?>">Ajouter un page/épisode</a></li>
+    <?php
     foreach ($this->view_data as $table)
     { 
         if(!isset($episode))
         {
-            $episode = $table;    
-    ?>
-        <li><a href= "<?php echo HOME ?>episode-edit/edit-<?php echo $episode->getBookId()?>">Ajouter un page/épisode</a></li>
-    <?php
-         } 
+            $episode = $table; 
+        } 
     } ?>
 </div>
  

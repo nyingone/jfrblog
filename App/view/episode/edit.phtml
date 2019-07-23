@@ -32,9 +32,10 @@ foreach($this->view_data as $episode)
         <textarea  class="tinymce" name = "content" cols= 200 rows = 10 required> <?=($episode->getId()) > 0 ? $episode->getContent(): ''; ?> </textarea wrap="type">
     </div>
 
-    <p><?php $label = "Extrait............:";?>  
-        <label><?=$label?></label><input type="text" name="excerpt" value="<?=($episode->getId()) > 0 ? $episode->getExcerpt():''; ?>"maxlength="300">
-    </p>
+    <div><?php $label = "Extrait/texte blog:";?>  
+        <label for="excerpt"><?=$label?></label>
+        <textarea  class="tinymce" name="excerpt" cols= 200 rows = 10> <?=($episode->getId()) > 0 ? $episode->getExcerpt():''; ?></textarea wrap="type">
+    </div>
   
     <p><?php $label = "Date création......:";?>                
         <label><?=$label?></label> :<input type="date" maxlength="10" name="createdDat"   value="<?=($episode->getId()) > 0 ? $episode->getCreatedDat(): null; ?>"  >

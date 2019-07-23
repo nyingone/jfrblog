@@ -216,7 +216,7 @@ const CONTENT_ANO = 3;
             'excerpt'     =>array(
                             'Reference'     =>'Extrait',
                             'required'      => false,
-                            'max'           => 300
+                            'max'           => 5000
                             ),
             'createdDat' =>array(
                             'Reference'     =>'Créé le',
