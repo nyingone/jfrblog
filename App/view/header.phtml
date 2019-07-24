@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="<?php echo HOME?>styles.css">     
     </head>
   <?php
+  var_dump($_SESSION);
   $action = $this->getAction();
   ?>
     <body>
@@ -31,13 +32,28 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
               <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
-                  <a class="nav-link" href="<?php echo HOME?>home" >Accueil</a></li>
+                  <a class="nav-link" href="<?php echo HOME?>home" >Accueil</a>
+                </li>
                 <li class="nav-item"> 
-                  <a class="nav-link" href="<?php echo HOME?>book" <?php echo($action =='book' ? 'class="active"' : '') ; ?>>Livres</a></li> 
+                  <?php 
+                  
+                  if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] = true)
+                  {
+                    $bookMnu = HOME . 'book';
+                    $txtMnu = "Livres";
+                  }else{
+                    $bookMnu = HOME . 'book-show/show-18';
+                    $txtMnu = "Livre blanc";
+                  }
+                  ?>
+                  <a class="nav-link" href="<?php echo $bookMnu?>"><?php echo $txtMnu?></a>
+                </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="<?php echo HOME?>aboutJFR" <?php echo($action =='aboutJFR' ? 'class="active"' : '') ; ?>>A propos</a></li>
+                  <a class="nav-link" href="<?php echo HOME?>aboutJFR" <?php echo($action =='aboutJFR' ? 'class="active"' : '') ; ?>>A propos</a>
+                </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="<?php echo HOME?>login"><span class="glyphicon glyphicon-log-in"></span>Login</a></li>
+                  <a class="nav-link" href="<?php echo HOME?>login"><span class="glyphicon glyphicon-log-in"></span>Login</a>
+                </li>
               </ul>
             </div>  
           </div>
@@ -53,10 +69,6 @@
                                 <h4 style="text-align:right"> <?php echo $cardSubTitle?></h4>
               </div>
           </div>   
-        </nav>  
-        
-                    
-            
-        
+        </nav>            
       </header>
  

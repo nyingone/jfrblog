@@ -1,0 +1,45 @@
+
+
+<!-- `quote``content``excerpt``createdDat``status``onlineDate``commented``nbComment``bookId``chapter``version``slugEps` -->
+<div id="container-fluid" >
+    <div class="row"> 
+    <h3> Liste des episodes</h3>
+    <br/>
+    </div>
+    <?php   
+    $this->view_infos = $infos;
+    foreach($this->view_infos as $episode)
+    {
+    ?>
+        <div class="row"> 
+        
+            <div  class = "col-md-2">
+                <?php 
+                $alt = $episode->getImageAlt();
+                $src= IMG . $episode->getImage();
+                $epsRef= $episode->getBookId() . '.' . $episode->getVolume() . '.'. $episode->getId();
+                ?>
+                <img  src="<?= $src?>" alt="<?php echo $alt?>" title ="<?php echo $alt?>"> 
+            </div>
+            <div  class = "col-md-9 offset-1 ">
+                <div class="row">
+                    <div class = 'col-md 2'>
+                    <a href="<?php echo HOME?>episode-show/show-<?php echo $epsRef?>"><h3>Chapître <?= $episode->getChapter();?></h3></a>
+
+                    </div>
+                    <div class = 'col-md 12'>
+                        <h4> <?= $episode->getQuote()?></h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class = 'col-md 4'>
+                        <p> <?= $episode->getExcerpt() ?></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <?php 
+    }                                                                                                                                                                                                                        
+    ?>    
+</div>

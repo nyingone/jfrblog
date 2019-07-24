@@ -38,8 +38,11 @@ class EpisodeController extends Controller
       $book = $this->view_infos;
       $this->view->page_title = $book->getTitle();
     } 
-    
-    $this->view->render($datas, $infos[0]);
+    if(!isset($infos))
+    {
+      $infos = [];
+    }
+    $this->view->render($datas, $infos[0] ? $infos[0] : '');
   }
 
   /** edit one episode of a known book 
@@ -85,7 +88,7 @@ class EpisodeController extends Controller
    
   }
   
-  public function isValid()
+  public function isValid($opt=null)
   {
     $this->result = $this->validate->check($_POST, $this->_tab, 
      $this->_entity::validation() ); 
@@ -94,11 +97,11 @@ class EpisodeController extends Controller
 
 
   public function findBookInfos($bookId)
-    {
-        $manager = new BookManager();
-        $infos  = $manager->getBooks($bookId);
-       //  var_dump($infos); ok array avec un objet book
-        return $infos;
-    }  
+  {
+    $manager = new BookManager();
+    $infos  = $manager->getBooks($bookId);
+    //  var_dump($infos); ok array avec un objet book
+    return $infos;
+  }  
 }
   

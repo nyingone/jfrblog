@@ -308,7 +308,6 @@ class DB
                     $sql = "UPDATE {$table} SET  {$set} WHERE id = {$id} LIMIT 1";
                 }
             }   
-            var_dump($this->_optf, $sql, $fields);
             return $this->query($sql, $fields);
             
         }else{

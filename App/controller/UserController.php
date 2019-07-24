@@ -46,24 +46,31 @@ class UserController extends Controller
     $opt = 'login';
     $result = $this->isValid($opt);
     $ok = $result[0];
+    
     if($ok)
     {
+     
       // ($result[1]) est objet User;
       if (isset($result[1]) && !empty($result[1]))
       {
         $class = $result[1];
-        $this->model->login($class);
-        var_dump($_POST, $this); die;
-        $this->createView($this->_tab );
-        $this->view->redirect($this->_tab);
+        $logged_in = $this->model->login($class);
+        $_SESSION['logged_in'] = $logged_in;
+        if($logged_in)
+        {
+          $_SESSION['redirect']= 'book';
+        }    
+        header("location:" . $_SESSION['redirect']);
       }
      
     }else{     
         $_SESSION['errors'] = $this->validate->errors();
-        $this->createview($this->_tab . DS . 'edit', $datas);
-        $this->view->redirect($_SESSION['redirect']);
+        $this->createview($this->_tab . DS . 'login', $datas); 
+        $this->view->redirect($_SESSION['redirect']); 
     } 
+
   }
+  
   public function addUser()
   {
     $opt = 'register';

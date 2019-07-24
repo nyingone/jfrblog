@@ -34,6 +34,19 @@ class BookController extends Controller
     $this->view->render();
   
   }
+  public function show($id)
+  {
+    $this->createmodel($this->_tab, '');
+    $datas = $this->model->getBooks($id);
+    $this->createview($this->_tab . DS . 'show', $datas);
+    $infos  = $this->getEpisodeInfos($id);
+    $this->view_infos = $infos;
+    $this->view->page_object  = '';
+    $this->view->page_inzcst();
+    $this->view->render($datas, $infos);
+  }
+
+
   public function edit($id = null,$opt=null)
   {
     $this->createmodel($this->_tab, '');
@@ -75,5 +88,13 @@ class BookController extends Controller
       return     $this->result;
   }
     
+
+  public function getEpisodeInfos($bookId)
+  {
+    $manager = new EpisodeManager();
+    $infos  = $manager->getSelection($bookId);
+    //  var_dump($infos); ok array avec un objet book
+    return $infos;
+  } 
 }
   

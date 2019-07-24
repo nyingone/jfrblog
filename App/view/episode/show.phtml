@@ -20,7 +20,7 @@ foreach($this->view_data as $episode)
             $subTitle = '';
             if($status === '00')
             {
-                (!$episode->getChapter() === '99') ? $subTitle =  $episode->getQuote() : '';
+                (!$episode->getChapter() === '999') ? $subTitle =  $episode->getQuote() : '';
             }else{
                 $subTitle = "Chapître..." . $episode->getChapter();
             }
