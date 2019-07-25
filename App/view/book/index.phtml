@@ -10,7 +10,7 @@
                 <th>Titre</th>
                 <th>Intrigue</th>
                 <th>Statut</th>
-                <th>Der.mise en ligne</th>
+                <th>Couveture</th>
                 <th>Nb.Episode</th>
                 <th>voir +</th>
             </tr>
@@ -21,12 +21,13 @@
 
             $table = '';
             foreach($this->view_data as $book)
-            {                                                                                                                                                                                                                        
+            {                
+                $src= IMG125 . $book->getCover();                                                                                                                                                                                                        
                 $table .= '<tr>';
                 $table .= '<td><a href= "' . HOME . 'episode/index-'. $book->getId() .'">' . $book->getTitle() . '</a></td>';
                 $table .= '<td>' . $book->getPlot() . '</td>';
                 $table .= '<td>' . $book->getStatus() . '</td>';
-                $table .= '<td>' . $book->getOnlineDat()  . '</td>';
+                $table .= '<td><img src="' .  $src . '" alt="'. $book->getCoverAlt() . '" title ="' . $book->getCoverAlt() . '"></td>';
                 $table .= '<td>' . $book->getNbEps()   . '</td>';
                 $table .= '<td><a href='.'book/edit-' . $book->getId() . '>Visu</a></td>';
                 $table .= '<td><a href='.'book/edit-' . $book->getId() . '-upd' . '>Maj</a></td>';

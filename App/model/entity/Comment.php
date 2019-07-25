@@ -6,8 +6,9 @@ class Comment  extends Table
     private $_bookId;
     private $_bookVol;
     private $_bookChap;
-    private $_bookEps;
-    private $_userId;
+    private $_epsId;
+    private $_user;
+    private $_pseudo;
     private $_comment;
     private $_postDat;
     private $_status;
@@ -41,13 +42,17 @@ class Comment  extends Table
     {
         $this->_bookChap = $bookChap;
     }
-    public function setBookEps($_bookEps)
+    public function setEpsid($_epsId)
     {
-        $this->_bookEps = $bookEps;
+        $this->_bepsId = $epsId;
     }
-    public function setUserId($userId)
+    public function setUser($user)
     {
-        $this->_userId = $userId;
+        $this->_user = $user;
+    }
+    public function setPseudo($pseudo)
+    {
+        $this->_psedo = $pseudo;
     }
     public function setComment($comment)
     {
@@ -83,13 +88,17 @@ class Comment  extends Table
     {
         return $this->_bookVol;
     }
-    public function getBookEps()
+    public function getEpsId()
     {
-        return $this->_bookEps;
+        return $this->_epsId;
     }
-    public function getUserId()
+    public function getUser()
     {
-        return $this->_userId;
+        return $this->_user;
+    }
+    public function getPseudo()
+    {
+        return $this->_pseudo;
     }
     public function getComment()
     {

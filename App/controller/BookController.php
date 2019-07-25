@@ -34,6 +34,20 @@ class BookController extends Controller
     $this->view->render();
   
   }
+  public function list()
+  {
+  /**
+   * 
+   */
+    $this->createModel($this->_tab, '');
+    $datas = $this->model->getBooks();
+
+    $this->createView($this->_tab . DS . 'list', $datas);
+    $this->view->page_object  = 'bibliographie';
+    $this->view->page_inzcst();
+    $this->view->render();
+  
+  }
   public function show($id)
   {
     $this->createmodel($this->_tab, '');

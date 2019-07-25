@@ -16,7 +16,6 @@
     <link rel="stylesheet" href="<?php echo HOME?>styles.css">     
     </head>
   <?php
-  var_dump($_SESSION);
   $action = $this->getAction();
   ?>
     <body>
@@ -25,7 +24,7 @@
       <header>
         <nav class = "navbar navbar-expand-md navbar-light bg-light sticky-top">
           <div class ="container-fluid">  
-            <a class="navbar-brand" href="<?php echo HOME?>home"><img class="img-responsive" src="<?php echo HOME?>img/jf.jpg" alt ="JFR"></a><h1>EAN FORTEROCHE</h1>
+            <a class="navbar-brand" href="<?php echo HOME?>home"><img class="img-responsive" src="<?php echo IMG125?>J.jpg" alt ="JFR"></a><h2>EAN FORTEROCHE</h2>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
             <span class="navbar-toggler-icon"></span>
             </button>
@@ -40,16 +39,17 @@
                   if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] = true)
                   {
                     $bookMnu = HOME . 'book';
-                    $txtMnu = "Livres";
                   }else{
-                    $bookMnu = HOME . 'book-show/show-18';
-                    $txtMnu = "Livre blanc";
+                    $bookMnu = HOME . 'book-show/';
                   }
                   ?>
-                  <a class="nav-link" href="<?php echo $bookMnu?>"><?php echo $txtMnu?></a>
+                  <a class="nav-link" href="<?php echo $bookMnu?>">Livres</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="<?php echo HOME?>aboutJFR" <?php echo($action =='aboutJFR' ? 'class="active"' : '') ; ?>>A propos</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="<?php echo HOME?>book-show/show-18">Blog</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="<?php echo HOME?>login"><span class="glyphicon glyphicon-log-in"></span>Login</a>

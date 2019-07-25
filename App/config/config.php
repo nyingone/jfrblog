@@ -17,7 +17,10 @@ error_reporting(E_ALL);
       define('DATA', APP . 'data' . DIRECTORY_SEPARATOR);
       define('CLASSX', APP . 'class' . DIRECTORY_SEPARATOR);
       define('ROUTER', APP . 'router' . DIRECTORY_SEPARATOR);
-      define('IMG', HOME . 'img' . DIRECTORY_SEPARATOR);
+      define('IMG', HOME . 'img/');
+      define('IMG125', IMG . 'min125/');
+      define('IMG215', IMG . 'min215/');
+   
 
       define('HOST', $_SERVER['REQUEST_SCHEME'] . DS . $_SERVER['HTTP_HOST'] . DS . 'jfrblog' . DS);
       define('CSS', HOST. 'css' . DS);

@@ -23,6 +23,7 @@ $router->get('aboutJFR',"home#aboutJFR",'aboutUs');
 
 $router->get('book',"book#index",'book');
 $router->get('book-show/:ref',"book#show",'book_show');
+$router->get('book-list',"book#list",'book_list');
 $router->get('book/:id', "book#edit",'book_edit');
 $router->post('book/:id', "book#maj",'book_maj');
 

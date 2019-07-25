@@ -5,29 +5,70 @@
 
         <footer>
             <div class="row">
+<!--
                 <div class="col-md-8">
-                    <nav class="row">
-                        <ul>
-                            <!-- //   <img src="https://picsum.photos/100/150" alt="Dernière actu " /> -->
-                            <li> <a href="<?php echo HOME?>book"><img class="img-thumbnail" src="<?php echo HOME?>img/Totem_pole_min.jpg" alt ="XXX" title ="Totem"></a></li>
-                            <li> <a href="<?php echo HOME?>book"><img class="img-thumbnail" src="<?php echo HOME?>img/haida_haash_min.jpg" alt ="XXX" title ="Haïda"></a></li>
-                            <li> <a href="<?php echo HOME?>book"><img class="img-thumbnail" src="<?php echo HOME?>img/tingit.jpg" alt ="XXX" title ="Oiseau"></a></li>                
-                            <li> <a href="<?php echo HOME?>book"><img class="img-thumbnail" src="<?php echo HOME?>img/wolf_housepost_tlingit_min.jpg" alt ="XXX" title ="Dame venue du Sud"></a></li>
-                        </ul>
-                    </nav>
-                </div>
-                <div class="col-md-4"> 
-                    <nav class="row">
-                        <ul class="nav secondary-nav">       
-                            <li><a href="<?php echo HOME?>home"> Accueil </a></li>
-                            <li><a href="<?php echo HOME?>book"> Livres </a></li> 
-                            <li><a href="<?php echo HOME?>blog"> Blog </a></li> 
-                            <li><a href="<?php echo HOME?>aboutJFR"> A propos </a></li>
-                        </ul>
-                    </nav>  
-                    <div class="row">
+                    <div class="card-deck">
+                            
+                        <div class="card" style="width:10px height=10px">
+                            <img class="card-img-top" max-width="100%" max-height= "125px" src="<?php echo IMG215?>Totem_pole.jpg" alt="Totem">
+                            <div class="card-body">
+                                <h4 class="card-title">Titre</h4>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            
+                            </div>
+                        </div>
+                        <div class="card" style="width:10px height=10px">
+                            <img class="card-img-top" max-width="100%" max-height= "125px" src="<?php echo IMG215?>haida_haash.jpg" alt="Haïda">
+                            <div class="card-body">
+                                <h4 class="card-title">Titre</h4>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <a href="#" class="btn btn-primary">En savoir plus</a>
+                            </div>
+                        </div>
+                        <div class="card" style="width:10px">
+                            <img class="card-img-top" max-width="100%" src="<?php echo IMG215?>thunderbird_paddle.jpg" alt="Phoenix">
+                            <div class="card-body">
+                                <h4 class="card-title">Titre</h4>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <a href="#" class="btn btn-primary">En savoir plus</a>
+                            </div>
+                        </div>
+                        <div class="card" style="width:10px">
+                            <img class="card-img-top" max-width="100%" max-height= "125px" src="<?php echo IMG215?>wolf_housepost_tlingit.jpg" alt="Wolf">
+                            <div class="card-body">
+                                <h4 class="card-title">Titre</h4>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <a href="#" class="btn btn-primary">En savoir plus</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
+-->
+
+                <div class="col-md-"> 
+                    <nav class="row">
+                        <ul class="nav secondary-nav">       
+                            <li><a class="nav-link" href="<?php echo HOME?>home"> Accueil </a></li>
+
+                            <li>
+                                <?php 
+                                $txtMnu = "Livres";
+                                if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] = true)
+                                {
+                                    $bookMnu = HOME . 'book';
+                                    
+                                }else{
+                                    $bookMnu = HOME . 'book-list';
+                                }
+                                ?>
+                                <a class="nav-link" href="<?php echo $bookMnu?>"><?php echo $txtMnu?></a>
+                            </li> 
+                            <li><a class="nav-link" href="<?php echo HOME?>blog"> Articles </a></li> 
+                            <li><a class="nav-link" href="<?php echo HOME?>aboutJFR"> A propos </a></li>
+                        </ul>
+                    </nav>  
+                </div>
+
             </div>
         </footer>  
    

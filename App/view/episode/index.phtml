@@ -20,41 +20,40 @@
     <table class="table-striped" >
         <thead>
             <tr>
-                <th>Rf. Livre</th>
-                <th>Rf. Volume</th>
-                <th>Rf. Chapître</th>
+                <th>L/V/C</th>
                 <th>quote</th>
                 <th>extrait</th>
                 <th>statut</th>
+                <th>Image<br/> Vue </th>
                 <th>Der.commentaire</th>
                 <th>voir +</th>
             </tr>
         </thead>
         <tbody>
-
+            <p>
             <?php 
             $table = '';
             foreach($this->view_data as $episode)
-            {                                                                                                                                                                                                                        
+            {               
+                $src= IMG125 . $episode->getImage(); 
+                $refEps = $episode->getBookId() . '.' . $episode->getVolume() . '.'. $episode->getId();                                                                                                                                                                                                 
                 $table .= '<tr>';
-                $table .= '<td>' . $episode->getBookId() . '</td>';
-                $table .= '<td>' . $episode->getVolume() . '</td>';
-                $table .= '<td>' . $episode->getChapter() . '</td>';
+                $table .= '<td>' . $episode->getBookId() . '/' . $episode->getVolume() . '/' .  $episode->getChapter() . '</td>';
                 $table .= '<td>' . $episode->getQuote() . '</td>';
                 $table .= '<td>' . $episode->getExcerpt() . '</td>';
                 $table .= '<td>' . $episode->getStatus() . '</td>';
+                $table .= '<td><a href='. HOME . 'episode-show/show-' . $episode->getBookId() . '.' . $episode->getVolume() . '.'. $episode->getId() . '><img src="' .  $src . '" alt="'. $episode->getImageAlt() . '" title ="' . $episode->getImageAlt() . '"></a></td>';
                 $table .= '<td>' . $episode->getCommented()  . '</td>';
   // var_dump('<td><a href= "\"' . HOME . 'episode-show/' . $episode->getBookId() .'-' . $episode->getId() . '>Visu</a></td>');die;
-
-                $table .= '<td><a href='. HOME . 'episode-show/show-' . $episode->getBookId() . '.' . $episode->getVolume() . '.'. $episode->getId() . '>Visu</a></td>';
-                $table .= '<td><a href='. HOME .'episode-edit/edit-' . $episode->getBookId() . '.' . $episode->getVolume() . '.'. $episode->getId() .'>Maj</a></td>';
-                $table .= '<td><a href='. HOME. 'episode-edit/del-' . $episode->getId() . '>Del</a></td>';
+                $table .= '<td><a href='. HOME .'episode-edit/edit-' . $refEps . '>Maj</a></td>';
+                $table .= '<td><a href="'. HOME . 'episode-edit/del-' . $refEps . '-del">Del</a></td>';
 
                 $table .= '<tr>';
             }
             print_r($table);
-            
+           
             ?>
+             <p>
         <tbody>
     </table>
 </div>
