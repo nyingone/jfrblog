@@ -1,0 +1,72 @@
+
+
+<div id="container-fluid" >
+    <div class = 'col-md 12'>
+        <div class="row"> 
+            <div class = 'col-md 8 offset-md-2'>
+                <?php 
+                $src= IMG . "plume70";
+                $alt="crayon";
+                ?>    
+                
+               
+                <form class="form-inline" action ="<?= HOME . 'index.php' ?>" method = "post">
+                <div class="row"> 
+                    <img  src="<?php echo $src?>" width=30px height = 30px alt="<?php echo $alt?>" title ="<?php echo $alt?>">
+                    <label for="comment" class="mr-2"></label>
+                    <textarea class="form-control" name = "comment" cols= 120  rows="3" >Ajouter un commentaire </textarea wrap="type">
+                </div>
+                <div class="row">     
+                    <input type="text" class="form-control mr-2" name="pseudo" required placeholder="pseudo ">
+                    <input type="text" class="form-control mr-2" name="user" placeholder="user">
+                    <!--<div class="form-check">        
+                        <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox"> Se rappeler de moi... icone_send70
+                        </label>
+                    </div> -->
+                </div>
+                <input type="hidden" name="id" value="<?= ''; ?>">
+                <input type="hidden" name="bookId" value="<?= ''; ?>">
+                <input type="hidden" name="epsId" value="<?= ''; ?>">
+                <input type="hidden" name="postDat" value="<?= ''; ?>">
+                <input type="hidden" name="status" value="<?= ''; ?>">
+                <input type="hidden" name="validDat" value="<?= ''; ?>">
+
+                <?php $opt= 'add'; ?>
+                <input type="hidden" name="url" value ="<?= 'comment/edit-' . $episode->getId() .'-' . $opt ; ?>"> 
+                <input type='hidden' name="action" value ="<?php echo($opt); ?>">
+
+                    <button type="submit" class="btn ml-2"><img  src="<?php echo IMG . "icone_send70"?>" width=30px height = 30px alt="<?php echo $alt?>" title ="<?php echo $alt?>"></button>
+                </form>
+            </div>
+    <?php   
+    $this->view_infos = $infos;
+    foreach($this->view_infos as $comment)
+    {
+        if($comment->getStatus() <> '99') // annulé
+        {
+ 
+         //   <!-- `id``bookId``bookVol``bookChap``epsId``user``pseudo``comment``postDat``status``validDat` <!--
+    ?>
+            <div class="row"> 
+                <div class = 'col-md 12'>
+                    <div class = 'col-md 8 offset-md-4'>
+                        <div class="row">
+                            <p> <?= $comment->getComment()?></p>
+                        </div>
+                        <div class="row">
+                            <div class = 'col-md 4' offset-md-8>
+                                <p> <?= $comment->getPseudo() ?></p>
+                                <p> <?= $comment->getPostdat() ?></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    <?php 
+                
+        }
+    }                                                                                                                                                                                                                        
+    ?>    
+</div>

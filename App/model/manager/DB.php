@@ -14,6 +14,7 @@ class DB
 
     private function __construct()
     {
+        // ?????    ->closeCursor();
         try
         {
             $this->_pdo = new PDO('mysql:host=' . Config::get('mysql/host') . 

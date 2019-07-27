@@ -27,27 +27,30 @@ foreach($this->view_data as $episode)
             ?>
             <h2><?php echo $subTitle;?></h2>   
         </div>
-    <div class="row">  
-        <div class = "col-md-6 offset-md-2">
-             
-        <blockquote class="blockquote">
-        <p>
-            <b><?php echo $episode->getQuote();?></b>
-        </p>
-        </blockquote>
+        <div class="row">  
+            <div class = "col-md-6 offset-md-2">
+                
+            <blockquote class="blockquote">
+            <p>
+                <b><?php echo $episode->getQuote();?></b>
+            </p>
+            </blockquote>
+            
+            </div>   
         
-        </div>   
-       
-        <div  class = "col-md-4 ">
-                <?php $alt = $episode->getImageAlt();?>
-                <?php $src= IMG215 . $episode->getImage();?>
-                <img  src="<?php echo $src?>" alt="<?php echo $alt?>" title ="<?php echo $alt?>"> 
+            <div  class = "col-md-4 ">
+                    <?php $alt = $episode->getImageAlt();?>
+                    <?php $src= IMG215 . $episode->getImage();?>
+                    <img  src="<?php echo $src?>" alt="<?php echo $alt?>" title ="<?php echo $alt?>"> 
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <p> <?=  $episode->getContent();?> </p>
+        <div class="row">
+            <p> <?=  $episode->getContent();?> </p>
+        </div>  
+        <div class="row">
+            <?php include (VIEW . 'comment\list.phtml'); ?>
+        </div>  
     </div>  
-</div>  
 
 <?php
 }

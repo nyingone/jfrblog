@@ -1,0 +1,55 @@
+
+<h2> Expression directe</h2>
+<div>
+    <?php 
+    $comment = $infos; 
+    
+    foreach ($this->view_data as $table)
+    { 
+        if(!isset($comment))
+        {
+            $comment = $table; 
+        } 
+    } ?>
+</div>
+ 
+<!-- `id``bookId``bookVol``bookChap``epsId``user``pseudo``comment``postDat``status``validDat` -->
+<div id="container" class="row">
+    <table class="table-striped" >
+        <thead>
+            <tr>
+                <th>L/V/C</th>
+                <th>quote</th>
+                <th>extrait</th>
+                <th>statut</th>
+                <th>Image<br/> Vue </th>
+                <th>Der.commentaire</th>
+                <th>voir +</th>
+            </tr>
+        </thead>
+        <tbody>
+            <p>
+            <?php 
+            $table = '';
+            foreach($this->view_data as $comment)
+            {               
+                $src= IMG125 . $comment->getImage(); 
+                $refEps = $comment->getBookId() . '.' . $comment->getBookVol() .  '.' . $comment->getBookChap() .  '.' . $comment->getEpsId();                                                                                                                                                                                                 
+                $table .= '<tr>';               
+                $table .= '<td>' . $refEps . '</td>';
+                $table .= '<td>' . $comment->getComment() . '</td>';
+                $table .= '<td>' . $comment->getPostdat() . '</td>';
+                $table .= '<td>' . $comment->getStatus()  . '</td>';
+                $table .= '<td>' . $comment->getValidDat()  . '</td>';
+                $table .= '<td><a href='. HOME .'comment-edit/val-' . $refEps . '>Valider</a></td>';
+                $table .= '<td><a href="'. HOME . 'comment-edit/del-' . $refEps . '-del">Supprimer</a></td>';
+
+                $table .= '<tr>';
+            }
+            print_r($table);
+           
+            ?>
+             <p>
+        <tbody>
+    </table>
+</div>

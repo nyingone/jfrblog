@@ -33,26 +33,40 @@
                 <li class="nav-item active">
                   <a class="nav-link" href="<?php echo HOME?>home" >Accueil</a>
                 </li>
-                <li class="nav-item"> 
+                
+                <li class="nav-item">
                   <?php 
                   
                   if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] = true)
                   {
                     $bookMnu = HOME . 'book';
                   }else{
-                    $bookMnu = HOME . 'book-show/';
+                    $bookMnu = HOME . 'book-list/';
                   }
                   ?>
-                  <a class="nav-link" href="<?php echo $bookMnu?>">Livres</a>
+                  
+                </li>
+                <li class="nav-item dropdown"> 
+                  <a class = "nav-link dropdown-toggle" href = "#" id="navbardropdownMenuLink" data-toggle= "dropdown" aria-haspopup="true" aria-expanded="false">Biblio<section></section></a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="<?php echo $bookMnu?>">Livres</a>
+                    <a class="dropdown-item" href="<?php echo HOME?>book-show/show-18">Livre blanc</a>
+                    </div>
+
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="<?php echo HOME?>aboutJFR" <?php echo($action =='aboutJFR' ? 'class="active"' : '') ; ?>>A propos</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="<?php echo HOME?>book-show/show-18">Blog</a>
+                 
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="<?php echo HOME?>login"><span class="glyphicon glyphicon-log-in"></span>Login</a>
+                <li class="nav-item dropdown"> 
+                  <a class = "nav-link dropdown-toggle" href = "#" id="navbardropdownMenuLink" data-toggle= "dropdown" aria-haspopup="true" aria-expanded="false">Accès<section></section></a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="nav-link" href="<?php echo HOME?>login"><span class="glyphicon glyphicon-log-in"></span>Login</a>
+                    <a class="nav-link" href="<?php echo HOME?>register"><span class="glyphicon glyphicon-log-in"></span>S'inscrire</a>
+                    </div>
+
                 </li>
               </ul>
             </div>  

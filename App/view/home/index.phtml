@@ -14,19 +14,20 @@ $refBook = HOME . 'book-show/show-' . $book->getId();
  
 ?>
 <div  class = "row">
-    <div  class = "col-md-4 offset-md-1">
+    <div  class = "col-md-2">
                 <?php $alt = $book->getCoverAlt();?>
                 <?php $src= IMG215 . $book->getCover();?>
                 <a href="<?php echo HOME?>book-show/show-<?php echo $book->getId()?>"><img  src="<?php echo $src?>" alt="<?php echo $alt?>" title ="<?php echo $alt?>"></a>
     </div>
-    <div  class = "col-md-6 ">
+    <div  class = "col-md-10 ">
         <h1> <?= $book->getTitle();?> </h1>
         <div  class = "col-md-4 offset-md-8">
             <?php $src= IMG125 . "attrapeur-reve_min125";?>
             <a href="<?php echo $refBook ?>"><img  src="<?php echo $src?>" alt="?" title ="Tous les épisodes"></a>
          </div>
-    </div>
-</div>
-<?php 
+         <?php 
 include (VIEW . 'episode\show.phtml');
 ?>
+
+    </div>
+</div>

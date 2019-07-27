@@ -19,10 +19,12 @@ class Comment  extends Table
      */
     public function hydrate(array $dtas)
     {
+        var_dump($dtas);
         foreach ($dtas as $key => $value)
         {
             $method = 'set' . ucfirst($key);
-            if(method_existe($this, $method))
+            var_dump($method);
+            if(method_exist($this, $method))
             {
                 $this->method($value);
             }
@@ -115,6 +117,50 @@ class Comment  extends Table
     public function getValidDat()
     {
         return $this->_validDat;
+    }
+
+
+    // SELECT `id``bookId```bookChap``c``userId``comment``postDat``status``validDat` FROM `comment`
+    public static function validation()
+    {
+        $validTable =       array(
+            'id'        =>array(
+                            'Reference'     =>'Identifiant',
+                            'required'      => false
+                            ),
+            'bookId'     =>array(
+                            'Reference'     =>'bookId',
+                            'required'      => false,
+                            ),
+            'epsId' =>array(
+                            'Reference'     =>'Episode',
+                            'required'      => false,    
+                            ),
+            'user'    =>array(
+                            'Reference'     =>'user',
+                            'required'      => false,
+                            'max'           => 20
+                            ),
+            'pseudo' =>array(
+                            'Reference'     =>'pseudo',
+                            'required'      => false,
+                            'max'           => 20    
+                            ),
+            'postDat'     =>array(
+                            'Reference'     =>'Commenté le',
+                            'required'      => false
+                          ),
+            'status'      =>array(
+                            'Reference'     =>'status',
+                            'required'      => false
+                          ),
+            'validDat'     =>array(
+                            'Reference'     =>'Commenté le',
+                            'required'      => false
+            )
+           
+      ); 
+      return $validTable;
     }
     
 }
