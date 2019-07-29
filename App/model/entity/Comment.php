@@ -4,7 +4,6 @@ class Comment  extends Table
     // SELECT `id``bookId``bookVol``bookChap``bookEps``userId``comment``postDat``status``validDat` FROM `comment`
     private $_id;
     private $_bookId;
-    private $_bookVol;
     private $_bookChap;
     private $_epsId;
     private $_user;
@@ -13,40 +12,28 @@ class Comment  extends Table
     private $_postDat;
     private $_status;
     private $_validDat;
+    private $_nbCon;
 
     /**
-     * @param array $donnees
-     */
-    public function hydrate(array $dtas)
-    {
-        var_dump($dtas);
-        foreach ($dtas as $key => $value)
-        {
-            $method = 'set' . ucfirst($key);
-            var_dump($method);
-            if(method_exist($this, $method))
-            {
-                $this->method($value);
-            }
-        }
-    }
+    * Constructeur de la classe assignant -via fonction hydrate, les données si transmises
+    * géré via classe Table.
+    * @param array $donnees
+    * @return void
+    */
+
 
 // Setters
+    public function setId($id)
+    {
+        $this->_id= (int) $id;
+    } 
     public function setBookId($bookId)
     {
-        $this->_bookId = $bookId;
-    }
-    public function setBookVol($_bookVol)
+        $this->_bookId = (int) $bookId;
+    } 
+       public function setEpsId($epsId)
     {
-        $this->_bookVol = $bookVol;
-    }
-    public function setBookChap($_bookChap)
-    {
-        $this->_bookChap = $bookChap;
-    }
-    public function setEpsid($_epsId)
-    {
-        $this->_bepsId = $epsId;
+        $this->_epsId = (int) $epsId;
     }
     public function setUser($user)
     {
@@ -54,15 +41,17 @@ class Comment  extends Table
     }
     public function setPseudo($pseudo)
     {
-        $this->_psedo = $pseudo;
+        $this->_pseudo = $pseudo;
     }
     public function setComment($comment)
     {
         $this->_comment = $comment;
     }
-    public function setPostDat($postDat)
+    public function setPostDat($postDat= null)
     {
-        $this->_postDat = $postDat;
+        
+        $date = new DateTime();
+        $this->_postDat = ($postDat !='') ? date('y-m-d', strtotime($postdat)): null;
     }
     public function setStatus($status)
     {
@@ -70,7 +59,12 @@ class Comment  extends Table
     }
     public function setValidDat($validDat)
     {
-        $this->_validDat = $validDat;
+        $date = new DateTime();
+        $this->_validDat = ($validDat !='') ? date('y-m-d', strtotime($validDat)): null;
+    }
+    public function setNbCon($nbCon)
+    {
+        $this->_nbCon = (int) $nbCon;
     }
 
     // Getters
@@ -82,14 +76,7 @@ class Comment  extends Table
     {
         return $this->_bookId;
     }
-    public function getBookChap()
-    {
-        return $this->_bookChap;
-    }
-    public function getBookVol()
-    {
-        return $this->_bookVol;
-    }
+        
     public function getEpsId()
     {
         return $this->_epsId;
@@ -117,6 +104,10 @@ class Comment  extends Table
     public function getValidDat()
     {
         return $this->_validDat;
+    }
+    public function getNbCon()
+    {
+        return $this->_nbCon;
     }
 
 
@@ -149,17 +140,21 @@ class Comment  extends Table
             'postDat'     =>array(
                             'Reference'     =>'Commenté le',
                             'required'      => false
-                          ),
+                            ),
             'status'      =>array(
                             'Reference'     =>'status',
                             'required'      => false
-                          ),
+                            ),
             'validDat'     =>array(
-                            'Reference'     =>'Commenté le',
+                            'Reference'     =>'Validé le',
                             'required'      => false
-            )
+                            ),
+            'nbCon'      =>array(
+                            'Reference'     =>'Signalement',
+                            'required'      => false
+                            )
            
-      ); 
+                    ); 
       return $validTable;
     }
     

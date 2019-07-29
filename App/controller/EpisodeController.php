@@ -72,19 +72,23 @@ class EpisodeController extends Controller
   {
     $this->createmodel($this->_tab, '');
     $datas = $this->model->getSelection($ref);
-    var_dump($ref);
     $this->createview($this->_tab . DS . 'show', $datas);
     $episode = $datas[0];
-      
+    $refEps= $episode->getBookId() . '.' . $episode->getId();  
+
     $infos = $this->findBookInfos($episode->getBookId());
     $this->view_infos = $infos[0];
+    
     $this->view->page_object  = 'Episode';
     
     $this->view->page_inzcst($ref,$opt);
     $book = $this->view_infos;
     $this->view->page_title = $book->getTitle();
+
+    $comments = $this->findCommentInfos($refEps);
+    $this->view_comments = $comments;
    
-    $this->view->render($datas, $infos[0]);
+    $this->view->render($datas, $infos[0],$comments);
    
   }
   
@@ -102,6 +106,13 @@ class EpisodeController extends Controller
     $infos  = $manager->getBooks($bookId);
     //  var_dump($infos); ok array avec un objet book
     return $infos;
+  }  
+
+  public function findCommentInfos($refEps)
+  {
+    $manager = new CommentManager();
+    $comments  = $manager->getSelection($refEps);
+    return $comments;
   }  
 }
   

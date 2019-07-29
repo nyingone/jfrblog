@@ -256,7 +256,7 @@ class DB
         $this->_optf = 'select'; // forçage pour récup table ffd
         $this->dspffd = $class->getFfd($table);
         $this->_optf = $optsav;
-        var_dump($optsav);
+    
          if (!empty($this->dspffd))
         {       
             $values = ' ';

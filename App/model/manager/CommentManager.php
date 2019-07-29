@@ -34,11 +34,14 @@ class CommentManager
                 if($x === 2)
                 {
                     $ksel = array(  'bookId'    , '=', $keys[0],
-                                    'epsId'    , '=', $keys[1]);  
+                                    'epsId'     , '=', $keys[1]);  
                 }else{
+                    if($x === 3)
+                    {
                     $ksel = array(  'bookId'    , '=', $keys[0],
-                                    'epsId'    , '=', $keys[1],
-                                    'id'        , '=', $keys[2]);  
+                                    'epsId'     , '=', $keys[1],
+                                    'id'        , '=', $keys[2]);
+                    }
                 }
             }
             // $this->selection = DB::getInstance()->get($this->_tab, array('id', '=', $parms));

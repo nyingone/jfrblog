@@ -3,10 +3,14 @@
  ?>
 <form  action ="<?= HOME . 'index.php' ?>" method = "post">
 
+      
+    
+ 
     <div class="field">
-    <label for="userId">Identifiant</label>
+    <label for="userId">Utilisateur</label>
     <input type="text" name="userId" id="userId" value="<?php escape(Input::get('userId')); ?>" autocomplete="off">
     </div>
+
 
     <div class="field">
     <label for="password">Mot de passe</label>
@@ -22,4 +26,5 @@
     <input type='hidden' name="action" value ="connect">
 
     <input type="submit" value="Log in">
+    </div>
 </form>

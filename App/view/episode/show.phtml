@@ -36,16 +36,27 @@ foreach($this->view_data as $episode)
             </p>
             </blockquote>
             
-            </div>   
-        
+            </div> 
+
+            <?php $alt = $episode->getImageAlt();?>
+            <?php $src= IMG215 . $episode->getImage();?>
+
             <div  class = "col-md-4 ">
-                    <?php $alt = $episode->getImageAlt();?>
-                    <?php $src= IMG215 . $episode->getImage();?>
-                    <img  src="<?php echo $src?>" alt="<?php echo $alt?>" title ="<?php echo $alt?>"> 
+            <div class="thumbnail">
+                <img  src="<?php echo $src?>" class="img-thumbnail" alt="<?php echo $alt?>" title ="<?php echo $alt?>"> 
+                <div class="caption">
+                    <p><?php echo $alt?></p>
+                </div>
+                
+            </div>
+                    
+                    
             </div>
         </div>
         <div class="row">
-            <p> <?=  $episode->getContent();?> </p>
+            <div class="entry-content" itemprop="text">
+            <?=  $episode->getContent();?> 
+            </div>  
         </div>  
         <div class="row">
             <?php include (VIEW . 'comment\list.phtml'); ?>

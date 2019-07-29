@@ -29,7 +29,7 @@ class View
         
     }
 
-    public function render($datas = [], $infos = null)
+    public function render($datas = [], $infos = null, $comments = null)
     {
         if(file_exists(VIEW . $this->view_file . '.phtml'))
         {
