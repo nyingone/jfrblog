@@ -5,6 +5,12 @@ if(empty($this->view_data))
     $this->view_data = new Episode();
     // $episode = new Episode();
 }
+if(isset($comments) && is_array($comments))
+{
+    $Xcom = count($infos);
+    $status = "20";
+    $Xstt20  = array_count_values(array_column($comments, 'status'))[$status]; // outputs: 20
+}
 
 foreach($this->view_data as $episode)
 {  
@@ -77,7 +83,7 @@ foreach($this->view_data as $episode)
     </p>
     <input type="hidden" name="id" value="<?= ($episode->getId()) > 0 ? $episode->getId() :''; ?>">
     <input type="hidden" name="commented" value="<?= ($episode->getId()) > 0 ? $episode->getCommented() :''; ?>">
-    <input type="hidden" name="nbComment" value="<?= ($episode->getId()) > 0 ? $episode->getNbComment() :''; ?>">
+    <input type="hidden" name="nbComment" value="<?= ($episode->getId()) > 0 ? $Xcom :''; ?>">
 
 
     <?php $episode->getId() > 0 ? $opt = 'upd': $opt= 'add'; ?>

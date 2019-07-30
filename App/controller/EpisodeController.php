@@ -46,7 +46,7 @@ class EpisodeController extends Controller
   }
 
   /** edit one episode of a known book 
- * @param $ref = id episode
+ * @param $ref = id book + id Vol + id episode
 */
   public function edit($ref,$opt=null)
   {
@@ -64,15 +64,23 @@ class EpisodeController extends Controller
     $this->view->page_inzcst($ref,$opt);
     $book = $this->view_infos;
     $this->view->page_title = $book->getTitle();
+
+    $refEps= $episode->getBookId() . '.' . $episode->getId();  
+    $comments = $this->findCommentInfos($refEps);
+    $this->view_comments = $comments;
   
-    $this->view->render($datas);
+    $this->view->render($datas, $infos, $comments);
   }
 
+  /** edit one episode of a known book 
+ * @param $ref = id book + id Vol + id episode
+*/
   public function show($ref= null,$opt=null)
   {
     $this->createmodel($this->_tab, '');
     $datas = $this->model->getSelection($ref);
     $this->createview($this->_tab . DS . 'show', $datas);
+    
     $episode = $datas[0];
     $refEps= $episode->getBookId() . '.' . $episode->getId();  
 
@@ -89,7 +97,7 @@ class EpisodeController extends Controller
     $this->view_comments = $comments;
    
     $this->view->render($datas, $infos[0],$comments);
-   
+  
   }
   
   public function isValid($opt=null)
@@ -99,7 +107,10 @@ class EpisodeController extends Controller
     return     $this->result;
   }
 
-
+/** edit one episode of a known book 
+ * @param $ref = id book 
+ * @return [objet Book]
+*/
   public function findBookInfos($bookId)
   {
     $manager = new BookManager();
@@ -108,6 +119,10 @@ class EpisodeController extends Controller
     return $infos;
   }  
 
+  /** edit one episode of a known book 
+ * @param $ref = id book + id Vol + id episode
+ * @return [objets Comment]
+*/
   public function findCommentInfos($refEps)
   {
     $manager = new CommentManager();

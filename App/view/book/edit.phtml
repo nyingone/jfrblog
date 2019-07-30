@@ -18,6 +18,10 @@ if( $this->page_opt == 'none' or  $this->page_opt == 'visu' or $this->page_opt =
 <?php endif;?>
 
 <?php 
+if(isset($infos) && is_array($infos))
+{
+    $Xeps = count($infos);
+}
 foreach($this->view_data as $book)
 { 
 ?>
@@ -71,7 +75,7 @@ foreach($this->view_data as $book)
                     $type  = "hidden";
                 }
                 ?>                   
-                <label><?=$label?></label><input class="form-control" type="<?=$type;?>" maxlength="3" name="nbEps" value="<?= ($book->getId()) > 0 ? $book->getNbEps() : ''; ?>" <?=$readOnly;?>/>
+                <label><?=$label?></label><input class="form-control" type="<?=$type;?>" maxlength="3" name="nbEps" value="<?= ($book->getId()) > 0 ? $Xeps : ''; ?>" <?=$readOnly;?>/>
             </p>
             <p> 
                 <?php if($book->getStatus() == '30')

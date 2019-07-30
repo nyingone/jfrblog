@@ -33,14 +33,14 @@
             $table = '';
             foreach($this->view_data as $comment)
             {               
-                $src= IMG125 . $comment->getImage(); 
-                $refEps = $comment->getBookId() . '.' . $comment->getBookVol() .  '.' . $comment->getBookChap() .  '.' . $comment->getEpsId();                                                                                                                                                                                                 
+                
+                $refEps = $comment->getBookId() . '.' . $comment->getEpsId() .  '.' . $comment->getId();                                                                                                                                                                                                 
                 $table .= '<tr>';               
                 $table .= '<td>' . $refEps . '</td>';
                 $table .= '<td>' . $comment->getComment() . '</td>';
                 $table .= '<td>' . $comment->getPostdat() . '</td>';
                 $table .= '<td>' . $comment->getStatus()  . '</td>';
-                $table .= '<td>' . $comment->getValidDat()  . '</td>';
+                $table .= '<td>' . $comment->getNbcon()  . '</td>';
                 $table .= '<td><a href='. HOME .'comment-edit/val-' . $refEps . '>Valider</a></td>';
                 $table .= '<td><a href="'. HOME . 'comment-edit/del-' . $refEps . '-del">Supprimer</a></td>';
 

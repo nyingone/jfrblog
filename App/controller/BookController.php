@@ -66,12 +66,13 @@ class BookController extends Controller
     $this->createmodel($this->_tab, '');
     ($id) ? $datas = $this->model->getBooks($id) : $datas[] = new Book();
     $this->createview($this->_tab . DS . 'edit', $datas);
+    $infos  = $this->getEpisodeInfos($id);
     $this->view->page_object  = 'livre';
     $this->view->page_inzcst($id,$opt);
-    $this->view->render($datas);
+    $this->view->render($datas,$infos);
   }
 
-    public function maj()
+    public function maj($redirect=null)
   {
     $result = $this->isValid();
     $ok = $result[0];

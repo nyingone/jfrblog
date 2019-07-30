@@ -66,11 +66,25 @@ class CommentController extends Controller
     $this->view->render($datas, $infos[0]);
    
   }
+
+   /** signal a Comment 
+ * @param $ref = id Comment $opt=pro/con
+*/
+public function signal($ref, $opt=null)
+{
+  // $this->createmodel($this->_tab, '');
+  $_POST['url'] = $_SESSION['redirect']; 
+  $redir = false;
+  $this->maj($redir);
+  var_dump($_POST); die;
+  exit;
+  
+}
   
   public function isValid($opt=null)
   {
     $this->result = $this->validate->check($_POST, $this->_tab, 
-     $this->_entity::validation() ); 
+    $this->_entity::validation() ); 
     return     $this->result;
   }
 

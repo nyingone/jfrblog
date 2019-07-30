@@ -35,7 +35,9 @@ $router->get('episode-edit/:ref',"episode#edit",'episode_edit');
 $router->post('episode/:ref', "episode#maj",'episode_maj');
 // $router->post('episode-edit/:ref',"episode#maj",'episode-p-maj');;
 
-$router->post('comment/:ref',"comment#maj",'episode_maj');
+$router->post('comment/:ref',"comment#maj",'comment_maj');
+$router->post('comment-signal/:ref',"comment#signal",'comment_signal');
+$router->post('comment-index/:ref',"comment#sindew",'comment_index');
 
 $router->get('login',"user#login",'login');
 $router->get('register',"user#register",'register');

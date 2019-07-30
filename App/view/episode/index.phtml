@@ -14,7 +14,7 @@
         } 
     } ?>
 </div>
- 
+
 <!-- `quote``content``excerpt``createdDat``status``onlineDate``commented``nbComment``bookId``chapter``version``slugEps` -->
 <div id="container" class="row">
     <table class="table-striped" >
@@ -25,7 +25,7 @@
                 <th>extrait</th>
                 <th>statut</th>
                 <th>Image<br/> Vue </th>
-                <th>Der.commentaire</th>
+                <th>Commentaire</th>
                 <th>voir +</th>
             </tr>
         </thead>
@@ -43,7 +43,10 @@
                 $table .= '<td>' . $episode->getExcerpt() . '</td>';
                 $table .= '<td>' . $episode->getStatus() . '</td>';
                 $table .= '<td><a href='. HOME . 'episode-show/show-' . $episode->getBookId() . '.' . $episode->getVolume() . '.'. $episode->getId() . '><img src="' .  $src . '" alt="'. $episode->getImageAlt() . '" title ="' . $episode->getImageAlt() . '"></a></td>';
-                $table .= '<td>' . $episode->getCommented()  . '</td>';
+                $table .= '<td>' . $episode->getCommented()  . ' <a href='. HOME . 'comment-index/show-' . $episode->getBookId() .  '.' . $episode->getId() . '><img src="' . IMG . 'plume70" width=30px height = 30px alt="Liste commentaires" title ="Liste commentaires" ></a>
+                           <br/>' . $episode->getNbComment() .  '</td>';
+
+               
   // var_dump('<td><a href= "\"' . HOME . 'episode-show/' . $episode->getBookId() .'-' . $episode->getId() . '>Visu</a></td>');die;
                 $table .= '<td><a href='. HOME .'episode-edit/edit-' . $refEps . '>Maj</a></td>';
                 $table .= '<td><a href="'. HOME . 'episode-edit/del-' . $refEps . '-del">Del</a></td>';

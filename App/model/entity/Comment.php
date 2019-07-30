@@ -51,7 +51,7 @@ class Comment  extends Table
     {
         
         $date = new DateTime();
-        $this->_postDat = ($postDat !='') ? date('y-m-d', strtotime($postdat)): null;
+        $this->_postDat = ($postDat !='') ? date('Y-m-d', strtotime($postDat)): null;
     }
     public function setStatus($status)
     {
@@ -60,12 +60,17 @@ class Comment  extends Table
     public function setValidDat($validDat)
     {
         $date = new DateTime();
-        $this->_validDat = ($validDat !='') ? date('y-m-d', strtotime($validDat)): null;
+        $this->_validDat = ($validDat !='') ? date('Y-m-d', strtotime($validDat)): null;
     }
     public function setNbCon($nbCon)
     {
         $this->_nbCon = (int) $nbCon;
     }
+    public function addNbCon()
+    {
+        $this->_nbCon ++;
+    }
+
 
     // Getters
     public function getId()
@@ -95,7 +100,7 @@ class Comment  extends Table
     }
     public function getPostDat()
     {
-        return $this->_postDat;
+        return $this->_postDat = ($this->_postDat !='') ? date('d-m-Y', strtotime($this->_postDat)): null;; 
     }
     public function getstatus()
     {
@@ -103,7 +108,7 @@ class Comment  extends Table
     }
     public function getValidDat()
     {
-        return $this->_validDat;
+        return $this->_validDat = ($this->_validDat !='') ? date('d-m-Y', strtotime($this->_validDat)): null;; 
     }
     public function getNbCon()
     {

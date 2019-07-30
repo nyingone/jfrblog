@@ -47,9 +47,14 @@ class Controller
       return     $this->result;
   }
 
-  public function maj()
+  public function maj($redir=null)
   {
-    
+   
+    if($redir === null)
+    {
+      $redir = true;
+    } 
+   
     $result = $this->isValid();
     $ok = $result[0];
     if($ok)
@@ -58,15 +63,27 @@ class Controller
       {
         $class = $result[1];
         $this->model->majTab($class);
-        $this->createView($this->_tab );
-        $this->view->redirect($this->_tab);
+        if ($redir === true)
+        {
+          
+          var_dump($_SESSION);
+         $this->createView($this->_tab );
+         $this->view->redirect($this->_tab);          
+        }else{
+          header("Location: ". $_SESSION['redirect'] );
+          exit;
+        }
       }
-      
     }else {     
         $_SESSION['errors'] = $this->validate->errors();
-        $this->createview($this->_tab . DS . 'edit', $datas);
-        $this->view->redirect($_SESSION['redirect']);
-      // } 
+        if ($redir === true)
+        {
+        $this->createview($this->_tab . DS . 'edit', $datas);  
+        $this->view->redirect($_SESSION['redirect']);  
+        }
+        else{
+          exit;
+        }
     }
   }
 }

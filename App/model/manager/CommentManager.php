@@ -119,8 +119,9 @@ class CommentManager
         return $this->selection;
     }
     /**
-    * Recherche dernier épisode
-    * @return [objets]
+    * Signalement des commentaires 
+    * @param
+    * @return 
     */
     
 }

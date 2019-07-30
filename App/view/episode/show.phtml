@@ -1,4 +1,5 @@
 <?php 
+
 if(empty($this->view_data))
 {
     $this->view_data = new Episode();
@@ -62,8 +63,24 @@ foreach($this->view_data as $episode)
             <?php include (VIEW . 'comment\list.phtml'); ?>
         </div>  
     </div>  
-
-<?php
+    
+    <?php
+    if($episode->getChapter() > 1)
+    {
+    ?>
+        <nav class = "row">
+        <ul class="pagination">
+            <li class="page-item "><a href="#"  class="page-link">Précédent</a></li>
+            <?php
+            if($episode->getChapter() < $book->getNbEps())
+            {
+                ?>
+            <li class="page-item"><a href="#" class="page-link">Suivant</a></li>
+        </ul>
+    </nav>
+    <?php
+            }
+    }
 }
 
 ?>
