@@ -21,10 +21,8 @@ class HomeController extends Controller
         $this->view->page_title = "Our last episode !";
         $this->view->page_object  = 'Home page';
         $this->view->page_inzcst();
-        $episode = $datas[0];
-        $infos = $this->findBookInfos($episode->getBookId());
-        $this->view_infos = $infos[0];
-        $this->view->render($datas, $infos[0]);
+        $this->view_datas = $datas;
+        $this->view->render($datas);
     }
 
     public function findLastEpisode()

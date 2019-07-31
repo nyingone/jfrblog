@@ -1,20 +1,24 @@
-<?php 
+<?php if(empty($this->view_data)) : $this->view_data = $datas ; 
+endif; ?>
 
-if(empty($this->view_data))
-{
-    $this->view_data = new Episode();
-}
-
-$book = $infos;
-$status = $book->getStatus();
-?>
-<p><?php echo $book->getPlot()?></p>   
-<?php
-foreach($this->view_data as $episode)
-{  
-
-?>
+<?php foreach($this->view_data as $episode) : ?>
     <div class = "container-fluid">
+        <?php $books = $episode->getBookInfo(); 
+        $book = $books[0]?>
+        <?php  $status = $book->getStatus(); ?>
+        <?php 
+                if(!$book->getPromoted())
+                {
+                    $alt = $book->getCoverAlt();
+                    $src= IMG215 . $book->getCover();
+                ?>
+                    <a href="<?php echo HOME?>book-show/show-<?php echo $book->getId()?>"><img  src="<?php echo $src?>" alt="<?php echo $alt?>" title ="<?php echo $alt?>"></a>
+                <?php
+                }
+                ?>
+        <h2><?php  echo $book->getTitle(); ?></h2>
+        <p><?php  echo $book->getPlot(); ?></p>
+
         <div class = "row">
             <!--SELECT SELECT `id``quote``content``excerpt``createdDat``status``onlineDate``commented``nbComment``bookId``chapter``version``slugEps` from episode -->
             <?php 
@@ -31,11 +35,11 @@ foreach($this->view_data as $episode)
         <div class="row">  
             <div class = "col-md-6 offset-md-2">
                 
-            <blockquote class="blockquote">
-            <p>
-                <b><?php echo $episode->getQuote();?></b>
-            </p>
-            </blockquote>
+                <blockquote class="blockquote">
+                    <p>
+                    <b><?php echo $episode->getQuote();?></b>
+                    </p>
+                </blockquote>
             
             </div> 
 
@@ -43,44 +47,37 @@ foreach($this->view_data as $episode)
             <?php $src= IMG215 . $episode->getImage();?>
 
             <div  class = "col-md-4 ">
-            <div class="thumbnail">
-                <img  src="<?php echo $src?>" class="img-thumbnail" alt="<?php echo $alt?>" title ="<?php echo $alt?>"> 
-                <div class="caption">
-                    <p><?php echo $alt?></p>
-                </div>
-                
-            </div>
-                    
-                    
+                <div class="thumbnail">
+                    <img  src="<?php echo $src?>" class="img-thumbnail" alt="<?php echo $alt?>" title ="<?php echo $alt?>"> 
+                    <div class="caption">
+                        <p><?php echo $alt?></p>
+                    </div>      
+                </div>         
             </div>
         </div>
+
         <div class="row">
             <div class="entry-content" itemprop="text">
-            <?=  $episode->getContent();?> 
+                <?=  $episode->getContent();?> 
             </div>  
         </div>  
+
         <div class="row">
             <?php include (VIEW . 'comment\list.phtml'); ?>
         </div>  
-    </div>  
+  
     
-    <?php
-    if($episode->getChapter() > 1)
-    {
-    ?>
-        <nav class = "row">
-        <ul class="pagination">
-            <li class="page-item "><a href="#"  class="page-link">Précédent</a></li>
-            <?php
-            if($episode->getChapter() < $book->getNbEps())
-            {
-                ?>
-            <li class="page-item"><a href="#" class="page-link">Suivant</a></li>
-        </ul>
-    </nav>
-    <?php
-            }
-    }
-}
-
-?>
+        
+            <nav class = "row">
+                <ul class="pagination">
+                    <?php if($episode->getChapter() > 1): ?>
+                        <li class="page-item "><a href="#"  class="page-link">Précédent</a></li>
+                    <?php  endif ?>
+                    <?php  if($episode->getChapter() < $book->getNbEps()) :?>
+                    <li class="page-item"><a href="#" class="page-link">Suivant</a></li>
+                    <?php  endif ?>
+                </ul>
+            </nav>
+        
+    </div>  
+<?php endforeach ?>

@@ -80,10 +80,9 @@ class EpisodeController extends Controller
     $this->createmodel($this->_tab, '');
     $datas = $this->model->getSelection($ref);
     $this->createview($this->_tab . DS . 'show', $datas);
+    $episode = $datas[0]; // objet episode
+    /*
     
-    $episode = $datas[0];
-    $refEps= $episode->getBookId() . '.' . $episode->getId();  
-
     $infos = $this->findBookInfos($episode->getBookId());
     $this->view_infos = $infos[0];
     
@@ -93,10 +92,13 @@ class EpisodeController extends Controller
     $book = $this->view_infos;
     $this->view->page_title = $book->getTitle();
 
+    $refEps= $episode->getBookId() . '.' . $episode->getId();  
     $comments = $this->findCommentInfos($refEps);
     $this->view_comments = $comments;
    
-    $this->view->render($datas, $infos[0],$comments);
+    $this->view->render($datas, $infos[0],$comments);*/
+
+    $this->view->render($datas);
   
   }
   

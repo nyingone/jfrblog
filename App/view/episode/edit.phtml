@@ -1,29 +1,14 @@
-<?php 
+<?php foreach($this->view_data as $episode):?>
 
-if(empty($this->view_data))
-{
-    $this->view_data = new Episode();
-    // $episode = new Episode();
-}
-if(isset($comments) && is_array($comments))
-{
-    $Xcom = count($infos);
-    $status = "20";
-    $Xstt20  = array_count_values(array_column($comments, 'status'))[$status]; // outputs: 20
-}
+    <?php  if(isset($_SESSION['errors']) && !empty($_SESSION['errors']) ):?>
 
-foreach($this->view_data as $episode)
-{  
-?>
-<?php  if(isset($_SESSION['errors']) && !empty($_SESSION['errors']) ):?>
-
-    <ul>
-    <?php foreach($_SESSION['errors'] as $error):?>
-            <li class = "alert"><?= $error;?></li>
-    <?php endforeach;?>
-    <?php unset($_SESSION['errors']);?>
-    </ul>
-<?php endif;?>
+        <ul>
+        <?php foreach($_SESSION['errors'] as $error):?>
+                <li class = "alert"><?= $error;?></li>
+        <?php endforeach;?>
+        <?php unset($_SESSION['errors']);?>
+        </ul>
+    <?php endif;?>
 <!--SELECT SELECT `id``quote``content``excerpt``createdDat``status``onlineDate``commented``nbComment``bookId``chapter``version``slugEps` from episode  -->
 <h2>  </h2>
 <form  action ="<?= HOME . 'index.php' ?>" method = "post">
@@ -50,17 +35,8 @@ foreach($this->view_data as $episode)
     <p><?php $label = "Status.............:";?>  
         <label><?=$label?></label><input class="form-control" type="text" name="status" value="<?=($episode->getId()) > 0 ? $episode->getStatus():''; ?>"maxlength="2" />
     </p> 
-
-        <?php if($episode->getStatus() == '20')
-            {
-                $label = "Mis en ligne le....:";
-                $type  = "date";
-            }else{
-                $label ="hors ligne";
-                $type  = "hidden";
-            }
-        ?>       
-        <label><?=$label?> </label> :<input type="<?=$type?>" maxlength="10" name="onlineDat" value="<?=($episode->getId()) > 0 ? $episode->getOnlineDat(): ''; ?>" readOnly>
+    <p>      
+        <label><?= $episode->getStatusLabel()?> </label> :<input type="<?=$episode->getStatusType()?>" maxlength="10" name="onlineDat" value="<?=($episode->getId()) > 0 ? $episode->getOnlineDat(): ''; ?>" readOnly>
     </p>
 
     <p><?php $label = "Ref. livre ........:";?>                 
@@ -83,7 +59,7 @@ foreach($this->view_data as $episode)
     </p>
     <input type="hidden" name="id" value="<?= ($episode->getId()) > 0 ? $episode->getId() :''; ?>">
     <input type="hidden" name="commented" value="<?= ($episode->getId()) > 0 ? $episode->getCommented() :''; ?>">
-    <input type="hidden" name="nbComment" value="<?= ($episode->getId()) > 0 ? $Xcom :''; ?>">
+    <input type="hidden" name="nbComment" value="<?= ($episode->getId()) > 0 ? $episode->getNbComments() :''; ?>">
 
 
     <?php $episode->getId() > 0 ? $opt = 'upd': $opt= 'add'; ?>
@@ -96,9 +72,7 @@ foreach($this->view_data as $episode)
     </div>
 </form>
 
-<?php
-}
-?>
+ <?php endforeach;?>
 
 
         

@@ -19,23 +19,37 @@ class Episode extends Table
     private $_slugEps;
     private $_image;
     private $_imageAlt;
+    /**
+     * Variablea ajoutés à l'objet
+     */
+    private $_comments;
+    private $_bookInfo;
+    private $_statusLabel;
+    private $_statusType;
+    private $_alertComm;
 
     
      /**
- * Constantes relatives aux erreurs liées aux méthodes ???
- */
-const BOOK_ANO = 1;
-const CHAPTER_ANO = 2;
-const CONTENT_ANO = 3;
 
-/**
      * Constructeur de la classe assignant -via fonction hydrate, les données si transmises
      * géré via classe Table.
      * @param array $donnees
      * @return void
      */
 
-
+    public function __construct($table)
+    {
+        parent::__construct($table);
+        if($this->getStatus() > 20)
+        {
+            $this->setStatusLabel("Mis en ligne le....:");
+            $this->setStatusType("date");
+        }else{
+            $this->setStatusLabel("hors ligne:");
+            $this->setStatusType("hidden");
+        }
+    }
+  
   
 // Setters
     public function setId($id)
@@ -185,6 +199,75 @@ const CONTENT_ANO = 3;
     {
         return $this->_imageAlt;
     }
+
+    /**
+     * Fonction annexes _____________________________________________SET
+     */
+    public function setComments($comments)   // tableau d'objets Comment
+    {
+        $this->_comments = $comments;
+        $this->setNbComments(count($comments));
+    }
+
+    public function setNbComments($nbComments)
+    {
+        $this->_nbComments = $nbComments;
+    }
+
+    public function setAlertComm($altC=false)
+    {
+        $this->_AlertComm = $altC;
+    }
+
+    public function setBookInfo($books)     // tableau d'objets Bok
+    {
+        $this->_bookInfo = $books;
+    }
+ 
+    public function setStatusLabel($label)
+    {
+
+        $this->_statutLabel = $label;
+    }
+    public function setStatusType($type)
+    {
+
+        $this->_statutType = $type;
+    }
+
+    
+    /**
+    *  Fonction annexes  _____________________________________________GET
+    */
+   
+   public function getBookInfo()
+   {
+       return $this->_bookInfo;
+   }
+
+       public function getComments()
+    {
+        return $this->_comments;
+    }
+    public function getNbComments()
+    {
+        return $this->_nbComments;
+    }
+    public function getAlertComm()
+    {
+        return $this->_alertComm;
+    }
+
+    public function getStatutLabel(){
+
+        return $this->_statutLabel;
+    }
+    public function getStatutType(){
+
+        return $this->_statutType;
+    }
+
+   
 
 
     /**

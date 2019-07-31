@@ -5,10 +5,13 @@ class EpisodeManager
     protected $selection ;
     protected $query;
     private $_tab = 'episode';
+    private $commentManager;
     
     public function __construct($modelName= null,$method= null)
     {    
         $_db = DB::getInstance();
+        $this->commentManager = new CommentManager();
+        $this->bookManager = new BookManager();
     }
 /**
     * Sélection Episodes pour affichage liste ou sélection
@@ -106,6 +109,17 @@ class EpisodeManager
             foreach($this->selection as $table)
             {
                 $episode = new Episode($table);
+                
+                // requete sur le livre de l' episode
+                $bookInfo = $this->bookManager->getBooks($episode->getBookId());
+                $episode->setBookInfo($bookInfo);
+               
+                
+                // requete sur tous les comments par episode
+                $refEps= $episode->getBookId() . '.' . $episode->getId();  
+                $comments = $this->commentManager->getSelection($refEps);
+                $episode->setComments($comments);
+
                 $this->selection[$x] = $episode;
                 $x++;  
                 // att. conserver $x sinon crée un tableau de tableau et non un tableau d'objet
@@ -121,7 +135,8 @@ class EpisodeManager
     */
     public function findLast($parms=null)
     {
-        $this->selection = DB::getInstance()->query('SELECT * from ' . $this->_tab . " where status >= '30' order by id DESC LIMIT 1",'',$this->_tab);
+        $this->selection = DB::getInstance()->query('SELECT * from ' . $this->_tab . " where status >= '20' order by id DESC LIMIT 1",'',$this->_tab);
+        
         $this->formatSelection();
       
         return $this->selection;
@@ -134,11 +149,5 @@ class EpisodeManager
         return $this->selection;
     }
 
-    public function findBookInfos($bookId)
-    {
-        $manager = new BookManager();
-        $infos  = $manager->getBooks($bookId);
-       //  var_dump($infos); ok array avec un objet book
-        return $infos;
-    }   
+
 }
