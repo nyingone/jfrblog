@@ -1,43 +1,23 @@
 
-
+<?php $accesBook = HOME . 'book-show/show-' ?>
 <div id="container-fluid" >
-    <div class="row"> 
-    <h3> accessibles en ligne ou autre</h3>
-    <br/>
-    </div>
-    <?php   
-   
-    foreach($this->view_data as $book)
-    {
-        
-
-    ?>
-            <div class="row"> 
-            
-                <div  class = "col-md-2">
-                    <?php 
-                    $alt = $book->getCoverAlt();
-                    $src= IMG125 . $book->getCover();
-                    $bookRef = $book->getId();
-                    ?>
-                    <img  src="<?= $src?>" alt="<?php echo $alt?>" title ="<?php echo $alt?>"> 
-                </div>
-                <div  class = "col-md-9 offset-1 ">
-                    <div class="row">
-                        <div class = 'col-md 2'>
-                        <a href="<?php echo HOME?>book-show/show-<?php echo $bookRef?>"><h3><?= $book->getTitle();?></h3></a>
-                        </div>
-                        <div class = 'col-md 10'>
-                            <h4> <?=  $book->getPlot()?></h4>
-                        </div>
-                    </div>
-                    
-                </div>
+    
+    <?php foreach($this->view_data as $book) : ?>
+        <div class="row"> 
+            <div  class = "col-md-2">                        
+                 <a href="<?php echo $accesBook . $book->getId() ?>"><img  src="<?php echo IMG125 . $book->getCover()?>" alt="<?php echo $book->getCoverAlt()?>" title ="<?php echo $book->getCoverAlt()?>"></a>
             </div>
-
-    <?php 
-                
+            <div  class = "col-md-9 offset-1 ">
+                <div class="row">
+                    <div class = 'col-md 2'>
+                        <a href="<?php echo $accesBook . $book->getId() ?>"><h3><?= $book->getTitle();?></h3></a>
+                    </div>
+                    <div class = 'col-md 10'>
+                        <h4> <?= $book->getPlot(); ?></h4>
+                    </div>
+                </div>  
+            </div>
+        </div>    
    
-    }                                                                                                                                                                                                                        
-    ?>    
+     <?php endforeach ?> 
 </div>

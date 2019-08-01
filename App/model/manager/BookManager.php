@@ -5,30 +5,37 @@ class BookManager
     protected $books ;
     protected $query;
     private $_tab = 'book';
-
+    private $episodeManager;
+    
 
     public function __construct($modelName = null,$method= null)
     {    
         $_db = DB::getInstance();
+       
     }
 
-    public function getBooks($parms=null)
+    public function getBooks($parms=null, $level=null)
     {
+      // var_dump($level);
         if(!isset($parms))
         {
-            $this->books = DB::getInstance()->query('SELECT * from book','','book');
+            $this->selection = DB::getInstance()->query('SELECT * from book','','book');
         }else{
-            $this->books = DB::getInstance()->get('book', array('id', '=', $parms));
+            $this->selection = DB::getInstance()->get('book', array('id', '=', $parms));
         }
-        if(isset($this->books) && !empty($this->books))
+        if(isset($this->selection) && !empty($this->selection))
         {
-          $x = 0; 
-            foreach($this->books as $table)
+            foreach($this->selection as $table)
             {
                 $book = new Book($table);
-                $this->books[$x] = $book;
-                $x++;
-                // att. conserver $x sinon crée un tableau de tableau et non tableau d'objets
+                // Récup des épisodes
+                if($level <> 'N1'):
+                    $this->episodeManager = new EpisodeManager();
+                    $episodes = $this->episodeManager->getSelection($book->getId(), 'N0');
+                    $book->setEpisodes($episodes);
+                endif;
+                
+                $this->books[] = $book;
             }
           
         }else{

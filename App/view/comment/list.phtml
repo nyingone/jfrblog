@@ -51,16 +51,8 @@ $alt="crayon";
         </form>
     </div>
     <div class="row"> 
-        <?php   
-        if(isset($comments) && !(empty($comments)))
-        {
-            if (is_array($comments))
-            {
-                $x = count($comments);
-            }else{
-                $x = 'aucun';
-            } 
-            ?>
+        <?php (is_array($comments) && !empty($comments)) ?  $x = count($comments) :  $x = 'aucun';?>
+       
         <p class="bg-info"><?= $x ?> commentaires</p>
         <section class="row"> 
             <?php
@@ -76,8 +68,10 @@ $alt="crayon";
                             <div class="shadow p-4 mb-4 bg-white">
                             <p> <?= $comment->getPseudo() ?> le:<?= $comment->getPostdat() ?></p>
                             <p> <?= $comment->getComment()?></p>
-                            <br>
-                            <p> signalé: <?= $comment->getNbCon()?> fois</p>
+                            <?php if($comment->getNbCon() > 0) : ?>
+                                <br>
+                                <p> signalé: <?= $comment->getNbCon()?> fois</p>
+                                <?php endif; ?>
                             </div>
                         </div>
                         
@@ -110,8 +104,5 @@ $alt="crayon";
                 }                                                                                                                                                                                                                      
             ?> 
         </section>  
-        <?php
-        }
-        ?>
     </div>
 </div> 

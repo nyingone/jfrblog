@@ -12,8 +12,16 @@ class Book extends Table
     private $_cover;
     private $_coverAlt;
     private $_promoted;
-
-    /**
+/**
+     * Variablea ajoutés hors base données
+     */
+    private $episodes;
+    private $nbEpisodes;
+    private $alertEps;
+   
+    
+     /**
+    
      * @param array $donnees
      */
     public function __construct($dtas = [])
@@ -140,6 +148,47 @@ class Book extends Table
         return empty($this->_id);
     }
 
+
+    /**
+     * Fonction annexes _____________________________________________SET
+     */
+
+    public function setEpisodes($episodes)   // tableau d'objets Episode
+    {
+        $this->episodes = $episodes;
+        $this->setNbEpisodes(count($episodes));
+    }
+
+    public function setNbEpisodes($nbEpisodes)
+    {
+        $this->nbEpisodes = $nbEpisodes;
+    }
+
+    public function setAlertEpisode($altE=false)
+    {
+        $this->AlertEpisode = $altE;
+    }
+
+     /**
+    *  Fonction annexes  _____________________________________________GET
+    */
+   
+   public function getEpisodes()
+   {
+       return $this->episodes;
+   }
+
+       public function getNbEpisodes()
+    {
+        return $this->nbEpisodes;
+    }
+    public function getAlertEpisode()
+    {
+        return $this->alertEpisode;
+    }
+  /**
+    *  Fonction annexes  _____________________________________________Validation/MAJ
+    */
     public static function validation()
     {
     $validTable =       array('id'        =>array(

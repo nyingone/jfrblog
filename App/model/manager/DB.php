@@ -14,7 +14,7 @@ class DB
 
     private function __construct()
     {
-        // ?????    ->closeCursor();
+       // ???  PDOStatement::closeCursor() ;
         try
         {
             $this->_pdo = new PDO('mysql:host=' . Config::get('mysql/host') . 
@@ -95,7 +95,7 @@ class DB
 
   public function action($action, $table, $where = array())
     {
-        
+        // var_dump($where); die;
         if(count($where) >= 3 )
         {
             $operators = array('=','>','<', '>=', '<=','<>');
@@ -131,7 +131,7 @@ class DB
                 }
             }
             $sql .= " )";
-            
+            // var_dump($sql); die;
             if($this->query($sql,array($value),$table))
             {
                 return $this->results(); 
@@ -144,10 +144,9 @@ class DB
     }
         
 
-    public function get($table, $where )
+    public function get($table, $where)
     {
-     // var_dump($table, $where);
-       return $this->action('SELECT * FROM', $table , $where);
+        return $this->action('SELECT * FROM', $table , $where);
     }
 
 

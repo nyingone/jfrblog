@@ -3,5 +3,5 @@
     "debug.showInStatusBar": "always",
     "editor.mouseWheelZoom": true,
     "editor.fontSize": 12,
-    "window.zoomLevel": 1
+    "window.zoomLevel": 2
 }

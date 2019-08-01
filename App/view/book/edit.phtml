@@ -16,7 +16,7 @@ if( $this->page_opt == 'none' or  $this->page_opt == 'visu' or $this->page_opt =
     <?php unset($_SESSION['errors']);?>
     </ul>
 <?php endif;?>
-
+<?php var_dump($this); die; ?>
 <?php 
 if(isset($infos) && is_array($infos))
 {

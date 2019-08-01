@@ -8,7 +8,8 @@ class BookController extends Controller
   private $_manager ;
   private $_controllerId ;
   private $_managerId ;
-  protected $result=[] ;
+  protected $level='N0' ;
+
   
   public function __construct()
   {
@@ -27,7 +28,7 @@ class BookController extends Controller
    * le Controller amont crée le modèle avec  public function model($modelName,$datas=[])
    */
     $this->createModel($this->_tab, '');
-    $datas = $this->model->getBooks();
+    $datas = $this->model->getBooks(null,$this->level);
     $this->createView($this->_tab . DS . 'index', $datas);
     $this->view->page_object  = 'bibliographie';
     $this->view->page_inzcst();
@@ -40,36 +41,35 @@ class BookController extends Controller
    * 
    */
     $this->createModel($this->_tab, '');
-    $datas = $this->model->getBooks();
-
+    $datas = $this->model->getBooks(null, $this->level);
     $this->createView($this->_tab . DS . 'list', $datas);
-    $this->view->page_object  = 'bibliographie';
-    $this->view->page_inzcst();
     $this->view->render();
   
   }
   public function show($id)
   {
     $this->createmodel($this->_tab, '');
-    $datas = $this->model->getBooks($id);
+    $datas = $this->model->getBooks($id, $this->level);
     $this->createview($this->_tab . DS . 'show', $datas);
-    $infos  = $this->getEpisodeInfos($id);
+    /* $infos  = $this->getEpisodeInfos($id);
     $this->view_infos = $infos;
     $this->view->page_object  = '';
-    $this->view->page_inzcst();
-    $this->view->render($datas, $infos);
+    $this->view->page_inzcst(); 
+    $this->view->render($datas, $infos); */
+    $this->view->render();
   }
 
 
   public function edit($id = null,$opt=null)
   {
     $this->createmodel($this->_tab, '');
-    ($id) ? $datas = $this->model->getBooks($id) : $datas[] = new Book();
+    ($id) ? $datas = $this->model->getBooks($id,$this->level) : $datas[] = new Book();
     $this->createview($this->_tab . DS . 'edit', $datas);
-    $infos  = $this->getEpisodeInfos($id);
+    /* $infos  = $this->getEpisodeInfos($id);
     $this->view->page_object  = 'livre';
     $this->view->page_inzcst($id,$opt);
-    $this->view->render($datas,$infos);
+    $this->view->render($datas,$infos); */
+    $this->view->render($datas);
   }
 
     public function maj($redirect=null)
@@ -103,13 +103,5 @@ class BookController extends Controller
       return     $this->result;
   }
     
-
-  public function getEpisodeInfos($bookId)
-  {
-    $manager = new EpisodeManager();
-    $infos  = $manager->getSelection($bookId);
-    //  var_dump($infos); ok array avec un objet book
-    return $infos;
-  } 
 }
   

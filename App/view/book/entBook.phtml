@@ -1,0 +1,20 @@
+<div  class = "row">
+    <div  class = "col-md-2">
+        <?php $accesBook = HOME . 'book-show/show-' . $book->getId(); ?>
+        <?php if(!$book->getPromoted()) :?>
+        <a href="<?php echo $accesBook ?>"><img  src="<?php echo IMG215 . $book->getCover()?>" alt="<?php echo $book->getCoverAlt()?>" title ="<?php echo $book->getCoverAlt()?>"></a>
+        <?php endif ?>
+    </div>
+    <div  class = "col-md-9 offset-md-1">
+        <h2><?php  echo $book->getTitle(); ?></h2>
+        <div  class = "row">
+            <div  class = "col-md-8 ">
+            <p><?php  echo $book->getPlot(); ?></p>
+            </div>
+            <div  class = "col-md-2">
+                <?php $src= IMG . "attrapeur-reve_min70";?>           
+                <a href="<?php echo $accesBook ?>"><img  src="<?php echo $src?>" alt="?" title ="Tous les épisodes"></a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,53 +1,11 @@
 
-<?php 
-if(isset($this->view_data))
-{  
-    foreach($this->view_data as $book)
-    {  
-    ?>
-        <div class = "container-fluid">
-            <div class = "row">           
-                <h2><?php echo $book->getTitle();?></h2>   
-            </div>
-            <div class="row"> 
-                <?php if(!$book->getpromoted())
-                { 
-                ?> 
-                    <div class = "col-md-10 offset-md-2">
-                <?php
-                }else{
-
-                    ?>  
-                <div class = "col-md-6 offset-md-2">
-                <?php
-                }
-            ?>   
-                <blockquote class="blockquote">
-                <p>
-                    <b><?php echo $book->getPlot();?></b>
-                </p>
-                </blockquote>
-            
-                </div>   
-                <?php if(!$book->getpromoted())
-                {
-                ?>
-                    <div  class = "col-md-4 ">
-                        <?php $alt = $book->getCoverAlt();?>
-                        <?php $src= IMG215 . $book->getCover();?>
-                        <img  src="<?php echo $src?>" alt="<?php echo $alt?>" title ="<?php echo $alt?>"> 
-                    </div>
-                <?php
-                }
-                ?>
-            </div>
-            <div class="row">
-                <?php include (VIEW . 'episode\list.phtml'); ?>
-            </div>  
+<?php if(isset($this->view_data)) : ?>
+    <?php foreach($this->view_data as $book): ?>
+    <div class = "container-fluid">
+        <?php include (VIEW . 'book\entBook.phtml'); ?>           
+        <div class="row">
+            <?php include (VIEW . 'episode\list.phtml'); ?>
         </div>  
-
-    <?php
-    }
-}   
-
-?>
+    </div>  
+    <?php endforeach ?>
+<?php endif ?>

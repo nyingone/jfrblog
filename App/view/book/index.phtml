@@ -23,14 +23,20 @@
                 $table = '';
                 foreach($this->view_data as $book)
                 {                
-                    $src= IMG125 . $book->getCover();                                                                                                                                                                                                        
+                    $src= IMG125 . $book->getCover();     
+                    $bookViewUser = HOME . 'book-show/show-' . $book->getId();     
+                    $bookIndex = HOME . 'episode/index-'. $book->getId();                                                                                                                                                                                              
                     $table .= '<tr>';
+                    $table .= '<td><a href="' . $bookViewUser . '"><img  src="' . IMG125 . $book->getCover() . '"  alt="'. $book->getCoverAlt() . '" title ="Index utilisateur"></a></td>';
+
                     $table .= '<td><a href= "' . HOME . 'episode/index-'. $book->getId() .'">' . $book->getTitle() . '</a></td>';
                     $table .= '<td>' . $book->getPlot() . '</td>';
                     $table .= '<td>' . $book->getStatus() . '</td>';
-                    $table .= '<td><img src="' .  $src . '" alt="'. $book->getCoverAlt() . '" title ="' . $book->getCoverAlt() . '"></td>';
-                    $table .= '<td>' . $book->getNbEps()   . '</td>';
-                    $table .= '<td><a href='.'book/edit-' . $book->getId() . '>Visu</a></td>';
+                   
+                    $table .= '<td><a href="' . $bookIndex . '"><img  src="' . IMG . 'attrapeur-reve_min70"  title ="Tous les épisodes"></a>' . $book->getNbEpisodes()   . ' </td>';
+                      
+                
+                   //  $table .= '<td><a href='.'book/edit-' . $book->getId() . '>Visu</a></td>';
                     $table .= '<td><a href='.'book/edit-' . $book->getId() . '-upd' . '>Maj</a></td>';
                     if($book->getStatus() > '00' && $book->getStatus() < '30')
                     {

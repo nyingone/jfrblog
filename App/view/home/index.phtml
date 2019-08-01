@@ -1,31 +1,7 @@
 <?php $this->view_data = $datas;   // On car non  transmise ?>
 
-<?php foreach($this->view_data as $episode):?>
-
-    <?php foreach($episode->getBookinfo() as $book):?>
-        <?php $refBook = HOME . 'book-show/show-' . $book->getId(); ?>
         <div  class = "row">
-            <div  class = "col-md-2">
-                <?php 
-                if(!$book->getPromoted())
-                {
-                    $alt = $book->getCoverAlt();
-                    $src= IMG215 . $book->getCover();
-                ?>
-                    <a href="<?php echo HOME?>book-show/show-<?php echo $book->getId()?>"><img  src="<?php echo $src?>" alt="<?php echo $alt?>" title ="<?php echo $alt?>"></a>
-                <?php
-                }
-                ?>
-            </div>
-            <div  class = "col-md-10 ">
-                <h1> <?= $book->getTitle();?> </h1>
-                <div  class = "col-md-4 offset-md-4">
-                    <?php $src= IMG125 . "attrapeur-reve_min125";?>
-                    <a href="<?php echo $refBook ?>"><img  src="<?php echo $src?>" alt="?" title ="Tous les épisodes"></a>
-                </div>
-
+            <div  class = "col-md-10 offser-md-1">
                 <?php include (VIEW . 'episode\show.phtml');     ?>
             </div>
         </div>
-    <?php endforeach ?>
-<?php endforeach ?>

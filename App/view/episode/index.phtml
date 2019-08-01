@@ -1,51 +1,52 @@
 
 <h2> Liste des episodes</h2>
+
 <div>
     <?php 
-    $book = $infos; 
+    $book = $datas[0]; 
     ?>        
-    <li><a href= "<?php echo HOME ?>episode-edit/edit-<?php echo $book->getId(). '.99.' ?>">Ajouter un page/épisode</a></li>
-    <?php
-    foreach ($this->view_data as $table)
-    { 
-        if(!isset($episode))
-        {
-            $episode = $table; 
-        } 
-    } ?>
+    <li><a href= "<?php echo HOME ?>episode-edit/edit-<?php echo $book->getId(). '.99.' ?>">Ajouter une page/épisode</a></li>
 </div>
 
 <!-- `quote``content``excerpt``createdDat``status``onlineDate``commented``nbComment``bookId``chapter``version``slugEps` -->
 <div id="container" class="row">
+ 
     <table class="table-striped" >
         <thead>
             <tr>
+                <th>Image<br/> Vue </th>
                 <th>L/V/C</th>
                 <th>quote</th>
                 <th>extrait</th>
-                <th>statut</th>
-                <th>Image<br/> Vue </th>
-                <th>Commentaire</th>
+                <th>stt</th>
+                <th><img src= " <?= IMG . 'plume70' ?> " width=30px height = 30px alt="Liste commentaires" title ="Liste commentaires" ></th>
+                <th><i class="fas fa-bell" alt="Alerte Commentaire" title = "Alerte Commentaire"></i></th>
                 <th>voir +</th>
             </tr>
         </thead>
+   
         <tbody>
             <p>
             <?php 
             $table = '';
             foreach($this->view_data as $episode)
-            {               
+            {      
+                // var_dump($episode);         
                 $src= IMG125 . $episode->getImage(); 
-                $refEps = $episode->getBookId() . '.' . $episode->getVolume() . '.'. $episode->getId();                                                                                                                                                                                                 
+                $refEps = $episode->getBookId() . '.' . $episode->getId();                                                                                                                                                                                                 
                 $table .= '<tr>';
+                $table .= '<td><a href='. HOME . 'episode-show/show-' . $episode->getBookId() . '.' . $episode->getVolume() . '.'. $episode->getId() . '><img src="' .  $src . '" alt="'. $episode->getImageAlt() . '" title ="' . $episode->getImageAlt() . '"></a></td>';
+
                 $table .= '<td>' . $episode->getBookId() . '/' . $episode->getVolume() . '/' .  $episode->getChapter() . '</td>';
                 $table .= '<td>' . $episode->getQuote() . '</td>';
                 $table .= '<td>' . $episode->getExcerpt() . '</td>';
                 $table .= '<td>' . $episode->getStatus() . '</td>';
-                $table .= '<td><a href='. HOME . 'episode-show/show-' . $episode->getBookId() . '.' . $episode->getVolume() . '.'. $episode->getId() . '><img src="' .  $src . '" alt="'. $episode->getImageAlt() . '" title ="' . $episode->getImageAlt() . '"></a></td>';
-                $table .= '<td>' . $episode->getCommented()  . ' <a href='. HOME . 'comment-index/show-' . $episode->getBookId() .  '.' . $episode->getId() . '><img src="' . IMG . 'plume70" width=30px height = 30px alt="Liste commentaires" title ="Liste commentaires" ></a>
-                           <br/>' . $episode->getNbComment() .  '</td>';
-
+                $table .= '<td>' . $episode->getNbComments()  . ' <a href='. HOME . 'comment-index/show-' . $episode->getBookId() .  '.' . $episode->getId() . '></a></td>';
+                   
+                if ($episode->getAlertComm()) :
+                    var_dump($episode->getAlertComm());  
+                    $table .= '<td><a href=' . HOME . 'comment-gest/edit-' . $refEps . '><span>' . $episode->getAlertComm() . '</span></a></td>';
+                endif;
                
   // var_dump('<td><a href= "\"' . HOME . 'episode-show/' . $episode->getBookId() .'-' . $episode->getId() . '>Visu</a></td>');die;
                 $table .= '<td><a href='. HOME .'episode-edit/edit-' . $refEps . '>Maj</a></td>';

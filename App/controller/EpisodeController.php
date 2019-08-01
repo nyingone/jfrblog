@@ -28,9 +28,10 @@ class EpisodeController extends Controller
     $this->createModel($this->_tab, '');
     $datas = $this->model->getSelection($ref);
     $this->createView($this->_tab . DS . 'index', $datas);
+      /* 
     $this->view->page_object  = 'episodes en ligne';
     $this->view->page_inzcst();
-    if(isset($ref) && !empty($ref)) 
+   if(isset($ref) && !empty($ref)) 
     {
       $keys = explode('.',$ref);
       $infos = $this->findBookInfos($keys[0]);
@@ -42,7 +43,8 @@ class EpisodeController extends Controller
     {
       $infos = [];
     }
-    $this->view->render($datas, $infos[0] ? $infos[0] : '');
+    $this->view->render($datas, $infos[0] ? $infos[0] : ''); */
+    $this->view->render($datas);
   }
 
   /** edit one episode of a known book 

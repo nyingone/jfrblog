@@ -1,83 +1,66 @@
-<?php if(empty($this->view_data)) : $this->view_data = $datas ; 
-endif; ?>
-
-<?php foreach($this->view_data as $episode) : ?>
+ <?php // var_dump($this); ?>
+<?php foreach($this->view_data as $episode) :  ?>
     <div class = "container-fluid">
         <?php $books = $episode->getBookInfo(); 
-        $book = $books[0]?>
-        <?php  $status = $book->getStatus(); ?>
-        <?php 
-                if(!$book->getPromoted())
+        $book = $books[0]
+        ?>
+        <?php $comments = $episode->getComments(); 
+        ?> 
+        
+        <?php include (VIEW . 'book\entBook.phtml'); ?>
+       
+        <?php  $status = $book->getStatus(); ?>     
+        <div class = "col-md-10 offset 2">
+        
+            <div class = "row">
+                <?php if($episode->getChapter() <> '999') : ?>
+                <h2><?php echo "Chapître..." . $episode->getChapter();?></h2> 
+                <?php endif ?>
+                <?php if($status === '00')  // Gestion du livre blanc 
                 {
-                    $alt = $book->getCoverAlt();
-                    $src= IMG215 . $book->getCover();
-                ?>
-                    <a href="<?php echo HOME?>book-show/show-<?php echo $book->getId()?>"><img  src="<?php echo $src?>" alt="<?php echo $alt?>" title ="<?php echo $alt?>"></a>
-                <?php
+                    !$episode->getChapter() === '999' ? $subTitle =  $episode->getQuote() : $subTitle = ''; 
+                }else{
+                    $subTitle = "Chapître..." . $episode->getChapter();
                 }
-                ?>
-        <h2><?php  echo $book->getTitle(); ?></h2>
-        <p><?php  echo $book->getPlot(); ?></p>
-
-        <div class = "row">
-            <!--SELECT SELECT `id``quote``content``excerpt``createdDat``status``onlineDate``commented``nbComment``bookId``chapter``version``slugEps` from episode -->
-            <?php 
-            $subTitle = '';
-            if($status === '00')
-            {
-                (!$episode->getChapter() === '999') ? $subTitle =  $episode->getQuote() : '';
-            }else{
-                $subTitle = "Chapître..." . $episode->getChapter();
-            }
-            ?>
-            <h2><?php echo $subTitle;?></h2>   
-        </div>
-        <div class="row">  
-            <div class = "col-md-6 offset-md-2">
-                
-                <blockquote class="blockquote">
-                    <p>
-                    <b><?php echo $episode->getQuote();?></b>
-                    </p>
-                </blockquote>
-            
-            </div> 
-
-            <?php $alt = $episode->getImageAlt();?>
-            <?php $src= IMG215 . $episode->getImage();?>
-
-            <div  class = "col-md-4 ">
-                <div class="thumbnail">
-                    <img  src="<?php echo $src?>" class="img-thumbnail" alt="<?php echo $alt?>" title ="<?php echo $alt?>"> 
-                    <div class="caption">
-                        <p><?php echo $alt?></p>
-                    </div>      
-                </div>         
+                 ?>
+                  
             </div>
-        </div>
+            <div class="row">  
+                <div class = "col-md-6 offset-md-2">
+                    
+                    <blockquote class="blockquote">
+                        <p>
+                            <b><?php echo $episode->getQuote();?></b>
+                        </p>
+                    </blockquote>
+                
+                </div> 
 
-        <div class="row">
-            <div class="entry-content" itemprop="text">
-                <?=  $episode->getContent();?> 
+                <?php $alt = $episode->getImageAlt();?>
+                <?php $src= IMG215 . $episode->getImage();?>
+
+                <div  class = "col-md-4 ">
+                    <div class="thumbnail">
+                        <img  src="<?php echo $src?>" class="img-thumbnail" alt="<?php echo $alt?>" title ="<?php echo $alt?>"> 
+                        <div class="caption">
+                            <p><?php echo $alt?></p>
+                        </div>      
+                    </div>         
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="entry-content" itemprop="text">
+                    <?=  $episode->getContent();?> 
+                </div>  
             </div>  
-        </div>  
 
-        <div class="row">
-            <?php include (VIEW . 'comment\list.phtml'); ?>
-        </div>  
-  
-    
-        
-            <nav class = "row">
-                <ul class="pagination">
-                    <?php if($episode->getChapter() > 1): ?>
-                        <li class="page-item "><a href="#"  class="page-link">Précédent</a></li>
-                    <?php  endif ?>
-                    <?php  if($episode->getChapter() < $book->getNbEps()) :?>
-                    <li class="page-item"><a href="#" class="page-link">Suivant</a></li>
-                    <?php  endif ?>
-                </ul>
-            </nav>
-        
+            <?php if($episode->getChapter() <> '999') : ?>
+                <div class="row">
+                    <?php include (VIEW . 'comment\list.phtml'); ?>
+                </div>  
+            <?php endif ?>            
+        </div>       
+            
     </div>  
 <?php endforeach ?>

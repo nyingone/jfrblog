@@ -56,6 +56,7 @@ class UserController extends Controller
         $class = $result[1];
         $logged_in = $this->model->login($class);
         $_SESSION['logged_in'] = $logged_in;
+        
         if($logged_in)
         {
           $_SESSION['redirect']= 'book';
@@ -95,7 +96,7 @@ class UserController extends Controller
     public function isValid($opt=null)
   {
     $this->result = $this->validate->check($_POST, $this->_tab, 
-     $this->_entity::validation($opt) ); 
-      return     $this->result;
+    $this->_entity::validation($opt) ); 
+    return     $this->result;
   }
 }

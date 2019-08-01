@@ -26,6 +26,7 @@ class Episode extends Table
     private $_bookInfo;
     private $_statusLabel;
     private $_statusType;
+    private $_nbComments;
     private $_alertComm;
 
     
@@ -214,9 +215,17 @@ class Episode extends Table
         $this->_nbComments = $nbComments;
     }
 
-    public function setAlertComm($altC=false)
+    /**
+     * @parm mixed      (tableau ou false)
+     * @return mixed    (count ou false)
+     */
+    public function setAlertComm($alt)
     {
-        $this->_AlertComm = $altC;
+        if(is_array($alt)) : 
+            $alt = count( array_column($alt, 'status'));          
+        endif;
+        $this->_alertComm = (int) $alt;
+      
     }
 
     public function setBookInfo($books)     // tableau d'objets Bok

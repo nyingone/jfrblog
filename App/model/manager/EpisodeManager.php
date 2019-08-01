@@ -11,14 +11,14 @@ class EpisodeManager
     {    
         $_db = DB::getInstance();
         $this->commentManager = new CommentManager();
-        $this->bookManager = new BookManager();
+       
     }
 /**
     * Sélection Episodes pour affichage liste ou sélection
     * @param string (klist)
     * @return array [objets] ou null
     */
-    public function getSelection($parms=null)
+    public function getSelection($parms=null, $level = null)
     {
         if(!isset($parms))
         {
@@ -47,7 +47,7 @@ class EpisodeManager
             // $this->selection = DB::getInstance()->get($this->_tab, array('id', '=', $parms));
             $this->selection = DB::getInstance()->get($this->_tab, $ksel);
         }  
-        $this->formatSelection();
+        $this->formatSelection($level);
 
         return $this->selection;
     }
@@ -100,9 +100,9 @@ class EpisodeManager
     * Formatte tableau d'objets à partir des sélections
     * @return [objets]
     */
-    public function formatSelection()
+    public function formatSelection($level= null)
     {
-        
+        // var_dump($level);
         if(isset($this->selection) && !empty($this->selection))
         {  
             $x = 0;
@@ -111,15 +111,20 @@ class EpisodeManager
                 $episode = new Episode($table);
                 
                 // requete sur le livre de l' episode
-                $bookInfo = $this->bookManager->getBooks($episode->getBookId());
-                $episode->setBookInfo($bookInfo);
-               
+                if($level <> 'N0'):
+                    $this->bookManager = new BookManager();
+                    $bookInfo = $this->bookManager->getBooks($episode->getBookId(), 'N1');
+                    $episode->setBookInfo($bookInfo);
+                endif;
                 
                 // requete sur tous les comments par episode
                 $refEps= $episode->getBookId() . '.' . $episode->getId();  
                 $comments = $this->commentManager->getSelection($refEps);
                 $episode->setComments($comments);
 
+                $altComm = $this->commentManager->getSelAlertComm($refEps);
+                $episode->setAlertComm($altComm);
+                
                 $this->selection[$x] = $episode;
                 $x++;  
                 // att. conserver $x sinon crée un tableau de tableau et non un tableau d'objet
@@ -137,7 +142,7 @@ class EpisodeManager
     {
         $this->selection = DB::getInstance()->query('SELECT * from ' . $this->_tab . " where status >= '20' order by id DESC LIMIT 1",'',$this->_tab);
         
-        $this->formatSelection();
+        $this->formatSelection('N1');
       
         return $this->selection;
     }

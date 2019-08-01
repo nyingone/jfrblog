@@ -52,6 +52,18 @@ class CommentManager
         return $this->selection;
     }
 
+    public function getSelAlertComm($parms=null)
+    {
+        $keys = explode('.',$parms);
+        $ksel = array(  'bookId'   , '=' , $keys[0],
+                        'epsId'    , '=' , $keys[1],
+                        'status'   , '<' , '20');  
+        
+        $this->selection = DB::getInstance()->get($this->_tab, $ksel);
+        // var_dump($this->selection); die;
+        return $this->selection;
+    }
+
     /**
     * Gestion des mises à jour maj, del, add  table comment de la base de données
     * @param objet class
