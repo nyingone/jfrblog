@@ -40,7 +40,7 @@ class DB
  * @params $sql
  * @params  
  */
-    public function query($sql,$params= [] , $table =null)
+    public function query($sql,$params= [] ,  $table =null )
     {
         if($this->_query = $this->_pdo->prepare($sql))
         { 
@@ -93,7 +93,7 @@ class DB
     }
 
 
-  public function action($action, $table, $where = array())
+  public function action($action, $table, $where = array(), $orderBy= null)
     {
         // var_dump($where); die;
         if(count($where) >= 3 )
@@ -130,6 +130,8 @@ class DB
                     }
                 }
             }
+
+            $sql .= "  ". $orderBy;
             $sql .= " )";
             // var_dump($sql); die;
             if($this->query($sql,array($value),$table))
@@ -144,9 +146,9 @@ class DB
     }
         
 
-    public function get($table, $where)
+    public function get($table, $where,$orderBy= null)
     {
-        return $this->action('SELECT * FROM', $table , $where);
+        return $this->action('SELECT * FROM', $table , $where, $orderBy);
     }
 
 

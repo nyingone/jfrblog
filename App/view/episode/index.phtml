@@ -33,7 +33,7 @@
             {      
                 // var_dump($episode);         
                 $src= IMG125 . $episode->getImage(); 
-                $refEps = $episode->getBookId() . '.' . $episode->getId();                                                                                                                                                                                                 
+                $refEps = $episode->getBookId() . '.' . $episode->getVolume() . '.' . $episode->getId();                                                                                                                                                                                                 
                 $table .= '<tr>';
                 $table .= '<td><a href='. HOME . 'episode-show/show-' . $episode->getBookId() . '.' . $episode->getVolume() . '.'. $episode->getId() . '><img src="' .  $src . '" alt="'. $episode->getImageAlt() . '" title ="' . $episode->getImageAlt() . '"></a></td>';
 

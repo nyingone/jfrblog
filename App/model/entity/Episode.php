@@ -41,6 +41,7 @@ class Episode extends Table
     public function __construct($table)
     {
         parent::__construct($table);
+        
         if($this->getStatus() > 20)
         {
             $this->setStatusLabel("Mis en ligne le....:");
@@ -267,11 +268,11 @@ class Episode extends Table
         return $this->_alertComm;
     }
 
-    public function getStatutLabel(){
+    public function getStatusLabel(){
 
         return $this->_statutLabel;
     }
-    public function getStatutType(){
+    public function getStatusType(){
 
         return $this->_statutType;
     }

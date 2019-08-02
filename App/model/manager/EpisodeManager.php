@@ -18,11 +18,12 @@ class EpisodeManager
     * @param string (klist)
     * @return array [objets] ou null
     */
-    public function getSelection($parms=null, $level = null)
+    public function getSelection($parms=null,  $level = null)
     {
+        $orderBy = ' order by bookId, volume DESC, chapter DESC ';
         if(!isset($parms))
         {
-            $this->selection = DB::getInstance()->query('SELECT * from ' . $this->_tab,'',$this->_tab);
+            $this->selection = DB::getInstance()->query('SELECT * from ' . $this->_tab . $orderBy,'',$this->_tab);
         }else
         {
             $keys = explode('.',$parms);
@@ -45,7 +46,7 @@ class EpisodeManager
                 }
             }
             // $this->selection = DB::getInstance()->get($this->_tab, array('id', '=', $parms));
-            $this->selection = DB::getInstance()->get($this->_tab, $ksel);
+            $this->selection = DB::getInstance()->get($this->_tab, $ksel, $orderBy);
         }  
         $this->formatSelection($level);
 
@@ -109,9 +110,9 @@ class EpisodeManager
             foreach($this->selection as $table)
             {
                 $episode = new Episode($table);
-                
+               
                 // requete sur le livre de l' episode
-                if($level <> 'N0'):
+                if($level === null  || $level <> 'N0'):
                     $this->bookManager = new BookManager();
                     $bookInfo = $this->bookManager->getBooks($episode->getBookId(), 'N1');
                     $episode->setBookInfo($bookInfo);
@@ -122,6 +123,7 @@ class EpisodeManager
                 $comments = $this->commentManager->getSelection($refEps);
                 $episode->setComments($comments);
 
+                // requete sur tous les commentaires non validés par episode
                 $altComm = $this->commentManager->getSelAlertComm($refEps);
                 $episode->setAlertComm($altComm);
                 
@@ -140,17 +142,16 @@ class EpisodeManager
     */
     public function findLast($parms=null)
     {
-        $this->selection = DB::getInstance()->query('SELECT * from ' . $this->_tab . " where status >= '20' order by id DESC LIMIT 1",'',$this->_tab);
+        $orderBy = 'order by id DESC LIMIT 1';
+        $this->selection = DB::getInstance()->query('SELECT * from ' . $this->_tab . " where status >= '20' ",'', $this->_tab);
         
         $this->formatSelection('N1');
-      
         return $this->selection;
     }
     public function findAboutJFR($parms=null)
     {
-        $this->selection = DB::getInstance()->query('SELECT * from ' . $this->_tab . " where status >= '00' order by chapter DESC LIMIT 1",'',$this->_tab);
-        $this->formatSelection();
-      
+        $this->selection = DB::getInstance()->query('SELECT * from ' . $this->_tab . " where status >= '20' order by chapter DESC LIMIT 1",'',$this->_tab);
+        $this->formatSelection(N1);
         return $this->selection;
     }
 

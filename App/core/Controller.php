@@ -39,11 +39,17 @@ class Controller
       }else {
           echo MANAGER . $modelName . '.php' . ' non trouvé';   }
   }
-    
+  
+  /**
+ * Appel au contrôle géré au niveau entité pour maj/add Book 
+ */
   public function isValid($opt = null)
   {
-    $this->result = $this->validate->check($_POST, $this->_tab, 
-     $this->_entity::ctlMaj() ); 
+    var_dump($this_entity);
+   //  $this->result = $this->validate->check($_POST, $this->_tab, 
+  //    $this->_entity::ctlMaj() ); 
+     $this->result = $this->validate->check($_POST, $this->_tab, 
+     $this->_entity::validation() ); 
       return     $this->result;
   }
 
@@ -65,8 +71,6 @@ class Controller
         $this->model->majTab($class);
         if ($redir === true)
         {
-          
-          var_dump($_SESSION);
          $this->createView($this->_tab );
          $this->view->redirect($this->_tab);          
         }else{

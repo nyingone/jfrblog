@@ -15,21 +15,38 @@ class Book extends Table
 /**
      * Variablea ajoutés hors base données
      */
-    private $episodes;
-    private $nbEpisodes;
-    private $alertEps;
+    private $_episodes;
+    private $_nbEpisodes;
+    private $_alertEpisode;
+    private $_onlineDatLabel;
+    private $_promotedLabel;
+    private $_coverLabel;
+    private $_onlineDatType;
+    private $_promotedType;
+    private $_coverType;
+
+    private $_statusOkDel = '10';
    
     
      /**
     
      * @param array $donnees
      */
-    public function __construct($dtas = [])
+    public function __construct($table)
   {
-      if(!empty($dtas))
-      {
-          $this->hydrate($dtas);
-      }
+    parent::__construct($table);
+        
+    if($this->getStatus() >= '20') : 
+        $this->setOnlineDatLabel('Mis en ligne le....:');
+        $this->setPromotedLabel('Mis en ligne le....:'); 
+        $this->setOnlineDatType('date');
+        $this->setPromotedType('date');
+     else:
+        $this->setOnlineDatLabel('hors ligne');
+        $this->setPromotedLabel(''); 
+        $this->setOnlineDatType('hidden');
+        $this->setPromotedType('hidden');
+    endif;
   }
     /**
      * @param array $donnees
@@ -74,6 +91,8 @@ class Book extends Table
     public function setStatus($status)
     {
         $this->_status = $status;
+      
+
     }
     public function setIsbn($isbn)
     {
@@ -86,6 +105,8 @@ class Book extends Table
     public function setCover($cover)
     {
         $this->_cover =  $cover;
+        $this->setCoverLabel('Couverture........:');
+        $this->setCoverType('text');
     }
     public function setCoverAlt($coverAlt)
     {
@@ -155,37 +176,127 @@ class Book extends Table
 
     public function setEpisodes($episodes)   // tableau d'objets Episode
     {
-        $this->episodes = $episodes;
+        $this->_episodes = $episodes;
         $this->setNbEpisodes(count($episodes));
+        
+        if($this->getNbEpisodes() > 0 && $this->getStatus() === '10'):
+            $this->setStatus('20');
+        endif;
     }
 
     public function setNbEpisodes($nbEpisodes)
     {
-        $this->nbEpisodes = $nbEpisodes;
+        
+        $this->_nbEpisodes = (int) $nbEpisodes;
+        $this->setNbEpisodesLabel('Nb épisodes........:');
+        $this->setNbEpisodesType('number');  
     }
 
-    public function setAlertEpisode($altE=false)
+    
+    /**
+     * @parm mixed      (tableau ou false)
+     * @return mixed    (count ou false)
+     */
+    public function setAlertEpisode($altE)
     {
-        $this->AlertEpisode = $altE;
+        if(is_array($altE)) : 
+            $alt = count( array_column($altE, '_alertComm'));          
+        endif;
+        $this->_alertEpisode = (int) $alt;
+      
     }
 
+    public function setOnlineDatLabel($label)
+    {
+
+        $this->_onlineDatLabel = $label;
+    }
+    public function setOnlineDatType($type)
+    {
+
+        $this->_onlineDatType = $type;
+    }
+    public function setPromotedLabel($label)
+    {
+
+        $this->_promotedLabel = $label;
+    }
+    public function setPromotedType($type)
+    {
+
+        $this->_promotedType = $type;
+    }
+    public function setNbEpisodesLabel($label)
+    {
+
+        $this->_nbEpisodesLabel = $label;
+    }
+    public function setNbEpisodesType($type)
+    {
+
+        $this->_nbEpisodesType = $type;
+    }
+    public function setCoverLabel($label)
+    {
+
+        $this->_coverLabel = $label;
+    }
+    public function setCoverType($type)
+    {
+
+        $this->_coverType = $type;
+    }
      /**
     *  Fonction annexes  _____________________________________________GET
     */
    
    public function getEpisodes()
    {
-       return $this->episodes;
+       return $this->_episodes;
    }
 
        public function getNbEpisodes()
     {
-        return $this->nbEpisodes;
+        return $this->_nbEpisodes;
     }
     public function getAlertEpisode()
     {
-        return $this->alertEpisode;
+        return $this->_alertEpisode;
     }
+    public function getOnlineDatLabel(){
+
+        return $this->_onlineDatLabel;
+    }
+    public function getOnlineDatType(){
+
+        return $this->_onlineDatType;
+    }
+    public function getPromotedLabel(){
+
+        return $this->_promotedLabel;
+    }
+    public function getPromotedType(){
+
+        return $this->_promotedType;
+    }
+    public function getNbEpisodesLabel(){
+
+        return $this->_nbEpisodesLabel;
+    }
+    public function getNbEpisodesType(){
+
+        return $this->_nbEpisodesType;
+    }
+    public function getCoverLabel(){
+
+        return $this->_coverLabel;
+    }
+    public function getCoverType(){
+
+        return $this->_coverType;
+    }
+
+
   /**
     *  Fonction annexes  _____________________________________________Validation/MAJ
     */

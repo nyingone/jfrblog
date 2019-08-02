@@ -16,10 +16,10 @@ class BookManager
 
     public function getBooks($parms=null, $level=null)
     {
-      // var_dump($level);
+        $orderBy = ' order by EditYear DESC, status, id DESC ';
         if(!isset($parms))
         {
-            $this->selection = DB::getInstance()->query('SELECT * from book','','book');
+            $this->selection = DB::getInstance()->query('SELECT * from book' . $orderBy,'','book');
         }else{
             $this->selection = DB::getInstance()->get('book', array('id', '=', $parms));
         }

@@ -8,12 +8,14 @@
         <table class="table-striped" >
             <thead>
                 <tr>
-                    <th>Titre</th>
+                    <th>Couverture</th>
+                    <th>Titre <br/> Année ed°</th>
                     <th>Intrigue</th>
-                    <th>Statut</th>
-                    <th>Couveture</th>
-                    <th>Nb.Episode</th>
-                    <th>voir +</th>
+                    <th><a href="#" data-toggle="tooltip" data-placement="top" title="00->10 en cours / 20 à ctl / 30 en ligne / 80 hors ligne / 90 hors catalogue ">Stt</a></th>           
+                    <th><a href="#" data-toggle="tooltip" data-placement="top" title="Alerte Commentaire">_<i class="fas fa-bell" alt="Alerte Commentaire" ></i>_</a></th>
+                    
+                    <th>Episode <br/> Accès</th>
+                    <th>Livre <br/> Maj Suppr +</th>
                 </tr>
             </thead>
             <tbody>
@@ -27,21 +29,19 @@
                     $bookViewUser = HOME . 'book-show/show-' . $book->getId();     
                     $bookIndex = HOME . 'episode/index-'. $book->getId();                                                                                                                                                                                              
                     $table .= '<tr>';
-                    $table .= '<td><a href="' . $bookViewUser . '"><img  src="' . IMG125 . $book->getCover() . '"  alt="'. $book->getCoverAlt() . '" title ="Index utilisateur"></a></td>';
+                        $table .= '<td><a href="' . $bookViewUser . '"><img  src="' . IMG125 . $book->getCover() . '"  alt="'. $book->getCoverAlt() . '" title ="Index utilisateur"></a></td>';
 
-                    $table .= '<td><a href= "' . HOME . 'episode/index-'. $book->getId() .'">' . $book->getTitle() . '</a></td>';
-                    $table .= '<td>' . $book->getPlot() . '</td>';
-                    $table .= '<td>' . $book->getStatus() . '</td>';
+                        $table .= '<td><a href= "' . HOME . 'episode/index-'. $book->getId() .'">' . $book->getTitle() . '</a> <br/>' . $book->getEditYear() .  '<br/> mise en ligne le :' .  $book->getOnlineDat() .'</td>';
+                        $table .= '<td>' . $book->getPlot() . '</td>';
+                        $table .= '<td>' . $book->getStatus() . '</td>';
+                        $table .= '<td>' . (($book->getAlertEpisode() > 0) ? $book->getAlertEpisode() : "_/_ ") . '</td>';
+                        $table .= '<td><a href="' . $bookIndex . '"><img  src="' . IMG . 'attrapeur-reve_min70" width= "30" height = "30"  title ="Tous les épisodes"></a>' . $book->getNbEpisodes()   . ' </td>';
                    
-                    $table .= '<td><a href="' . $bookIndex . '"><img  src="' . IMG . 'attrapeur-reve_min70"  title ="Tous les épisodes"></a>' . $book->getNbEpisodes()   . ' </td>';
-                      
-                
-                   //  $table .= '<td><a href='.'book/edit-' . $book->getId() . '>Visu</a></td>';
-                    $table .= '<td><a href='.'book/edit-' . $book->getId() . '-upd' . '>Maj</a></td>';
-                    if($book->getStatus() > '00' && $book->getStatus() < '30')
-                    {
-                        $table .= '<td><a href='.'book/edit-' . $book->getId() . '-del' . '>Del</a></td>';
-                    }
+                        $table .= '<td><a href='.'book/edit-' . $book->getId() . '-upd' . '><i class="fas fa-edit"alt="Modifier" title = "Maj description du livre"></i></a></td>';
+                        if($book->getStatus() > '00' && $book->getStatus() < '20')
+                        {
+                            $table .= '<td><a href='.'book/edit-' . $book->getId() . '-del' . '> <i class="fas fa-cut"alt="Supprimer" title = "Supprimer -basculer hors catalogue"></i> </a></td>';
+                        }
 
                     $table .= '<tr>';
                 }

@@ -4,7 +4,7 @@
 
         <ul>
         <?php foreach($_SESSION['errors'] as $error):?>
-                <li class = "alert"><?= $error;?></li>
+        <li class = "alert alert-danger"><?= $error;?></li>
         <?php endforeach;?>
         <?php unset($_SESSION['errors']);?>
         </ul>
@@ -36,7 +36,7 @@
         <label><?=$label?></label><input class="form-control" type="text" name="status" value="<?=($episode->getId()) > 0 ? $episode->getStatus():''; ?>"maxlength="2" />
     </p> 
     <p>      
-        <label><?= $episode->getStatusLabel()?> </label> :<input type="<?=$episode->getStatusType()?>" maxlength="10" name="onlineDat" value="<?=($episode->getId()) > 0 ? $episode->getOnlineDat(): ''; ?>" readOnly>
+    <label><?= $episode->getStatusLabel()?> </label> :<input type="<?=$episode->getStatusType()?>" maxlength="10" name="onlineDat" value="<?=($episode->getId()) > 0 ? $episode->getOnlineDat(): ''; ?>" readOnly>
     </p>
 
     <p><?php $label = "Ref. livre ........:";?>                 
