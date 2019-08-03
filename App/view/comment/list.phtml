@@ -37,7 +37,7 @@ $alt="crayon";
                     <input type="hidden" name="id" value="<?= ''; ?>">
                     <input type="hidden" name="bookId" value="<?= $episode->getBookId(); ?>">
                     <input type="hidden" name="epsId" value="<?= $episode->getId(); ?>">
-                    <input type="hidden" name="postDat" value="<?= date("Ymd"); ?>">
+                    <input type="hidden" name="postDat" value="<?= date("Ymd"); ?>"> 
                     <input type="hidden" name="status" value="<?= '00'; ?>">
                     <input type="hidden" name="validDat" value="<?= ''; ?>">
                     <input type="hidden" name="nbCon" value="<?= '0'; ?>">
@@ -64,7 +64,7 @@ $alt="crayon";
         
                     //   <!-- `id``bookId``bookVol``bookChap``epsId``user``pseudo``comment``postDat``status``validDat` <!--
                         ?>
-                        <div class = "col-md-8">
+                        <div class = "col-md-10">
                             <div class="shadow p-4 mb-4 bg-white">
                             <p> <?= $comment->getPseudo() ?> le:<?= $comment->getPostdat() ?></p>
                             <p> <?= $comment->getComment()?></p>
@@ -94,7 +94,7 @@ $alt="crayon";
                     
                                 <input type="hidden" name="url" value ="<?= 'comment-signal/signal-' . $comment->getBookId() .'.' . $comment->getEpsId() . '.' . $comment->getId() .'-' . $opt ; ?>"> 
                                 <input type='hidden' name="action" value ="<?php echo($opt); ?>">
-                                <button type="submit">Signaler + <i class='fas fa-bell'></i></button>
+                                <button type="submit">Signaler<i class="fas fa-comment-slash"></i></button>
                             </form>
                             <br />
                             

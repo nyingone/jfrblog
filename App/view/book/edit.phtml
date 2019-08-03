@@ -41,16 +41,8 @@
             <label><?= $book->getOnlineDatLabel()?></label><input class="form-control" type="<?=$book->getOnlineDatType();?>" maxlength="10" name="onlineDat" value="<?=($book->getId()) > 0 ? $book->getOnlineDat(): '';  ?>" />
            
             <p> 
-                <?php if($book->getStatus() == '30')
-                {
-                    $label = "Nb épisodes........:";
-                    $type  = "number";
-                }else{
-                    $label ="";
-                    $type  = "hidden";
-                }
-                ?>                   
-                <label><?=$label?></label><input class="form-control" type="<?=$type;?>" maxlength="3" name="nbEps" value="<?= ($book->getId()) > 0 ? $book->getNbEpisodes() : ''; ?>" readOnly />
+                      
+                <label><?=$book->getNbEpisodesLabel();?></label><input class="form-control" type="<?=$book->getNbEpisodesType();?>" maxlength="3" name="nbEps" value="<?= ($book->getId()) > 0 ? $book->getNbEpisodes() : ''; ?>" readOnly />
             </p>
             <p> 
                 <?php if($book->getStatus() == '30')

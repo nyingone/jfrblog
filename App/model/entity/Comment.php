@@ -50,8 +50,9 @@ class Comment  extends Table
     public function setPostDat($postDat= null)
     {
         
-        $date = new DateTime();
-        $this->_postDat = ($postDat !='') ? date('Y-m-d', strtotime($postDat)): null;
+       // $date = new DateTime();
+       //  $this->_postDat = ($postDat !='') ? date('Y-m-d', strtotime($postDat)): null;
+        $this->_onlineDate = $this->cvtDat($postDat, 'set', true);
     }
     public function setStatus($status)
     {

@@ -81,8 +81,9 @@ class Book extends Table
     }
     public function setOnlineDate(datetime $onlineDate)
     {
-        $date = new DateTime();
-       $this->_onlineDate = ($onlineDate !='') ? date('Y-m-d', strtotime($onlineDate)) : null;
+       //  $onlineDate = new DateTime();
+      // $this->_onlineDate = ($onlineDate !='') ? date('Y-m-d', strtotime($onlineDate)) : null;
+       $this->_onlineDate = $this->cvtDat($onlineDate, 'set', false);
     }
     public function setNbEps($nbEps)
     {

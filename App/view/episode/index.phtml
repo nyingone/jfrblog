@@ -1,15 +1,17 @@
 
 <h2> Liste des episodes</h2>
 
-<div>
-    <?php 
-    $book = $datas[0]; 
-    ?>        
+<div class="row">
+    <?php $episodes = $this->view_data;  ?>
+    <?php $episode = $episodes[0]; ?>
+    <?php $books = $episode->getBookInfo();  ?>
+    <?php $book = $books[0]  ?>
+    <?php include (VIEW . 'book\entBook.phtml'); ?>
+
     <li><a href= "<?php echo HOME ?>episode-edit/edit-<?php echo $book->getId(). '.99.' ?>">Ajouter une page/épisode</a></li>
 </div>
-
 <!-- `quote``content``excerpt``createdDat``status``onlineDate``commented``nbComment``bookId``chapter``version``slugEps` -->
-<div id="container" class="row">
+<div class="row">
  
     <table class="table-striped" >
         <thead>
@@ -19,7 +21,7 @@
                 <th>quote</th>
                 <th>extrait</th>
                 <th>stt</th>
-                <th><img src= " <?= IMG . 'plume70' ?> " width=30px height = 30px alt="Liste commentaires" title ="Liste commentaires" ></th>
+                <th><i class = "far fa-comment" alt="Liste commentaires" title ="Liste commentaires"></i></th>
                 <th><i class="fas fa-bell" alt="Alerte Commentaire" title = "Alerte Commentaire"></i></th>
                 <th>voir +</th>
             </tr>
@@ -44,7 +46,6 @@
                 $table .= '<td>' . $episode->getNbComments()  . ' <a href='. HOME . 'comment-index/show-' . $episode->getBookId() .  '.' . $episode->getId() . '></a></td>';
                    
                 if ($episode->getAlertComm()) :
-                    var_dump($episode->getAlertComm());  
                     $table .= '<td><a href=' . HOME . 'comment-gest/edit-' . $refEps . '><span>' . $episode->getAlertComm() . '</span></a></td>';
                 endif;
                

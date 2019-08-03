@@ -84,11 +84,12 @@ class Episode extends Table
     }
 
     public function setCreatedDat($createdDat=null)
-    {
-        $date = new DateTime();
-        $this->_createdDat = ($createdDat !='') ? date('Y-m-d', strtotime($createdDat)) : null;
+    {  
+       //  $this->_createdDat = ($createdDat !='') ? date('Y-m-d', strtotime($createdDat)) : $date = date("Y-m-d");
+       $this->_createdDat = $this->cvtDat($createdDat,'set', true);
     }
 
+    
     public function setStatus($status)
     {
         $this->_status = $status;
@@ -159,7 +160,8 @@ class Episode extends Table
     }
     public function getCreatedDat()
     {
-        return $this->_createdDat;
+        
+        return date('d-m-Y', strtotime($this->_createdDat));
     }
     public function getStatus()
     {
