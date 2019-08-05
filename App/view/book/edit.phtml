@@ -21,7 +21,7 @@
             
             <div id="myeditablediv"><?php $label = "Résumé.............:";?>
                 <label for="plot"> <?=$label?></label>
-                <textarea  class="tinymce" name = "plot" cols= 150 rows = 10 required > <?=($book->getId()) > 0 ? $book->getPlot(): ''; ?> </textarea wrap="type">
+                <textarea  class="tinymce" name = "plot" cols= 80 rows = 10 required > <?=($book->getId()) > 0 ? $book->getPlot(): ''; ?> </textarea wrap="type">
             </div>
 
             <p><?php $label = "Status.............:";?>  

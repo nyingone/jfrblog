@@ -210,7 +210,9 @@ class Episode extends Table
     public function setComments($comments)   // tableau d'objets Comment
     {
         $this->_comments = $comments;
-        $this->setNbComments(count($comments));
+        if(is_array($comments)):
+            $this->setNbComments(count($comments));
+        endif;
     }
 
     public function setNbComments($nbComments)

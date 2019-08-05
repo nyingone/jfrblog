@@ -15,7 +15,8 @@ class BookManager
     }
 
     public function getBooks($parms=null, $level=null)
-    {
+    { 
+var_dump($level);
         $orderBy = ' order by EditYear DESC, status, id DESC ';
         if(!isset($parms))
         {
@@ -25,16 +26,17 @@ class BookManager
         }
         if(isset($this->selection) && !empty($this->selection))
         {
+            if(is_null($level)): $level = 'N0'; endif;
             foreach($this->selection as $table)
             {
+               
                 $book = new Book($table);
-                // Récup des épisodes
-                if($level <> 'N1'):
+                 // Récup des épisodes
+                if($level === 'N0'):
                     $this->episodeManager = new EpisodeManager();
-                    $episodes = $this->episodeManager->getSelection($book->getId(), 'N0');
+                    $episodes = $this->episodeManager->getSelection($book->getId(), $level);
                     $book->setEpisodes($episodes);
                 endif;
-                
                 $this->books[] = $book;
             }
           

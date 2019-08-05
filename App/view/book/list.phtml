@@ -1,5 +1,6 @@
 
 <?php $accesBook = HOME . 'book-show/show-' ?>
+<?php $accesEpFirst = HOME . 'episode-show/show-' ?>
 <div id="container-fluid" >
     
     <?php foreach($this->view_data as $book) : ?>
@@ -7,13 +8,21 @@
             <div  class = "col-md-2">                        
                  <a href="<?php echo $accesBook . $book->getId() ?>"><img  src="<?php echo IMG125 . $book->getCover()?>" alt="<?php echo $book->getCoverAlt()?>" title ="<?php echo $book->getCoverAlt()?>"></a>
             </div>
-            <div  class = "col-md-9 offset-1 ">
+            <div  class = "col-md-9 ">
                 <div class="row">
-                    <div class = 'col-md 2'>
-                        <a href="<?php echo $accesBook . $book->getId() ?>"><h3><?= $book->getTitle();?></h3></a>
+                    <div class = 'col-md-2'>
+                        <a href="<?php echo $accesBook . $book->getId() ?>"><h3><?= $book->getTitle();?></h3></a>   
+                        <?php $src= IMG . "attrapeur-reve_min70";?>  
+                             
+                        <a href="<?php echo $accesBook . $book->getId() ?>"><img  src="<?php echo $src?>" alt="Episodes <?= $book->getTitle();?> " title ="Tous les épisodes"></a>
+                       
                     </div>
-                    <div class = 'col-md 10'>
+                    <div class = 'col-md-8'>
                         <h4> <?= $book->getPlot(); ?></h4>
+                            <a href="<?php echo $accesEpFirst . $book->getId() . '.A.a' ?>"><i class="fas fa-fast-backward" alt="1er épisode <?= $book->getTitle();?> " title ="1er épisode"></i></a>
+                        
+                            <a class = 'col-md-2 offset-md-10' href="<?php echo $accesEpFirst . $book->getId() . '.Z.z'?>"><i class="fas fa-fast-forward" alt="dernier épisode <?= $book->getTitle();?> " title ="dernier épisode"></i></a>
+                       
                     </div>
                 </div>  
             </div>

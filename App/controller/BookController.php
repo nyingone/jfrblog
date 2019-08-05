@@ -25,7 +25,6 @@ class BookController extends Controller
    */
   public function list()
   {
-
     $this->createModel($this->_tab, '');
     $datas = $this->model->getBooks(null, $this->level);
     $this->createView($this->_tab . DS . 'list', $datas);

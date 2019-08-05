@@ -65,7 +65,7 @@ class Controller
     $ok = $result[0];
     if($ok)
     {
-            if (isset($result[1]) && !empty($result[1]))
+      if (isset($result[1]) && !empty($result[1]))
       {
         $class = $result[1];
         $this->model->majTab($class);

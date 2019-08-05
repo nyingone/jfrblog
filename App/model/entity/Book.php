@@ -21,9 +21,11 @@ class Book extends Table
     private $_onlineDatLabel;
     private $_promotedLabel;
     private $_coverLabel;
+    private $_nbEpisodesLabel;
     private $_onlineDatType;
     private $_promotedType;
     private $_coverType;
+    private $_nbEpisodesType;
 
     private $_statusOkDel = '10';
    
@@ -280,7 +282,8 @@ class Book extends Table
 
         return $this->_promotedType;
     }
-    public function getNbEpisodesLabel(){
+    public function getNbEpisodesLabel()
+    {
 
         return $this->_nbEpisodesLabel;
     }

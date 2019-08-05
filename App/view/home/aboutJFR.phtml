@@ -1,18 +1,9 @@
 
 
-<?php 
-$this->view_data = $datas;
+<?php $this->view_data = $datas;   // On car non  transmise ?>
 
-$this->view_infos = $infos;
-
-if(empty($this->view_infos))
-{
-    $this->view_infos = new Book();
-}else{
-    $book = $this->view_infos;
-}
- 
-?>
-<?php 
-include (VIEW . 'episode\show.phtml');
-?>
+<div  class = "row">
+    <div  class = "col-md-10 offser-md-1">
+        <?php include (VIEW . 'episode\show.phtml');     ?>
+    </div>
+</div>

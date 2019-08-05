@@ -18,10 +18,6 @@ class HomeController extends Controller
                                     'id'   => $id
         ]);
         $datas = $this->findLastEpisode();
-        $this->view->page_title = "Our last episode !";
-        $this->view->page_object  = 'Home page';
-        $this->view->page_inzcst();
-        $this->view_datas = $datas;
         $this->view->render($datas);
     }
 
@@ -31,25 +27,14 @@ class HomeController extends Controller
         $datas  =   $manager->findLast();
         return $datas;
     }   
-    public function findBookInfos($bookId)
-    {
-        $manager = new BookManager();
-        $infos  = $manager->getBooks($bookId);
-       //  var_dump($infos); ok array avec un objet book
-        return $infos;
-    }   
+   
 
     public function aboutJFR()
     {
         $this->createview('home\aboutJFR');
         $this->view->page_title = "This is all about Jean";
         $datas = $this->findAboutJFR();
-       
-        $this->view->page_inzcst();
-        $episode = $datas[0];
-        $infos = $this->findBookInfos($episode->getBookId());
-        $this->view_infos = $infos[0];
-        $this->view->render($datas, $infos[0]);
+        $this->view->render($datas);
        
     }
     public function findAboutJFR()

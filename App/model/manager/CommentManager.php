@@ -3,8 +3,11 @@ class CommentManager
 {
     protected static $_db; // Instance de PDO
     protected $selection ;
+    protected $comments ;
     protected $query;
     private $_tab = 'comment';
+    private $episodeManager;
+    private $bookManager;
     
     public function __construct($modelName= null,$method= null)
     {    
@@ -15,7 +18,7 @@ class CommentManager
     * @param string (klist)
     * @return array [objets] ou null
     */
-    public function getSelection($parms=null)
+    public function getSelection($parms=null, $level = null)
     {
         if(!isset($parms))
         {
@@ -47,9 +50,10 @@ class CommentManager
             // $this->selection = DB::getInstance()->get($this->_tab, array('id', '=', $parms));
             $this->selection = DB::getInstance()->get($this->_tab, $ksel);
         }  
-        $this->formatSelection();
+        
+        $this->formatSelection($level);
 
-        return $this->selection;
+        return $this->comments;
     }
 
     public function getSelAlertComm($parms=null)
@@ -112,23 +116,31 @@ class CommentManager
     * Formatte tableau d'objets à partir des sélections
     * @return [objets]
     */
-    public function formatSelection()
+    public function formatSelection($level = 'N2')
     {
-        
+        if(is_null($level)): $level = 'N2'; endif;
         if(isset($this->selection) && !empty($this->selection))
         {  
-            $x = 0;
             foreach($this->selection as $table)
             {
-                $comment = new Comment($table);
-                $this->selection[$x] = $comment;
-                $x++;  
-                // att. conserver $x sinon crée un tableau de tableau et non un tableau d'objet
+                 $comment = new Comment($table);
+                         // recup infos sur le livre
+                 if($level ===  'N2'):
+                    $this->bookManager = new BookManager();
+                    $bookInfo = $this->bookManager->getBooks($comment->getBookId(),$level);
+                    $comment->setBookInfo($bookInfo);
+                                                  
+                   $this->episodeManager = new EpisodeManager();
+                    $episodeInfo = $this->episodeManager->getEpisodeId($comment->getEpsId(), $level);
+                    $comment->setEpisodeInfo($episodeInfo);
+
+                endif;
+               $this->comments[] = $comment;
             }
         }else{
-            $this->selection[] = new Comment([]);
+            $this->comments[] = new Comment([]);
         }
-        return $this->selection;
+        return $this->comments;
     }
     /**
     * Signalement des commentaires 

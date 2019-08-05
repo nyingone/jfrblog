@@ -24,25 +24,10 @@ class CommentController extends Controller
   
   public function index($ref = null)
   {
-    
     $this->createModel($this->_tab, '');
     $datas = $this->model->getSelection($ref);
     $this->createView($this->_tab . DS . 'index', $datas);
-    $this->view->page_object  = 'Commentaires en ligne';
-    $this->view->page_inzcst();
-    if(isset($ref) && !empty($ref)) 
-    {
-      $keys = explode('.',$ref);
-      $infos = $this->findBookInfos($keys[0]);
-      $this->view_infos = $infos[0];
-      $book = $this->view_infos;
-      $this->view->page_title = $book->getTitle();
-    } 
-    if(!isset($infos))
-    {
-      $infos = [];
-    }
-    $this->view->render($datas, $infos[0] ? $infos[0] : '');
+    $this->view->render($datas);
   }
 
   /** edit one Comment of a known book 
@@ -54,32 +39,34 @@ class CommentController extends Controller
   {
     $this->createmodel($this->_tab, '');
     $datas = $this->model->getSelection($ref);
-    var_dump($ref);
     $this->createview($this->_tab . DS . 'show', $datas);
-    $comment = $datas[0];
-      
-    $this->view->page_object  = 'commentaires';
-
-    
-    $this->view->page_inzcst($ref,$opt);
-   
     $this->view->render($datas, $infos[0]);
-   
   }
 
    /** signal a Comment 
  * @param $ref = id Comment $opt=pro/con
-*/
-public function signal($ref, $opt=null)
-{
-  // $this->createmodel($this->_tab, '');
-  $_POST['url'] = $_SESSION['redirect']; 
-  $redir = false;
-  $this->maj($redir);
-  var_dump($_POST); die;
-  exit;
+  */
+  public function signal($ref, $opt=null)
+  {
+    // $this->createmodel($this->_tab, '');
+    $_POST['url'] = $_SESSION['redirect']; 
+    $redir = false;
+    $this->maj($redir);
+    exit; 
+  }
+
+  public function edit($id = null,$opt=null)
+  {
+    $this->createmodel($this->_tab, '');
+    ($id) ? $datas = $this->model->getBooks($id,$this->level) : $datas[] = new Book();
+    $this->createview($this->_tab . DS . 'edit', $datas);
+    $this->view->render($datas);
+  }
+  /** 
+   * @param $ref = id book / idEps /id Comm
+  */
   
-}
+
   
   public function isValid($opt=null)
   {

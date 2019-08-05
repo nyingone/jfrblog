@@ -14,6 +14,8 @@ class Comment  extends Table
     private $_validDat;
     private $_nbCon;
 
+    private $_bookInfo;
+    private $_episodeInfo;
     /**
     * Constructeur de la classe assignant -via fonction hydrate, les données si transmises
     * géré via classe Table.
@@ -49,10 +51,11 @@ class Comment  extends Table
     }
     public function setPostDat($postDat= null)
     {
-        
-       // $date = new DateTime();
-       //  $this->_postDat = ($postDat !='') ? date('Y-m-d', strtotime($postDat)): null;
-        $this->_onlineDate = $this->cvtDat($postDat, 'set', true);
+    
+     $this->_postDat =  new DateTime("$postDat");
+       // $this->_postDat = ($postDat != '') ? $this->cvtDat($postDat, 'set', false) : $this->cvtDat($postDat, 'set', true);
+
+       
     }
     public function setStatus($status)
     {
@@ -101,7 +104,7 @@ class Comment  extends Table
     }
     public function getPostDat()
     {
-        return $this->_postDat = ($this->_postDat !='') ? date('d-m-Y', strtotime($this->_postDat)): null;; 
+        return $this->_postDat->format('Y-m-d H:i:s'); ; 
     }
     public function getstatus()
     {
@@ -114,6 +117,32 @@ class Comment  extends Table
     public function getNbCon()
     {
         return $this->_nbCon;
+    }
+
+    
+    /**
+     * Fonction annexes _____________________________________________SET
+     */
+    public function setBookInfo($books)     // tableau d'objets Book
+    {
+        $this->_bookInfo = $books;
+    }
+
+    public function setEpisodeInfo($episodes)     // tableau d'objets Book
+    {
+        $this->_episodeInfo = $episodes;
+    }
+
+     /**
+    *  Fonction annexes  _____________________________________________GET
+    */
+    public function getBookInfo()
+    {
+        return $this->_bookInfo;
+    }
+    public function getEpisodeInfo()
+    {
+        return $this->_episodeInfo;
     }
 
 

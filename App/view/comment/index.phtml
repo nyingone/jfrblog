@@ -1,26 +1,22 @@
 
 <h2> Expression directe</h2>
-<div>
-    <?php 
-    $comment = $infos; 
-    
-    foreach ($this->view_data as $table)
-    { 
-        if(!isset($comment))
-        {
-            $comment = $table; 
-        } 
-    } ?>
-</div>
- 
+
 <!-- `id``bookId``bookVol``bookChap``epsId``user``pseudo``comment``postDat``status``validDat` -->
 <div id="container" class="row">
+    <?php $comments = $this->view_data;  ?>
+    <?php $comment = $comments[0]; ?>
+    <?php $books = $comment->getBookInfo();  ?>
+    <?php $book = $books[0]  ?>
+    
+    <?php include (VIEW . 'book\entBook.phtml'); ?>
+
     <table class="table-striped" >
         <thead>
             <tr>
-                <th>L/V/C</th>
-                <th>quote</th>
-                <th>extrait</th>
+                <th>Chapître</th>
+                <th>Visiteur </th>
+                <th>le:</th>
+                <th>commentaire</th>
                 <th>statut</th>
                 <th>Image<br/> Vue </th>
                 <th>Der.commentaire</th>
@@ -33,16 +29,21 @@
             $table = '';
             foreach($this->view_data as $comment)
             {               
-                
-                $refEps = $comment->getBookId() . '.' . $comment->getEpsId() .  '.' . $comment->getId();                                                                                                                                                                                                 
+                $episodes = $comment->getEpisodeInfo(); 
+                $episode = $episodes[0] ;
+                $refComm = $comment->getBookId() . '.' . $comment->getEpsId() .  '.' . $comment->getId();                                                                                                                                                                                                 
                 $table .= '<tr>';               
-                $table .= '<td>' . $refEps . '</td>';
-                $table .= '<td>' . $comment->getComment() . '</td>';
+                $table .= '<td>' . $episode->getChapter() . '</td>';
+                $table .= '<td>' . $comment->getPseudo()  . '</td>';
                 $table .= '<td>' . $comment->getPostdat() . '</td>';
+                $table .= '<td>' . $comment->getComment() . '</td>';
                 $table .= '<td>' . $comment->getStatus()  . '</td>';
-                $table .= '<td>' . $comment->getNbcon()  . '</td>';
-                $table .= '<td><a href='. HOME .'comment-edit/val-' . $refEps . '>Valider</a></td>';
-                $table .= '<td><a href="'. HOME . 'comment-edit/del-' . $refEps . '-del">Supprimer</a></td>';
+                $table .= '<td>' . $comment->getNbcon()   . '</td>';
+                
+                $table .= '<td><a href="'. HOME .'comment-gest/val-' . $comment->getId() . '-upd' .'"><i class = "fas fa-thumbs-up " alt="Valider commentaire" title = "Validation"></i></a></td>';
+
+                $table .= '<td><a  href="'. HOME . 'comment-gest/del-' . $comment->getId()  . '-del' . '"><i class = "fas fa-comment-slash " alt="Supprimer commentaire" title = "Suppression"></i></a></td>';
+
 
                 $table .= '<tr>';
             }

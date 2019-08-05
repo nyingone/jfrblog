@@ -14,7 +14,7 @@ class Table
   
     public function hydrate(array $dtas)
     {
-        foreach ($dtas as $key => $value)
+        foreach ($dtas as $key => $value)                                                                                                              
         {
             $method = 'set' . ucfirst($key);
             if(method_exists($this, $method))
@@ -24,28 +24,48 @@ class Table
         }
     }
 
-    public function cvtDat($dat0, $action, $init=false)
+    public function cvtDat($datq, $action, $init=false)
     {
+        if(isset($datq) && !empty($datq))
+        {
+            $dtElem = explode(' ', $datq);
+            
+            $dat0 = $dtElem[0];
+            if(isset($dtElem[1])) : 
+             $tim0 = $dtElem[1];
+            else:
+                $tim0 = '00:00:00';
+            endif;
+        }                              
+        $dtElem = [];
+
        if($action ==='set') :
             $fmt0 = "d-m-Y";
             $fmtx = "Y-m-d";
 
-            if(!isset($dat0) && $init = true): $dat0 = date($fmt0); endif;
+            if(!isset($dat0) || empty($dat0)) :
+                if($init = true): 
+                    $dat0 = date($fmt0);
+                    $tim0 = '00:00:00';
+                 endif;
+            endif;
         else:
             $fmt0 = "Y-m-d";
             $fmtx = "d-m-Y";
         endif;
         
-        if(isset($dat0))
+        if(isset($dat0) && !empty($dat0))
         {
-            $item = explode('-', $dat0);
+       
+            $dtElem = explode('-', $dat0);
+         
             // $datx = new DateTime();
             // $datx->setDate($item[2], $item[1],$item[0]);
             // return $datx->format($fmtx);      
-            $datx = $item[2] . '-' . $item[1] . '-' . $item[0];
+            $datx = $dtElem[2] . '-' . $dtElem[1] . '-' .  $dtElem[0] . ' ' . $tim0;
             return $datx;
         }else{
-            return $dat0;
+            return $datq;
         }
     }
 

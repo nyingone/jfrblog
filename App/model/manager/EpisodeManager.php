@@ -3,6 +3,7 @@ class EpisodeManager
 {
     protected static $_db; // Instance de PDO
     protected $selection ;
+    protected $episodes = [] ;
     protected $query;
     private $_tab = 'episode';
     private $commentManager;
@@ -24,6 +25,7 @@ class EpisodeManager
         if(!isset($parms))
         {
             $this->selection = DB::getInstance()->query('SELECT * from ' . $this->_tab . $orderBy,'',$this->_tab);
+            $this->formatSelection($level);
         }else
         {
             $keys = explode('.',$parms);
@@ -40,15 +42,21 @@ class EpisodeManager
                     $ksel = array(  'bookId'    , '=', $keys[0],
                                     'volume'    , '=', $keys[1]);  
                 }else{
+                    
                     $ksel = array(  'bookId'    , '=', $keys[0],
                                     'volume'    , '=', $keys[1],
                                     'id'        , '=', $keys[2]);  
                 }
             }
             // $this->selection = DB::getInstance()->get($this->_tab, array('id', '=', $parms));
-            $this->selection = DB::getInstance()->get($this->_tab, $ksel, $orderBy);
+            if ($x < 2 || is_int($keys[1])) : 
+             $this->selection = DB::getInstance()->get($this->_tab, $ksel, $orderBy);
+             $this->formatSelection($level);
+            else:
+                $this->selection = $this->findUnique($keys);
+            endif;
         }  
-        $this->formatSelection($level);
+       
 
         return $this->selection;
     }
@@ -103,57 +111,87 @@ class EpisodeManager
     */
     public function formatSelection($level= null)
     {
-        // var_dump($level);
+        if(is_null($level)) : $level = 'N1'; endif;
         if(isset($this->selection) && !empty($this->selection))
         {  
-            $x = 0;
             foreach($this->selection as $table)
             {
                 $episode = new Episode($table);
-               
+              
+                if($level === 'N1') :
                 // requete sur le livre de l' episode
-                if($level === null  || $level <> 'N0'):
+                
                     $this->bookManager = new BookManager();
-                    $bookInfo = $this->bookManager->getBooks($episode->getBookId(), 'N1');
+                    $bookInfo = $this->bookManager->getBooks($episode->getBookId(), $level); 
                     $episode->setBookInfo($bookInfo);
-                endif;
-                
-                // requete sur tous les comments par episode
-                $refEps= $episode->getBookId() . '.' . $episode->getId();  
-                $comments = $this->commentManager->getSelection($refEps);
-                $episode->setComments($comments);
 
-                // requete sur tous les commentaires non validés par episode
-                $altComm = $this->commentManager->getSelAlertComm($refEps);
-                $episode->setAlertComm($altComm);
-                
-                $this->selection[$x] = $episode;
-                $x++;  
-                // att. conserver $x sinon crée un tableau de tableau et non un tableau d'objet
+                               
+                // requete sur tous les comments par episode
+                    $refEps= $episode->getBookId() . '.' . $episode->getId();  
+                    $comments = $this->commentManager->getSelection($refEps,$level);
+                    $episode->setComments($comments);
+
+                    // requete sur tous les commentaires non validés par episode
+                    $altComm = $this->commentManager->getSelAlertComm($refEps,$level);
+                    $episode->setAlertComm($altComm);
+                endif;
+                // var_dump($episode);
+                $this->episodes[] = $episode;
             }
         }else{
-            $this->selection[] = new Episode([]);
+            $this->episodes[] = new Episode([]);
         }
-        return $this->selection;
+        // var_dump($this->episodes);
+        return $this->episodes;
     }
     /**
     * Recherche dernier épisode
     * @return [objets]
     */
-    public function findLast($parms=null)
+    public function findLast($parms=null) // Regle Gestion: Mise en avant du dernier episode en statut 30
     {
         $orderBy = 'order by id DESC LIMIT 1';
-        $this->selection = DB::getInstance()->query('SELECT * from ' . $this->_tab . " where status >= '20' ",'', $this->_tab);
+        $this->selection = DB::getInstance()->query('SELECT * from ' . $this->_tab . " where status >= '30' " . $orderBy,'', $this->_tab);
         
         $this->formatSelection('N1');
-        return $this->selection;
+        return $this->episodes;
     }
     public function findAboutJFR($parms=null)
     {
         $this->selection = DB::getInstance()->query('SELECT * from ' . $this->_tab . " where status >= '20' order by chapter DESC LIMIT 1",'',$this->_tab);
-        $this->formatSelection(N1);
-        return $this->selection;
+        $this->formatSelection('N1');
+        return $this->episodes;
+    }
+
+    public function findUnique($keys=null)
+    {
+       
+        if($keys[1] === 'A') :
+            $orderBy = ' order by bookId, volume ASC, chapter ASC LIMIT 1';
+        else:
+            $orderBy = ' order by bookId, volume DESC, chapter DESC LIMIT 1';
+        endif;
+
+        $ksel = array(  'bookId'    , '=', $keys[0],
+                        'status'    , '>', "10");
+
+        $this->selection = DB::getInstance()->get($this->_tab, $ksel, $orderBy);
+        $this->formatSelection('N1');
+        return $this->episodes;
     }
 
 
+    public function getEpisodeId($parms=null,  $level = null)
+    {
+        if(isset($parms))
+        {
+            $keys = explode('.',$parms);
+            $ksel = array('id'    , '=', $keys[0]);  
+        
+            $this->selection = DB::getInstance()->get($this->_tab, $ksel);
+             $this->formatSelection($level, $level);
+        }  
+      
+        return $this->episodes;
+    }
 }
