@@ -1,5 +1,6 @@
-<?php $this->view_data = $datas;  ?>
+<?php $this->view_data = $datas; ?>
 <?php foreach($this->view_data as $episode) :  ?>
+<?php // var_dump($this->view_data); die; ?>
     <div class = "container-fluid">
         <?php 
         $books = $episode->getBookInfo(); 

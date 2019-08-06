@@ -1,11 +1,10 @@
 
-<?php if(isset($this->view_data)) : ?>
-    <?php foreach($this->view_data as $book): ?>
-    <div class = "container-fluid">
-        <?php include (VIEW . 'book\entBook.phtml'); ?>           
-        <div class="row">
-            <?php include (VIEW . 'episode\list.phtml'); ?>
-        </div>  
+<?php $this->view_data = $datas ?>
+<?php foreach($this->view_data as $book): ?>
+<div class = "container-fluid">
+    <?php include (VIEW . 'book\entBook.phtml'); ?>           
+    <div class="row">
+        <?php include (VIEW . 'episode\list.phtml'); ?>
     </div>  
-    <?php endforeach ?>
-<?php endif ?>
+</div>  
+<?php endforeach ?>

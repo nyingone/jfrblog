@@ -5,13 +5,12 @@
         <br/>
     </div>
     
-    <?php foreach($this->view_data as $book) : ?>
-    <?php $this->view_infos = $book->getEpisodes(); ?>
-
-    <?php foreach($this->view_infos as $episode) : ?>
+    <?php // foreach($this->view_data as $book) :  fait au niveau book/show ?>
+    <?php $this->view_episodes = $book->getEpisodes(); ?>
+    <?php foreach($this->view_episodes as $episode) : ?>
   
-        <?php $books = $episode->getBookInfo();?>
-        <?php $book = $books[0]; ?>
+        <?php // $books = $episode->getBookInfo();?>
+        <?php // $book = $books[0]; ?>
         <?php $comments = $episode->getComments();?>
         
         <?php if($episode->getChapter() <> '999') : ?>
@@ -43,5 +42,5 @@
             </div>
         <?php endif ?> 
     <?php endforeach ?> 
-    <?php endforeach ?> 
+    <?php // endforeach ?> 
 </div>

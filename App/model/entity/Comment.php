@@ -22,7 +22,11 @@ class Comment  extends Table
     * @param array $donnees
     * @return void
     */
-
+    public function inz_POST($comment)
+    {
+        $tabVal = get_object_vars($comment); 
+        $this->create_POST($tabVal);
+    }
 
 // Setters
     public function setId($id)
@@ -51,11 +55,11 @@ class Comment  extends Table
     }
     public function setPostDat($postDat= null)
     {
-    
-     $this->_postDat =  new DateTime("$postDat");
-       // $this->_postDat = ($postDat != '') ? $this->cvtDat($postDat, 'set', false) : $this->cvtDat($postDat, 'set', true);
 
-       
+        // $date = new DateTime("$postDat");
+        // $this->_postDat =  $date->format('Y-m-d H:i:s');
+        $this->_postDat = $this->setDat($postDat, 'Y-m-d H:i:s' );
+       // $this->_postDat = ($postDat != '') ? $this->cvtDat($postDat, 'set', false) : $this->cvtDat($postDat, 'set', true);
     }
     public function setStatus($status)
     {
@@ -63,8 +67,11 @@ class Comment  extends Table
     }
     public function setValidDat($validDat)
     {
-        $date = new DateTime();
-        $this->_validDat = ($validDat !='') ? date('Y-m-d', strtotime($validDat)): null;
+        if(isset($validDat))
+        {
+            $date = new DateTime("$validDat");
+            $this->_validDat =  $date->format('Y-m-d H:i:s');
+        }   
     }
     public function setNbCon($nbCon)
     {
@@ -102,17 +109,25 @@ class Comment  extends Table
     {
         return $this->_comment;
     }
-    public function getPostDat()
+    public function getPostDat($sql= null)
     {
-        return $this->_postDat->format('Y-m-d H:i:s'); ; 
+        return $this->getDat($this->_postDat, $sql);
     }
     public function getstatus()
     {
         return $this->_status;
     }
-    public function getValidDat()
+    public function getValidDat($sql= null)
     {
-        return $this->_validDat = ($this->_validDat !='') ? date('d-m-Y', strtotime($this->_validDat)): null;; 
+        if(isset($this->_validDat))
+        {
+            $date = new DateTime("$this->_validDat");
+            if ($sql === '*') :
+                return $date->format('Y-m-d H:i:s');
+            else:
+                return $date->format('d-m-Y H:i:s');
+            endif;
+        }
     }
     public function getNbCon()
     {

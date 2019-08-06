@@ -21,6 +21,7 @@ class EpisodeManager
     */
     public function getSelection($parms=null,  $level = null)
     {
+       //  var_dump($level, $parms); die;
         $orderBy = ' order by bookId, volume DESC, chapter DESC ';
         if(!isset($parms))
         {
@@ -49,16 +50,15 @@ class EpisodeManager
                 }
             }
             // $this->selection = DB::getInstance()->get($this->_tab, array('id', '=', $parms));
-            if ($x < 2 || is_int($keys[1])) : 
-             $this->selection = DB::getInstance()->get($this->_tab, $ksel, $orderBy);
-             $this->formatSelection($level);
+    
+            if ($x < 2 || $keys[1] <= '999') : 
+                $this->selection = DB::getInstance()->get($this->_tab, $ksel, $orderBy);
+                $this->formatSelection($level);
             else:
                 $this->selection = $this->findUnique($keys);
             endif;
         }  
-       
-
-        return $this->selection;
+        return $this->episodes;
     }
 
     /**
@@ -109,9 +109,8 @@ class EpisodeManager
     * Formatte tableau d'objets à partir des sélections
     * @return [objets]
     */
-    public function formatSelection($level= null)
+    public function formatSelection($level)
     {
-        if(is_null($level)) : $level = 'N1'; endif;
         if(isset($this->selection) && !empty($this->selection))
         {  
             foreach($this->selection as $table)
@@ -141,29 +140,28 @@ class EpisodeManager
         }else{
             $this->episodes[] = new Episode([]);
         }
-        // var_dump($this->episodes);
         return $this->episodes;
     }
     /**
     * Recherche dernier épisode
     * @return [objets]
     */
-    public function findLast($parms=null) // Regle Gestion: Mise en avant du dernier episode en statut 30
+    public function findLast($parms=null,  $level ) // Regle Gestion: Mise en avant du dernier episode en statut 30
     {
         $orderBy = 'order by id DESC LIMIT 1';
         $this->selection = DB::getInstance()->query('SELECT * from ' . $this->_tab . " where status >= '30' " . $orderBy,'', $this->_tab);
         
-        $this->formatSelection('N1');
+        $this->formatSelection($level);
         return $this->episodes;
     }
-    public function findAboutJFR($parms=null)
+    public function findAboutJFR($parms=null,  $level = null)
     {
         $this->selection = DB::getInstance()->query('SELECT * from ' . $this->_tab . " where status >= '20' order by chapter DESC LIMIT 1",'',$this->_tab);
-        $this->formatSelection('N1');
+        $this->formatSelection($level);
         return $this->episodes;
     }
 
-    public function findUnique($keys=null)
+    public function findUnique($keys=null,  $level = null)
     {
        
         if($keys[1] === 'A') :
@@ -176,7 +174,7 @@ class EpisodeManager
                         'status'    , '>', "10");
 
         $this->selection = DB::getInstance()->get($this->_tab, $ksel, $orderBy);
-        $this->formatSelection('N1');
+        $this->formatSelection($level);
         return $this->episodes;
     }
 
@@ -189,7 +187,7 @@ class EpisodeManager
             $ksel = array('id'    , '=', $keys[0]);  
         
             $this->selection = DB::getInstance()->get($this->_tab, $ksel);
-             $this->formatSelection($level, $level);
+             $this->formatSelection($level);
         }  
       
         return $this->episodes;

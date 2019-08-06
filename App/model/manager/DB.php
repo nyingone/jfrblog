@@ -270,7 +270,7 @@ class DB
                 $method = 'get' . ucfirst($field);
                 if(method_exists($class, $method))
                 {
-                    $fields[] = $class->$method();
+                    $fields[] = $class->$method('*');
                     if($field == 'id')
                     {
                         $id = $class->$method();
@@ -310,6 +310,7 @@ class DB
                     $sql = "UPDATE {$table} SET  {$set} WHERE id = {$id} LIMIT 1";
                 }
             }   
+        
           return $this->query($sql, $fields);
             
         }else{

@@ -75,7 +75,7 @@ class CommentManager
     */
     public function majTab($class)
     { 
-     
+             
         if(isset($_POST['id']) && $_POST['id'] > 0){
             $id = $_POST['id'];
         }else{
@@ -116,9 +116,8 @@ class CommentManager
     * Formatte tableau d'objets à partir des sélections
     * @return [objets]
     */
-    public function formatSelection($level = 'N2')
+    public function formatSelection($level = null)
     {
-        if(is_null($level)): $level = 'N2'; endif;
         if(isset($this->selection) && !empty($this->selection))
         {  
             foreach($this->selection as $table)
@@ -143,9 +142,21 @@ class CommentManager
         return $this->comments;
     }
     /**
-    * Signalement des commentaires 
+    * Accès par Id pour suppression et validation 
     * @param
     * @return 
     */
+    public function getCommentId($id,  $level = null)
+    {
+        if(isset($id))
+        {
+            $ksel = array('id'    , '=', $id);  
+        
+            $this->selection = DB::getInstance()->get($this->_tab, $ksel);
+             $this->formatSelection($level);
+        }  
+      
+        return $this->comments;
+    }
     
 }

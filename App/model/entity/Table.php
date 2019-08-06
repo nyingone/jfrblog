@@ -24,52 +24,45 @@ class Table
         }
     }
 
-    public function cvtDat($datq, $action, $init=false)
+    public function create_POST($tabval)
     {
-        if(isset($datq) && !empty($datq))
+        if(is_array($tabval) && !empty($tabval))
         {
-            $dtElem = explode(' ', $datq);
-            
-            $dat0 = $dtElem[0];
-            if(isset($dtElem[1])) : 
-             $tim0 = $dtElem[1];
-            else:
-                $tim0 = '00:00:00';
-            endif;
-        }                              
-        $dtElem = [];
+            foreach($tabval as $key => $value) 
+            {
+                $field = trim($key, "_");
+                $method = 'get' . ucfirst($field);
+                if(method_exists($this, $method))
+                {
+                    if (!isset($_POST[$field])): 
+                        $_POST[$field] = $this->$method($value);
+                    endif;
+                }
+            }
 
-       if($action ==='set') :
-            $fmt0 = "d-m-Y";
-            $fmtx = "Y-m-d";
 
-            if(!isset($dat0) || empty($dat0)) :
-                if($init = true): 
-                    $dat0 = date($fmt0);
-                    $tim0 = '00:00:00';
-                 endif;
-            endif;
-        else:
-            $fmt0 = "Y-m-d";
-            $fmtx = "d-m-Y";
-        endif;
-        
-        if(isset($dat0) && !empty($dat0))
-        {
-       
-            $dtElem = explode('-', $dat0);
-         
-            // $datx = new DateTime();
-            // $datx->setDate($item[2], $item[1],$item[0]);
-            // return $datx->format($fmtx);      
-            $datx = $dtElem[2] . '-' . $dtElem[1] . '-' .  $dtElem[0] . ' ' . $tim0;
-            return $datx;
-        }else{
-            return $datq;
         }
     }
 
-   
+    public function setDat($datx= null, $fmt)
+    {
+
+        $date = new DateTime("$datx"); 
+        return   $date->format("$fmt");
+        
+       // $this->_postDat = ($postDat != '') ? $this->cvtDat($postDat, 'set', false) : $this->cvtDat($postDat, 'set', true);
+    }
+
+    public function getDat($datx,$sql= null)
+    {
+        $date = new DateTime("$datx");
+        if ($sql === '*') :
+            return $date->format('Y-m-d H:i:s');
+        else:
+            return $date->format('d-m-Y H:i:s');
+        endif;
+    }
+
     public function isNew()
     {
         return empty($this->id);

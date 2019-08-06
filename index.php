@@ -36,7 +36,7 @@ $router->post('episode/:ref', "episode#maj",'episode_maj');
 // $router->post('episode-edit/:ref',"episode#maj",'episode-p-maj');;
 
 $router->post('comment/:ref',"comment#maj",'comment_maj');
-$router->get('comment-gest/:ref',"comment#edit",'comment_gest');
+$router->post('comment-gest/:ref',"comment#gest",'comment_gest');
 $router->post('comment-signal/:ref',"comment#signal",'comment_signal');
 $router->get('comment/:ref',"comment#index",'comments');
 // $router->post('comment-index/:ref',"comment#index",'comment_index');

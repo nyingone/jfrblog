@@ -1,6 +1,6 @@
 
 <h2> Liste des episodes</h2>
-
+<?php $this->view_data = $datas; ?>
 <div class="row">
     <?php $episodes = $this->view_data;  ?>
     <?php $episode = $episodes[0]; ?>
@@ -32,8 +32,7 @@
             <?php 
             $table = '';
             foreach($this->view_data as $episode)
-            {      
-                // var_dump($episode);         
+            {              
                 $src= IMG125 . $episode->getImage(); 
                 $refEps = $episode->getBookId() . '.' . $episode->getVolume() . '.' . $episode->getId();                                                                                                                                                                                                 
                 $table .= '<tr>';
@@ -47,11 +46,19 @@
                    
                 if ($episode->getAlertComm()) :
                     $table .= '<td><a href=' . HOME . 'comment-gest/edit-' . $refEps . '><span>' . $episode->getAlertComm() . '</span></a></td>';
+                else:
+                    $table .= '<td>___</td>';
                 endif;
-               
-  // var_dump('<td><a href= "\"' . HOME . 'episode-show/' . $episode->getBookId() .'-' . $episode->getId() . '>Visu</a></td>');die;
-                $table .= '<td><a href='. HOME .'episode-edit/edit-' . $refEps . '>Maj</a></td>';
-                $table .= '<td><a href="'. HOME . 'episode-edit/del-' . $refEps . '-del">Del</a></td>';
+                if ($episode->getIdMaj() === true) :
+                    $table .= '<td><a href='. HOME .'episode-edit/edit-' . $refEps . '><i class="fas fa-edit"alt="Modifier" title = "Maj épisode"></i></a></td>';
+                else:
+                    $table .= '<td>___</td>';
+                endif;
+                if ($episode->getIdDel() === true) :
+                    $table .= '<td><a href="'. HOME . 'episode-edit/del-' . $refEps . '-del">Del</a></td>';
+                else:
+                    $table .= '<td>___</td>';
+                endif;
 
                 $table .= '<tr>';
             }

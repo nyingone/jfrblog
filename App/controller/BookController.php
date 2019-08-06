@@ -28,7 +28,8 @@ class BookController extends Controller
     $this->createModel($this->_tab, '');
     $datas = $this->model->getBooks(null, $this->level);
     $this->createView($this->_tab . DS . 'list', $datas);
-    $this->view->render();
+    $this->view->page_title = 'BIBLIOGRAPHIE';
+    $this->view->render($datas);
   
   }
   /**
@@ -39,7 +40,8 @@ class BookController extends Controller
     $this->createmodel($this->_tab, '');
     $datas = $this->model->getBooks($id, $this->level);
     $this->createview($this->_tab . DS . 'show', $datas);
-    $this->view->render();
+    $this->view->page_title = 'à la découverte de :';
+    $this->view->render($datas);
   }
 
 /** Administrateur/ *********************************************************
@@ -49,10 +51,11 @@ class BookController extends Controller
    */
   public function index()
   {
-     $this->createModel($this->_tab, '');
+    $this->createModel($this->_tab, '');
     $datas = $this->model->getBooks(null,$this->level);
     $this->createView($this->_tab . DS . 'index', $datas);
-    $this->view->render();
+    $this->view->page_title = 'Gestion du catalogue :';
+    $this->view->render($datas);
   }
 /**
  * vue Edit pour maj/add Book 
@@ -62,6 +65,7 @@ class BookController extends Controller
     $this->createmodel($this->_tab, '');
     ($id) ? $datas = $this->model->getBooks($id,$this->level) : $datas[] = new Book();
     $this->createview($this->_tab . DS . 'edit', $datas);
+    $this->view->page_title = 'Création/Mise à jour :';
     $this->view->render($datas);
   }
 /**

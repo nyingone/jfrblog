@@ -16,7 +16,7 @@ class BookManager
 
     public function getBooks($parms=null, $level=null)
     { 
-var_dump($level);
+
         $orderBy = ' order by EditYear DESC, status, id DESC ';
         if(!isset($parms))
         {
@@ -26,7 +26,7 @@ var_dump($level);
         }
         if(isset($this->selection) && !empty($this->selection))
         {
-            if(is_null($level)): $level = 'N0'; endif;
+          
             foreach($this->selection as $table)
             {
                

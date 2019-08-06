@@ -28,6 +28,9 @@ class Book extends Table
     private $_nbEpisodesType;
 
     private $_statusOkDel = '10';
+    private $_statusOkMaj = '70';
+    private $_idDel;
+    private $_idMaj;
    
     
      /**
@@ -43,11 +46,23 @@ class Book extends Table
         $this->setPromotedLabel('Mis en ligne le....:'); 
         $this->setOnlineDatType('date');
         $this->setPromotedType('date');
+      
      else:
         $this->setOnlineDatLabel('hors ligne');
         $this->setPromotedLabel(''); 
         $this->setOnlineDatType('hidden');
         $this->setPromotedType('hidden');
+    endif;
+
+    if($this->getStatus() <= $this->_statusOkDel) : 
+        $this->setIdDel(true);
+    else:
+        $this->setIdDel(false);
+    endif;
+    if($this->getStatus() <= $this->_statusOkMaj) : 
+        $this->setIdMaj(true);
+    else:
+        $this->setIdMaj(false);
     endif;
   }
     /**
@@ -249,6 +264,17 @@ class Book extends Table
 
         $this->_coverType = $type;
     }
+
+    public function setIdDel($idDel)
+    {
+
+        $this->_idDel = $idDel;
+    }
+    public function setIdMaj($idMaj)
+    {
+
+        $this->_idMaj = $idMaj;
+    }
      /**
     *  Fonction annexes  _____________________________________________GET
     */
@@ -299,7 +325,16 @@ class Book extends Table
 
         return $this->_coverType;
     }
+    public function getIdDel()
+    {
 
+        return $this->_idDel;
+    }
+    public function getIdMaj()
+    {
+
+        return $this->_idMaj;
+    }
 
   /**
     *  Fonction annexes  _____________________________________________Validation/MAJ

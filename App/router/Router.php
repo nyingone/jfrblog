@@ -46,6 +46,7 @@ class Router
             if($route->match($this->_url))
             {
                 $routeFound = true;
+                $_SERVER['REDIRECT_URL'] = $this->_url;
                 $route->call();
                 
             }

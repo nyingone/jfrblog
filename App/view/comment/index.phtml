@@ -1,6 +1,5 @@
 
-<h2> Expression directe</h2>
-
+<?php $this->view_data = $datas ; ?>
 <!-- `id``bookId``bookVol``bookChap``epsId``user``pseudo``comment``postDat``status``validDat` -->
 <div id="container" class="row">
     <?php $comments = $this->view_data;  ?>
@@ -39,7 +38,7 @@
                 $table .= '<td>' . $comment->getComment() . '</td>';
                 $table .= '<td>' . $comment->getStatus()  . '</td>';
                 $table .= '<td>' . $comment->getNbcon()   . '</td>';
-                
+                $table .= '<td>' . '<input type="hidden" name="T$comment" value ="<?php $comment; ?>"/>' . '</td>';
                 $table .= '<td><a href="'. HOME .'comment-gest/val-' . $comment->getId() . '-upd' .'"><i class = "fas fa-thumbs-up " alt="Valider commentaire" title = "Validation"></i></a></td>';
 
                 $table .= '<td><a  href="'. HOME . 'comment-gest/del-' . $comment->getId()  . '-del' . '"><i class = "fas fa-comment-slash " alt="Supprimer commentaire" title = "Suppression"></i></a></td>';

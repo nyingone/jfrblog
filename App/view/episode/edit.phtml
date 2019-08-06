@@ -1,3 +1,4 @@
+<?php $this->view_data = $datas; ?>
 <?php foreach($this->view_data as $episode):?>
 
     <?php  if(isset($_SESSION['errors']) && !empty($_SESSION['errors']) ):?>
@@ -29,7 +30,7 @@
     </div>
   
     <p><?php $label = "Date création......:";?>                
-        <label><?=$label?></label> :<input type="date" maxlength="10" name="createdDat"   value="<?=($episode->getId()) > 0 ? $episode->getCreatedDat(): null; ?>"  >
+        <label><?=$label?></label> :<input type="date" maxlength="10" name="createdDat"   value="<?= $episode->getCreatedDat(); ?>"  >
     </p>
 
     <p><?php $label = "Status.............:";?>  

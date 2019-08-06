@@ -28,6 +28,8 @@ class Episode extends Table
     private $_statusType;
     private $_nbComments;
     private $_alertComm;
+    private $_idDel;
+    private $_idMaj;
 
     
      /**
@@ -42,14 +44,23 @@ class Episode extends Table
     {
         parent::__construct($table);
         
-        if($this->getStatus() > 20)
+        if($this->getStatus() >= 20)     // publié en ligne
         {
             $this->setStatusLabel("Mis en ligne le....:");
             $this->setStatusType("date");
+            $this->setIdDel(false);
+            $this->setIdMaj(true);
+
         }else{
             $this->setStatusLabel("hors ligne:");
             $this->setStatusType("hidden");
+            $this->setIdDel(true);
+            $this->setIdMaj(true);
         }
+
+        if($this->getStatus() >= 70):    // publié hard cover ou définitif 
+            $this->setIdMaj(false);
+        endif;
     }
   
   
@@ -85,8 +96,8 @@ class Episode extends Table
 
     public function setCreatedDat($createdDat=null)
     {  
-       //  $this->_createdDat = ($createdDat !='') ? date('Y-m-d', strtotime($createdDat)) : $date = date("Y-m-d");
-       $this->_createdDat = $this->cvtDat($createdDat,'set', true);
+        $this->_createdDat = $this->setDat($createdDat, 'Y-m-d H:i:s' );
+      
     }
 
     
@@ -95,21 +106,27 @@ class Episode extends Table
         $this->_status = $status;
     }
 
+   
     public function setOnlineDat($onlineDat=null)
     {
-        $date = new DateTime();
-        $this->_onlineDat = ($onlineDat !='') ? date('Y-m-d', strtotime($onlineDat)) : null;
+        if(! is_null($onlineDat)) 
+        {
+            $this->_onlinedDat = $this->setDat($onlineDat, 'Y-m-d H:i:s' );
+        }
+        
     }
 
     public function setCommented($commented= null)
     {
-        $date = new DateTime();
-        $this->_commented = ($commented !='') ? date('Y-m-d', strtotime($commented)) : null; 
+        if(!is_null($commented)) 
+        {
+        $this->_commented = $this->setDat($commented, 'Y-m-d H:i:s' );
+        }
     }
 
     public function setNbComment($nbComment)
-    {
-        $this->_nbComment = (int) $nbComment;
+    {   
+            $this->_nbComment = (int) $nbComment;
     }
 
     public function setBookId($bookId)
@@ -158,22 +175,28 @@ class Episode extends Table
     {
         return $this->_excerpt;
     }
-    public function getCreatedDat()
-    {
-        
-        return date('d-m-Y', strtotime($this->_createdDat));
+    public function getCreatedDat($sql = null)
+    { 
+        // var_dump($this->getDat($this->_createdDat, $sql)); 
+        // return $this->getDat($this->_createdDat, $sql);
+        $date = new DateTime("$this->_createdDat");
+        if ($sql === '*') :
+            return $date->format('Y-m-d');
+        else:
+            return $date->format('d-m-Y');
+        endif;
     }
     public function getStatus()
     {
         return $this->_status;
     }
-    public function getOnlineDat()
+    public function getOnlineDat($sql = null)
     {
-        return $this->_onlineDat;
+        return $this->getDat($this->_onlineDat, $sql);
     }
-    public function getCommented()
+    public function getCommented($sql = null)
     {
-        return $this->_commented;
+        return $this->getDat($this->_commented, $sql);
     }
     public function getNbComment()
     {
@@ -249,7 +272,15 @@ class Episode extends Table
         $this->_statutType = $type;
     }
 
-    
+    public function setIdDel($idDel)
+    {
+        $this->_idDel = $idDel;
+    }
+
+    public function setIdMaj($idMaj)
+    {
+        $this->_idMaj = $idMaj;
+    }
     /**
     *  Fonction annexes  _____________________________________________GET
     */
@@ -272,13 +303,25 @@ class Episode extends Table
         return $this->_alertComm;
     }
 
-    public function getStatusLabel(){
+    public function getStatusLabel()
+    {
 
         return $this->_statutLabel;
     }
-    public function getStatusType(){
+    public function getStatusType()
+    {
 
         return $this->_statutType;
+    }
+    public function getIdDel()
+    {
+
+        return $this->_idDel;
+    }
+    public function getIdMaj()
+    {
+
+        return $this->_idMaj;
     }
 
    

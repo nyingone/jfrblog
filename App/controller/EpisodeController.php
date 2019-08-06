@@ -9,6 +9,7 @@ class EpisodeController extends Controller
   private $_controllerId ;
   private $_managerId ;
   protected $result=[] ;
+  protected $level = 'N1';
 
   public function __construct()
   {
@@ -26,8 +27,9 @@ class EpisodeController extends Controller
   {
     
     $this->createModel($this->_tab, '');
-    $datas = $this->model->getSelection($ref);
+    $datas = $this->model->getSelection($ref, $this->level);
     $this->createView($this->_tab . DS . 'index', $datas);
+    $this->view->page_title = 'Gestion des épisodes :';
     $this->view->render($datas);
   }
 
@@ -39,8 +41,9 @@ class EpisodeController extends Controller
     $opt= 'upd';
     
     $this->createmodel($this->_tab, '');
-    $datas = $this->model->getSelection($ref);
+    $datas = $this->model->getSelection($ref, $this->level);
     $this->createview($this->_tab . DS . 'edit', $datas);
+    $this->view->page_title = 'Création/mise à jour épisode :';
     $this->view->render($datas);
   }
 
@@ -50,9 +53,9 @@ class EpisodeController extends Controller
   public function show($ref= null,$opt=null)
   {
     $this->createmodel($this->_tab, '');
-    $datas = $this->model->getSelection($ref);
+    $datas = $this->model->getSelection($ref,  $this->level);
     $this->createview($this->_tab . DS . 'show', $datas);
-    $episode = $datas[0]; // objet episode
+    $this->view->page_title = 'Un peu de lecture :';
     $this->view->render($datas);
   
   }

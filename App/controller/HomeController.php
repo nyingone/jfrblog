@@ -4,6 +4,7 @@ class HomeController extends Controller
     private $_tag = 'home';
     private $_tab = 'episode';
     private $_entity = 'Episode';
+    protected $level = 'N1';
 
     public function __construct()
     {
@@ -17,14 +18,15 @@ class HomeController extends Controller
                                     'name' => $name,
                                     'id'   => $id
         ]);
-        $datas = $this->findLastEpisode();
+        $this->view->page_title = 'ACCUEIL';
+        $datas = $this->findLastEpisode($this->level);
         $this->view->render($datas);
     }
 
     public function findLastEpisode()
     {
         $manager = new EpisodeManager();
-        $datas  =   $manager->findLast();
+        $datas  =   $manager->findLast(null, $this->level);
         return $datas;
     }   
    
@@ -40,7 +42,7 @@ class HomeController extends Controller
     public function findAboutJFR()
     {
         $manager = new EpisodeManager();
-        $datas  =   $manager->findAboutJFR();
+        $datas  =   $manager->findAboutJFR(null, $this->level);
         return $datas;
     }  
 }
