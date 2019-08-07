@@ -50,12 +50,17 @@ class EpisodeManager
                 }
             }
             // $this->selection = DB::getInstance()->get($this->_tab, array('id', '=', $parms));
-    
+            if(!isset($_SESSION['logged_in'])) :
+                $ksel[] = 'status';
+                $ksel[] = '>';
+                $ksel[] = '10';
+            endif;
+            
             if ($x < 2 || $keys[1] <= '999') : 
                 $this->selection = DB::getInstance()->get($this->_tab, $ksel, $orderBy);
                 $this->formatSelection($level);
             else:
-                $this->selection = $this->findUnique($keys);
+                $this->selection = $this->findUnique($keys, 'N1');
             endif;
         }  
         return $this->episodes;
@@ -123,18 +128,22 @@ class EpisodeManager
                     $this->bookManager = new BookManager();
                     $bookInfo = $this->bookManager->getBooks($episode->getBookId(), $level); 
                     $episode->setBookInfo($bookInfo);
-
-                               
+                endif;  
+                if($level === 'N1' || $level === 'N0') :          
                 // requete sur tous les comments par episode
                     $refEps= $episode->getBookId() . '.' . $episode->getId();  
                     $comments = $this->commentManager->getSelection($refEps,$level);
                     $episode->setComments($comments);
-
+                    // var_dump($comments);
+                    if(is_array($comments)) :
+                        $comment = $comments[0];
+                        $episode->setLastCommented($comment->getPostDat());
+                    endif;
                     // requete sur tous les commentaires non validés par episode
                     $altComm = $this->commentManager->getSelAlertComm($refEps,$level);
                     $episode->setAlertComm($altComm);
                 endif;
-                // var_dump($episode);
+                
                 $this->episodes[] = $episode;
             }
         }else{

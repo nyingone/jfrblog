@@ -53,13 +53,21 @@ class Table
        // $this->_postDat = ($postDat != '') ? $this->cvtDat($postDat, 'set', false) : $this->cvtDat($postDat, 'set', true);
     }
 
-    public function getDat($datx,$sql= null)
+    public function getDat($datx,$sql= null, $lgz= null)
     {
         $date = new DateTime("$datx");
         if ($sql === '*') :
-            return $date->format('Y-m-d H:i:s');
+            if ($lgz === 8) : 
+                return $date->format('Y-m-d'); 
+            else:
+                return $date->format('Y-m-d H:i:s');
+            endif;
         else:
-            return $date->format('d-m-Y H:i:s');
+            if ($lgz === 8) : 
+                return $date->format('d-m-Y'); 
+            else:
+                return $date->format('d-m-Y H:i:s');
+            endif;
         endif;
     }
 

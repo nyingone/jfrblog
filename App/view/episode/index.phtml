@@ -20,9 +20,12 @@
                 <th>L/V/C</th>
                 <th>quote</th>
                 <th>extrait</th>
-                <th>stt</th>
-                <th><i class = "far fa-comment" alt="Liste commentaires" title ="Liste commentaires"></i></th>
-                <th><i class="fas fa-bell" alt="Alerte Commentaire" title = "Alerte Commentaire"></i></th>
+                <th><a href="#" data-toggle="tooltip" data-placement="top" title="00->10 en cours / 20 à ctl / 30 en ligne / 70 locké ">Stt</a></th>           
+                <th>Episode <br/> Maj </th>
+                <th><br/> Suppr +</th>
+                <th><i class = "far fa-comment" alt="Nb commentaires" title ="Nb commentaires"></i></th>
+                <th>Date</th>
+                <th><i class="fas fa-bell" alt="Nb Alerte Commentaire" title = "Nb Alerte Commentaire"></i></th>  
                 <th>voir +</th>
             </tr>
         </thead>
@@ -34,30 +37,44 @@
             foreach($this->view_data as $episode)
             {              
                 $src= IMG125 . $episode->getImage(); 
-                $refEps = $episode->getBookId() . '.' . $episode->getVolume() . '.' . $episode->getId();                                                                                                                                                                                                 
+                $refEps = $episode->getBookId() . '.' . $episode->getVolume() . '.' . $episode->getId(); 
+                $refComm = $episode->getBookId() . '.'  . $episode->getId();                                                                                                                                                                                                 
+                
                 $table .= '<tr>';
                 $table .= '<td><a href='. HOME . 'episode-show/show-' . $episode->getBookId() . '.' . $episode->getVolume() . '.'. $episode->getId() . '><img src="' .  $src . '" alt="'. $episode->getImageAlt() . '" title ="' . $episode->getImageAlt() . '"></a></td>';
 
                 $table .= '<td>' . $episode->getBookId() . '/' . $episode->getVolume() . '/' .  $episode->getChapter() . '</td>';
-                $table .= '<td>' . $episode->getQuote() . '</td>';
+                $table .= '<td>' . $episode->getQuote() . '<br/> mise en ligne le :' .  $book->getOnlineDat() .'</td>';
                 $table .= '<td>' . $episode->getExcerpt() . '</td>';
                 $table .= '<td>' . $episode->getStatus() . '</td>';
-                $table .= '<td>' . $episode->getNbComments()  . ' <a href='. HOME . 'comment-index/show-' . $episode->getBookId() .  '.' . $episode->getId() . '></a></td>';
-                   
-                if ($episode->getAlertComm()) :
-                    $table .= '<td><a href=' . HOME . 'comment-gest/edit-' . $refEps . '><span>' . $episode->getAlertComm() . '</span></a></td>';
-                else:
-                    $table .= '<td>___</td>';
-                endif;
+
                 if ($episode->getIdMaj() === true) :
                     $table .= '<td><a href='. HOME .'episode-edit/edit-' . $refEps . '><i class="fas fa-edit"alt="Modifier" title = "Maj épisode"></i></a></td>';
                 else:
-                    $table .= '<td>___</td>';
+                    $table .= '<td>_</td>';
                 endif;
+
                 if ($episode->getIdDel() === true) :
                     $table .= '<td><a href="'. HOME . 'episode-edit/del-' . $refEps . '-del">Del</a></td>';
                 else:
-                    $table .= '<td>___</td>';
+                    $table .= '<td>_</td>';
+                endif;
+
+                if ((int) $episode->getNbComments() <> 0):
+                    $table .= '<td><a href="' . HOME . 'comment/index-' . $refComm . '"><span>' .  $episode->getNbComments() . '</span></a></td>';
+                else:
+                    $table .= '<td>_0_</td>';
+                endif;
+                $table .= '<td>' . $episode->getLastCommented() . '</td>';
+               
+                if ((int) $episode->getAlertComm() <> 0) :
+                    $table .= '<td><a href="' . HOME . 'comment/index-' . $refComm . '"><span>' . $episode->getAlertComm() . '</span></a></td>';
+                else:
+                    $table .= '<td>_0_</td>';
+                endif;
+
+                if ((int) $episode->getNbComments() <> 0) :
+                    $table .= '<td><a href="'. HOME .'comment/index-' . $refComm . '"><i class="fas fa-comments" alt="Gérer Commentaires" title = "Gestion commentaires"></i></a></td>';
                 endif;
 
                 $table .= '<tr>';

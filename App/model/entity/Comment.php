@@ -13,19 +13,50 @@ class Comment  extends Table
     private $_status;
     private $_validDat;
     private $_nbCon;
+    private $_newCon;
 
     private $_bookInfo;
     private $_episodeInfo;
+    private $_AlertComm;
     /**
     * Constructeur de la classe assignant -via fonction hydrate, les données si transmises
     * géré via classe Table.
     * @param array $donnees
     * @return void
     */
+    public function __construct($table)
+    {
+        parent::__construct($table);
+        
+        if($this->getNewCon() <> 0 ) : 
+            if ($this->getStatus() === '30') : 
+                $this->setStatus('20'); 
+            endif;
+        endif;
+
+        if($this->getStatus() < 30) :    // Stt commentaire non validé ou signalé (20)
+            $this->setAlertComm(true);
+        else:
+            $this->setAlertComm(false);
+        endif;
+    }
     public function inz_POST($comment)
     {
+        if($_POST['action'] === 'val') : 
+            $comment->setStatus('30');  
+            $comment->setNewCon(0);  
+            $comment->setValidDat();
+        endif;
+        if($_POST['action'] === 'signal') : 
+            $comment->addNbCon(); 
+            unset($_POST['nbCon']);
+            unset($_POST['newCon']);
+            unset($_POST['status']);
+        endif;
+        
         $tabVal = get_object_vars($comment); 
         $this->create_POST($tabVal);
+        
     }
 
 // Setters
@@ -55,33 +86,42 @@ class Comment  extends Table
     }
     public function setPostDat($postDat= null)
     {
-
-        // $date = new DateTime("$postDat");
-        // $this->_postDat =  $date->format('Y-m-d H:i:s');
         $this->_postDat = $this->setDat($postDat, 'Y-m-d H:i:s' );
-       // $this->_postDat = ($postDat != '') ? $this->cvtDat($postDat, 'set', false) : $this->cvtDat($postDat, 'set', true);
     }
     public function setStatus($status)
     {
         $this->_status = $status;
     }
-    public function setValidDat($validDat)
+    public function setValidDat($validDat=null)
     {
-        if(isset($validDat))
+        if($this->getStatus() === '30')
         {
-            $date = new DateTime("$validDat");
-            $this->_validDat =  $date->format('Y-m-d H:i:s');
-        }   
+            $this->_validDat = $this->setDat($validDat, 'Y-m-d H:i:s' );
+        }else{
+            $this->_validDat  = null;
+        }
     }
     public function setNbCon($nbCon)
     {
         $this->_nbCon = (int) $nbCon;
     }
+
+    public function setNewCon($newCon)
+    {
+        $this->_newCon = (int) $newCon;
+    }
+
     public function addNbCon()
     {
         $this->_nbCon ++;
+        $this->_newCon ++;
+         
+        if ($this->getStatus() === '30') : 
+            $this->setStatus('20'); 
+        endif;
+        $this->setAlertComm(true);
+       
     }
-
 
     // Getters
     public function getId()
@@ -133,7 +173,10 @@ class Comment  extends Table
     {
         return $this->_nbCon;
     }
-
+    public function getNewCon()
+    {
+        return $this->_newCon;
+    }
     
     /**
      * Fonction annexes _____________________________________________SET
@@ -148,6 +191,14 @@ class Comment  extends Table
         $this->_episodeInfo = $episodes;
     }
 
+    public function setAlertComm($alert)
+    {
+       
+            $this->_alertComm = $alert;
+         
+      
+    }
+
      /**
     *  Fonction annexes  _____________________________________________GET
     */
@@ -160,6 +211,10 @@ class Comment  extends Table
         return $this->_episodeInfo;
     }
 
+    public function getAlertComm()
+    {
+        return $this->_alertComm;
+    }
 
     // SELECT `id``bookId```bookChap``c``userId``comment``postDat``status``validDat` FROM `comment`
     public static function validation()

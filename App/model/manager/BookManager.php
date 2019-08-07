@@ -32,16 +32,35 @@ class BookManager
                
                 $book = new Book($table);
                  // Récup des épisodes
+                $nbComm = 0;
+                $nbAlt  = 0;
+                $nbEps  = 0;
+                $nbEpsAlt  = 0;
                 if($level === 'N0'):
                     $this->episodeManager = new EpisodeManager();
                     $episodes = $this->episodeManager->getSelection($book->getId(), $level);
                     $book->setEpisodes($episodes);
+                    foreach ($episodes as $episode)
+                    {
+                        $nbComm += $episode->getNbcomments();
+                        $nbAlt += $episode->getAlertComm();
+                        $nbEps ++;
+                        if($episode->getAlertComm() > 0) : 
+                            $nbEpsAlt ++ ; 
+                        endif;
+                    }
+                   //  $book->setAlertEpisode($episodes);
+                    $book->setNbEpisodes($nbEps);
+                    $book->setNbEps($nbEps); 
+                    $book->setNbComments($nbComm);
+                    $book->setAlertComm($nbAlt);
+                    $book->setAlertEpisodes($nbEpsAlt);
                 endif;
                 $this->books[] = $book;
             }
           
         }else{
-            $this->books[] = new Book();
+            $this->books[] = new Book([]);
         }
         return $this->books;
     }

@@ -17,9 +17,10 @@
                 <th>le:</th>
                 <th>commentaire</th>
                 <th>statut</th>
-                <th>Image<br/> Vue </th>
-                <th>Der.commentaire</th>
-                <th>voir +</th>
+                <th>Revalidé le</th>
+                <th>Nv.<i class="fas fa-thumbs-down" alt="Nouveaux signalement versus total" title = "Nouveaux signalement/ total"></i>/total</th>
+                <th>Alt</th>
+                <th>Gérer</th>
             </tr>
         </thead>
         <tbody>
@@ -34,15 +35,21 @@
                 $table .= '<tr>';               
                 $table .= '<td>' . $episode->getChapter() . '</td>';
                 $table .= '<td>' . $comment->getPseudo()  . '</td>';
-                $table .= '<td>' . $comment->getPostdat() . '</td>';
+                $table .= '<td>' . $comment->getPostDat() . '</td>';
                 $table .= '<td>' . $comment->getComment() . '</td>';
-                $table .= '<td>' . $comment->getStatus()  . '</td>';
-                $table .= '<td>' . $comment->getNbcon()   . '</td>';
-                $table .= '<td>' . '<input type="hidden" name="T$comment" value ="<?php $comment; ?>"/>' . '</td>';
+                $table .= '<td>' . $comment->getStatus()  .  '</td>';
+                $table .= '<td>' . $comment->getValidDat() . '</td>';
+                $table .= '<td>' . $comment->getNewCon()   . '/' . $comment->getNbCon()   . '</td>';
+                
+                if($comment->getAlertComm())  :
+                    $table .= '<td><i class="fas fa-bell" alt="Alerte Commentaire" title = "Alerte Commentaire"></i></td>';
+                else:
+                    $table .= '<td>_</td>';
+                endif;
+               
                 $table .= '<td><a href="'. HOME .'comment-gest/val-' . $comment->getId() . '-upd' .'"><i class = "fas fa-thumbs-up " alt="Valider commentaire" title = "Validation"></i></a></td>';
-
                 $table .= '<td><a  href="'. HOME . 'comment-gest/del-' . $comment->getId()  . '-del' . '"><i class = "fas fa-comment-slash " alt="Supprimer commentaire" title = "Suppression"></i></a></td>';
-
+                $table .= '<td>' . '<input type="hidden" name="T$comment" value ="<?php $comment; ?>"/>' . '</td>';
 
                 $table .= '<tr>';
             }

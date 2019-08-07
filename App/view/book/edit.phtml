@@ -1,3 +1,5 @@
+
+<?php $this->view_data =$datas ;  ?>
 <?php  if(isset($_SESSION['errors']) && !empty($_SESSION['errors']) ):?>
 
     <ul>
@@ -36,10 +38,10 @@
                 <label><?=$label?></label><input class="form-control" type="number" maxlength="4" name="editYear" value="<?=($book->getId()) > 0 ? $book->getEditYear():''; ?>"placeholder="SSAA" maxlength=4/>
             </p>
 
-            <p>
-                     
-            <label><?= $book->getOnlineDatLabel()?></label><input class="form-control" type="<?=$book->getOnlineDatType();?>" maxlength="10" name="onlineDat" value="<?=($book->getId()) > 0 ? $book->getOnlineDat(): '';  ?>" />
-           
+            <p> 
+            <?php $dat = $book->getOnlineDat(); ?>
+            <label><?= $book->getOnlineDatLabel()?></label><input class="form-control" type="<?=$book->getOnlineDatType();?>"  name="onlineDat" value="<?=($book->getId()) > 0 ? $dat : '';  ?>"  readOnly />
+        
             <p> 
                       
                 <label><?=$book->getNbEpisodesLabel();?></label><input class="form-control" type="<?=$book->getNbEpisodesType();?>" maxlength="3" name="nbEps" value="<?= ($book->getId()) > 0 ? $book->getNbEpisodes() : ''; ?>" readOnly />

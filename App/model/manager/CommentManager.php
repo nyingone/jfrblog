@@ -20,9 +20,10 @@ class CommentManager
     */
     public function getSelection($parms=null, $level = null)
     {
+        $orderBy = ' order by postDat DESC, status, id DESC ';
         if(!isset($parms))
         {
-            $this->selection = DB::getInstance()->query('SELECT * from ' . $this->_tab,'',$this->_tab);
+            $this->selection = DB::getInstance()->query('SELECT * from ' . $this->_tab . $orderBy,'',$this->_tab);
         }else
         {
             $keys = explode('.',$parms);
@@ -47,8 +48,14 @@ class CommentManager
                     }
                 }
             }
+            if(!isset($_SESSION['logged_in'])) :
+                $ksel[] = 'status';
+                $ksel[] = '>';
+                $ksel[] = '20';
+            endif;
+
             // $this->selection = DB::getInstance()->get($this->_tab, array('id', '=', $parms));
-            $this->selection = DB::getInstance()->get($this->_tab, $ksel);
+            $this->selection = DB::getInstance()->get($this->_tab, $ksel, $orderBy);
         }  
         
         $this->formatSelection($level);
@@ -61,7 +68,7 @@ class CommentManager
         $keys = explode('.',$parms);
         $ksel = array(  'bookId'   , '=' , $keys[0],
                         'epsId'    , '=' , $keys[1],
-                        'status'   , '<' , '20');  
+                        'status'   , '<' , '30');  
         
         $this->selection = DB::getInstance()->get($this->_tab, $ksel);
         // var_dump($this->selection); die;
@@ -137,7 +144,7 @@ class CommentManager
                $this->comments[] = $comment;
             }
         }else{
-            $this->comments[] = new Comment([]);
+           //  $this->comments[] = new Comment([]);
         }
         return $this->comments;
     }

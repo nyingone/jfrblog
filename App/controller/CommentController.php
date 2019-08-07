@@ -29,16 +29,14 @@ class CommentController extends Controller
     $datas = $this->model->getSelection($ref, $this->level);
     $this->createView($this->_tab . DS . 'index', $datas);
     $this->view->page_title = 'Gestion expression directe :';
-    var_dump($_SESSION['redirect']);
-    $this->view->render($datas);
+    // var_dump($_SESSION['redirect']);
+    isset($datas) ? $this->view->render($datas) : header("Location: ". $_SESSION['redirect'] );
   }
 
   /** edit one Comment of a known book 
  * @param $ref = id Comment
 */
- 
-
-  public function show($ref= null,$opt=null)
+   public function show($ref= null,$opt=null)
   {
     $this->createmodel($this->_tab, '');
     $datas = $this->model->getSelection($ref, $this->level);
@@ -47,12 +45,14 @@ class CommentController extends Controller
   }
 
    /** signal a Comment 
- * @param $ref = id Comment $opt=pro/con
+ * @param $ref = id Book + id Eps + IdComment $opt=pro/con
   */
   public function signal($ref, $opt=null)
   {
-    $_POST['url'] = $_SESSION['redirect']; 
-    $this->maj();
+    $parms = explode('.', $ref);
+    $id = $parms[2];
+    
+    $this->gest($id);
   }
 
    /** maj a Comment via gestion Admin

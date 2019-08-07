@@ -63,7 +63,7 @@ class BookController extends Controller
   public function edit($id = null,$opt=null)
   {
     $this->createmodel($this->_tab, '');
-    ($id) ? $datas = $this->model->getBooks($id,$this->level) : $datas[] = new Book();
+    $datas = $this->model->getBooks($id,$this->level);
     $this->createview($this->_tab . DS . 'edit', $datas);
     $this->view->page_title = 'Création/Mise à jour :';
     $this->view->render($datas);

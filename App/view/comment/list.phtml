@@ -89,9 +89,8 @@ $alt="crayon";
                                 <input type="hidden" name="postDat" value="<?= $comment->getPostDat(); ?>">
                                 <input type="hidden" name="status" value="<?= $comment->getStatus(); ?>">
                                 <input type="hidden" name="validDat" value="<?= $comment->getValidDat(); ?>">
-                                <?php $comment->addNbcon(); ?>
+                                <?php // $comment->addNbcon(); ?>
                                 <input type="hidden" name="nbCon" value="<?= $comment->getNbcon(); ?>">
-                    
                                 <input type="hidden" name="url" value ="<?= 'comment-signal/signal-' . $comment->getBookId() .'.' . $comment->getEpsId() . '.' . $comment->getId() .'-' . $opt ; ?>"> 
                                 <input type='hidden' name="action" value ="<?php echo($opt); ?>">
                                 <button type="submit">Signaler <br/><i class="fas fa-bell"></i></button>

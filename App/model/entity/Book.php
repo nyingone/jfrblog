@@ -18,6 +18,8 @@ class Book extends Table
     private $_episodes;
     private $_nbEpisodes;
     private $_alertEpisode;
+    private $_nbComments;
+    private $_alertComm;
     private $_onlineDatLabel;
     private $_promotedLabel;
     private $_coverLabel;
@@ -44,8 +46,8 @@ class Book extends Table
     if($this->getStatus() >= '20') : 
         $this->setOnlineDatLabel('Mis en ligne le....:');
         $this->setPromotedLabel('Mis en ligne le....:'); 
-        $this->setOnlineDatType('date');
-        $this->setPromotedType('date');
+        $this->setOnlineDatType('text');
+        $this->setPromotedType('text');
       
      else:
         $this->setOnlineDatLabel('hors ligne');
@@ -96,11 +98,11 @@ class Book extends Table
     {
         $this->_plot = $plot;
     }
-    public function setOnlineDate(datetime $onlineDate)
+    public function setOnlineDat($onlineDat)
     {
-       //  $onlineDate = new DateTime();
-      // $this->_onlineDate = ($onlineDate !='') ? date('Y-m-d', strtotime($onlineDate)) : null;
-       $this->_onlineDate = $this->cvtDat($onlineDate, 'set', false);
+       if($this->getStatus() >= $this->_statusOkDel || $onlineDat <> 0 ) :
+            $this->_onlineDat = $this->setDat($onlineDat, 'Y-m-d' );
+       endif;
     }
     public function setNbEps($nbEps)
     {
@@ -149,9 +151,14 @@ class Book extends Table
     {
         return $this->_plot;
     }
-    public function getOnlineDat()
+    public function getOnlineDat($sql=null)
     {
-        return $this->_onlineDat;
+        if(isset($this->_onlineDat) && $this->_onlineDat > 0)
+        {
+            $lgz = 8;
+            $date =  $this->getDat($this->_onlineDat, $sql, $lgz);
+            return $date;      
+        }
     }
     public function getNbEps()
     {
@@ -204,23 +211,28 @@ class Book extends Table
 
     public function setNbEpisodes($nbEpisodes)
     {
-        
         $this->_nbEpisodes = (int) $nbEpisodes;
         $this->setNbEpisodesLabel('Nb épisodes........:');
         $this->setNbEpisodesType('number');  
     }
-
-    
+   
     /**
-     * @parm mixed      (tableau ou false)
-     * @return mixed    (count ou false)
+     * 
      */
-    public function setAlertEpisode($altE)
+    public function setAlertEpisodes($alertEpisode)
     {
-        if(is_array($altE)) : 
-            $alt = count( array_column($altE, '_alertComm'));          
-        endif;
-        $this->_alertEpisode = (int) $alt;
+        $this->_alertEpisode = $alertEpisode;
+    }
+
+    public function setNbComments($nbComments)
+    {
+        $this->_nbComments = (int) $nbComments;
+    }
+
+    public function setAlertComm($alertComm)
+    {
+        
+        $this->_alertComm = (int) $alertComm;
       
     }
 
@@ -291,6 +303,14 @@ class Book extends Table
     public function getAlertEpisode()
     {
         return $this->_alertEpisode;
+    }
+    public function getAlertComm()
+    {
+        return $this->_alertComm;
+    }
+    public function getNbComments()
+    {
+        return $this->_nbComments;
     }
     public function getOnlineDatLabel(){
 

@@ -11,7 +11,7 @@ class Episode extends Table
     private $_createdDat;
     private $_status;
     private $_onlineDat;
-    private $_commented;              
+    private $_lastCommented;              
     private $_nbComment;
     private $_bookId;
     private $_chapter;
@@ -96,7 +96,7 @@ class Episode extends Table
 
     public function setCreatedDat($createdDat=null)
     {  
-        $this->_createdDat = $this->setDat($createdDat, 'Y-m-d H:i:s' );
+        $this->_createdDat = $this->setDat($createdDat, 'Y-m-d' );
       
     }
 
@@ -111,16 +111,16 @@ class Episode extends Table
     {
         if(! is_null($onlineDat)) 
         {
-            $this->_onlinedDat = $this->setDat($onlineDat, 'Y-m-d H:i:s' );
+            $this->_onlinedDat = $this->setDat($onlineDat, 'Y-m-d' );
         }
         
     }
 
-    public function setCommented($commented= null)
+    public function setLastCommented($lastCommented= null)
     {
-        if(!is_null($commented)) 
+        if(!is_null($lastCommented)) 
         {
-        $this->_commented = $this->setDat($commented, 'Y-m-d H:i:s' );
+        $this->_lastcommented = $this->setDat($lastCommented, 'Y-m-d' );
         }
     }
 
@@ -177,14 +177,12 @@ class Episode extends Table
     }
     public function getCreatedDat($sql = null)
     { 
-        // var_dump($this->getDat($this->_createdDat, $sql)); 
-        // return $this->getDat($this->_createdDat, $sql);
-        $date = new DateTime("$this->_createdDat");
-        if ($sql === '*') :
-            return $date->format('Y-m-d');
-        else:
-            return $date->format('d-m-Y');
-        endif;
+        if(isset($this->_createdDat) && $this->_createdDat> 0)
+        {
+            $lgz = 8;
+            $date =  $this->getDat($this->_createdDat, $sql, $lgz);
+            return $date;      
+        }
     }
     public function getStatus()
     {
@@ -192,11 +190,21 @@ class Episode extends Table
     }
     public function getOnlineDat($sql = null)
     {
-        return $this->getDat($this->_onlineDat, $sql);
+        if(isset($this->_onlineDat) && $this->_onlineDat > 0)
+        {
+            $lgz = 8;
+            $date =  $this->getDat($this->_onlineDat, $sql, $lgz);
+            return $date;      
+        }
     }
-    public function getCommented($sql = null)
+    public function getLastCommented($sql = null)
     {
-        return $this->getDat($this->_commented, $sql);
+        if(isset($this->_lastCommented) && $this->_lastCommented > 0)
+        {
+            $lgz = 8;
+            $date =  $this->getDat($this->_lastCommented, $sql, $lgz);
+            return $date;      
+        }
     }
     public function getNbComment()
     {
