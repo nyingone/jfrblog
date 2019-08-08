@@ -12,6 +12,7 @@ class Book extends Table
     private $_cover;
     private $_coverAlt;
     private $_promoted;
+    private $_blogged;
 /**
      * Variablea ajoutés hors base données
      */
@@ -138,6 +139,11 @@ class Book extends Table
         $this->_promoted =  (int) $promoted;
     }
 
+    public function setBlogged($blogged)
+    {
+        $this->_blogged =  (int) $blogged;
+    }
+
     // Getters
     public function getId()
     {
@@ -187,6 +193,10 @@ class Book extends Table
     public function getPromoted()
     {
         return $this->_promoted;
+    }
+    public function getBlogged()
+    {
+        return $this->_blogged;
     }
 
     public function isNew()

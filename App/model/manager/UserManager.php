@@ -3,9 +3,11 @@
 class UserManager 
 {
     protected static $_db; // Instance de PDO
-    protected $selection ;
+ 
     protected $query;
     private $_tab = 'user';
+    protected $selection ;
+    protected $users = [] ;
     
     public function __construct($modelName= null,$method= null)
     {    
@@ -15,14 +17,20 @@ class UserManager
 
     public function find($selusr)
     {
+     
         if(!empty($selusr))
         {
             $field = (is_numeric($selusr)) ? 'id' : 'userId';
             $this->selection = DB::getInstance()->get('user', array($field, '=', $selusr));
+           
             if(is_array($this->selection) && count($this->selection))
             {
-                return $this->selection;
-                // return true;
+                foreach($this->selection as $table) :
+                    $user = new User($table);
+                    $this->users[] = $user;
+                endforeach;
+                
+                return $this->users;
             }else{
                 return false;
             }
@@ -31,21 +39,30 @@ class UserManager
         }
     }
 
-    public function login($userObj)
+    public function login($visiteur)
     {
-        $userTx = get_object_vars($userObj );  
-        $userT = $this->find($userTx['_userId']);
-        $userT0 = $userT[0];
         $is_loggedIn = false;
-        if(isset($userT0)  && !empty($userT0))
+        unset($_SESSION['logged_in']);
+       
+        $users = $this->find($visiteur->getUserId());
+        if(is_array($users)  && !empty($users))
         {        
-            // $user0 = new User($userT0);    
-            // if($userT0['password'] === Hash::make($userTx['_password'], $userT0['salt']))
-            if($userT0['password'] === $userTx['_password'])
-            {
-                $is_loggedIn = true;
-            }
+            foreach($users as $friend) :                
+                if($visiteur->getPassword() === $friend->getPassword())
+                {
+                    $visiteur->setEmail($friend->getEmail());
+                    $visiteur->setPseudo($friend->getPseudo());
+                    $visiteur->setGroupId($friend->getGroupId());
+                    $is_loggedIn = true;
+                   
+                    $_SESSION['logged_in']  =  $is_loggedIn; 
+                    $_SESSION['email']      = $visiteur->getEmail();
+                    $_SESSION['pseudo']     = $visiteur->getPseudo();
+                    $_SESSION['groupId']    = $visiteur->getGroupId();
+                }
+            endforeach;
         }
+        
         return $is_loggedIn;
     }
 
@@ -62,29 +79,53 @@ class UserManager
     {
         return $this->_isLoggedIn;
     }
-    public function create($fields = array())
+   /*  public function create($fields = array())
     {
         if(!$this->_db->insert('user', $fields))
         {
             throw new Exception('problem de creation profil');
         }
+    } */
+
+
+    public function majTab($class)
+    { 
+     
+        if(isset($_POST['id']) && $_POST['id'] > 0){
+            $id = $_POST['id'];
+        }else{
+            $id = null;
+        }    
+        if($_POST['action'] == 'del')
+        {
+            $succes = DB::getInstance()->dltClsRcd($this->_tab, $class);
+            if($succes == false)
+            {
+                throw new Exception('problem de suppression' . $this->_tab);
+            }else{
+                Session::flash($this->_tab, 'delete successful' );
+            }
+        }else{
+     
+            if(isset($_POST['id']) && $_POST['id'] > 0)
+            {
+                $succes = DB::getInstance()->updClsRcd($this->_tab, $class);
+                if($succes == false)
+                {
+                    throw new Exception('problem de maj' . $this->_tab);
+                }else{
+                    Session::flash($this->_tab, 'maj successful' );
+                }
+            }else{
+                $succes = DB::getInstance()->addClsRcd($this->_tab, $class);
+                if($succes == false)
+                {
+                    throw new Exception('problem de creation' . $this->_tab);
+                }else{
+                    Session::flash($this->_tab, 'crt successful' );
+                }  
+            }
+        }
     }
 
-
-
-// to get all users
-    public function getUsers()
-    {
-        
-    }
-    // login
-
-    //logout
-
-    // register
-    public function register()
-    {
-        
-    }
-  // edit/update profile & Password
 }

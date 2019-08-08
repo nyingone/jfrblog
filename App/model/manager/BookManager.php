@@ -3,6 +3,7 @@ class BookManager
 {
     protected static $_db; // Instance de PDO
     protected $books ;
+    protected $selection ;
     protected $query;
     private $_tab = 'book';
     private $episodeManager;
@@ -16,14 +17,22 @@ class BookManager
 
     public function getBooks($parms=null, $level=null)
     { 
-
+        $action = "select * FROM ";
+        $join = null;
         $orderBy = ' order by EditYear DESC, status, id DESC ';
         if(!isset($parms))
-        {
-            $this->selection = DB::getInstance()->query('SELECT * from book' . $orderBy,'','book');
+        {   
+            $ksel = array(  'blogged'    , '<>', 1,
+                            'status'    , '>=', '20',
+                            'status'    , '<', '90');
+
         }else{
-            $this->selection = DB::getInstance()->get('book', array('id', '=', $parms));
+            $ksel = array('id', '=', $parms);
         }
+
+    
+        $this->selection = DB::getInstance()->get($this->_tab, $ksel, $orderBy, $action, $join);
+    
         if(isset($this->selection) && !empty($this->selection))
         {
           
@@ -101,12 +110,10 @@ class BookManager
                     throw new Exception('problem de creation' . $this->_tab);
                 }else{
                     Session::flash($this->_tab, 'crt successful' );
-                    // header('location: index.phtml');
-                //  Redirect::to($this->_tab);
-                }  
+                                }  
             }
                
         }
-        // Redirect::to($this->_tab);
+        Redirect::to($this->_tab);
     }
 }

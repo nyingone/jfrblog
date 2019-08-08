@@ -3,16 +3,34 @@ class EpisodeManager
 {
     protected static $_db; // Instance de PDO
     protected $selection ;
+   
     protected $episodes = [] ;
     protected $query;
+
     private $_tab = 'episode';
-    private $commentManager;
+    private $_commentManager;
+    private $_bookManager;
+    private $_entity;
+    private $_entityFields;
+
     
     public function __construct($modelName= null,$method= null)
     {    
         $_db = DB::getInstance();
-        $this->commentManager = new CommentManager();
        
+        
+        $this->_entity = new Episode([]);
+        $fieldList =  $this->_entity->getFfd($this->_tab );
+        foreach ($fieldList as $field => $specs):
+            foreach ($specs as $spec => $value):
+                if($spec = 'COLUMN_NAME'):
+                     $extractFields[] =  $this->_tab . '.' . $value;
+                endif;
+            endforeach;
+        endforeach;
+        $this->_entityFields = implode($extractFields, ',');
+
+        $this->_commentManager = new CommentManager();
     }
 /**
     * Sélection Episodes pour affichage liste ou sélection
@@ -120,19 +138,20 @@ class EpisodeManager
         {  
             foreach($this->selection as $table)
             {
-                $episode = new Episode($table);
+                 $episode = new Episode($table);
               
                 if($level === 'N1') :
                 // requete sur le livre de l' episode
                 
-                    $this->bookManager = new BookManager();
-                    $bookInfo = $this->bookManager->getBooks($episode->getBookId(), $level); 
+                    $this->_bookManager = new BookManager();
+                    $bookInfo = $this->_bookManager->getBooks($episode->getBookId(), $level); 
                     $episode->setBookInfo($bookInfo);
                 endif;  
+
                 if($level === 'N1' || $level === 'N0') :          
                 // requete sur tous les comments par episode
                     $refEps= $episode->getBookId() . '.' . $episode->getId();  
-                    $comments = $this->commentManager->getSelection($refEps,$level);
+                    $comments = $this->_commentManager->getSelection($refEps,$level);
                     $episode->setComments($comments);
                     // var_dump($comments);
                     if(is_array($comments)) :
@@ -140,7 +159,7 @@ class EpisodeManager
                         $episode->setLastCommented($comment->getPostDat());
                     endif;
                     // requete sur tous les commentaires non validés par episode
-                    $altComm = $this->commentManager->getSelAlertComm($refEps,$level);
+                    $altComm = $this->_commentManager->getSelAlertComm($refEps,$level);
                     $episode->setAlertComm($altComm);
                 endif;
                 
@@ -155,18 +174,33 @@ class EpisodeManager
     * Recherche dernier épisode
     * @return [objets]
     */
-    public function findLast($parms=null,  $level ) // Regle Gestion: Mise en avant du dernier episode en statut 30
+    public function findLast($parms=null,  $level ) // Regle Gestion: Mise en avant du dernier episode en statut 30 en ligne + validé
     {
-        $orderBy = 'order by id DESC LIMIT 1';
-        $this->selection = DB::getInstance()->query('SELECT * from ' . $this->_tab . " where status >= '30' " . $orderBy,'', $this->_tab);
         
-        $this->formatSelection($level);
+        $action = "select " . $this->_entityFields . " FROM ";
+        $orderBy = 'order by episode.id DESC LIMIT 1';
+        $join = ' inner join book on bookId = book.id ';  // ramène Id book au lieu de id Episode
+        $ksel = array(  'episode.status'    , '>=', '30',
+                        'book.promoted'  , '=', 1);  
+        $this->selectionGet($action, $join, $ksel, $orderBy, $level);
         return $this->episodes;
     }
+
+    public function selectionGet($action, $join, $ksel, $orderBy, $level)
+    {
+        $this->selection = DB::getInstance()->get($this->_tab, $ksel, $orderBy, $action, $join);
+        $this->formatSelection($level);
+    }
+
     public function findAboutJFR($parms=null,  $level = null)
     {
-        $this->selection = DB::getInstance()->query('SELECT * from ' . $this->_tab . " where status >= '20' order by chapter DESC LIMIT 1",'',$this->_tab);
-        $this->formatSelection($level);
+        $action = "select " . $this->_entityFields . " FROM ";
+        $orderBy = 'order by chapter DESC LIMIT 1';
+        $join = ' inner join book on bookId = book.id ';  // 
+        $ksel = array(  'episode.status'    , '>=', '20',
+                        'episode.status'    , '<', '90',
+                        'book.blogged'  , '=', 1);  
+        $this->selectionGet($action, $join, $ksel, $orderBy, $level);
         return $this->episodes;
     }
 
@@ -179,8 +213,9 @@ class EpisodeManager
             $orderBy = ' order by bookId, volume DESC, chapter DESC LIMIT 1';
         endif;
 
-        $ksel = array(  'bookId'    , '=', $keys[0],
-                        'status'    , '>', "10");
+        $ksel = array(  'bookId'    , '=' , $keys[0],
+                        'status'    , '>=', "30",
+                        'status'    , '<' , "90");
 
         $this->selection = DB::getInstance()->get($this->_tab, $ksel, $orderBy);
         $this->formatSelection($level);

@@ -47,7 +47,7 @@
                 <label><?=$book->getNbEpisodesLabel();?></label><input class="form-control" type="<?=$book->getNbEpisodesType();?>" maxlength="3" name="nbEps" value="<?= ($book->getId()) > 0 ? $book->getNbEpisodes() : ''; ?>" readOnly />
             </p>
             <p> 
-                <?php if($book->getStatus() == '30')
+                <?php if($book->getStatus() >= '30')
                 {
                     $label = "Couverture........:";
                     $type  = "text";
@@ -60,7 +60,7 @@
                 <label><?=$label?></label><input class="form-control" type="<?=$type;?>" maxlength="30" name="cover" value="<?= ($book->getId()) > 0 ? $book->getCover() : ''; ?>" />
             </p>
             <p> 
-                <?php if($book->getStatus() == '30')
+                <?php if($book->getStatus() >= '30')
                 {
                     $label = "Légende...........:";
                     $type  = "text";
@@ -72,7 +72,7 @@
                 <label><?=$label?></label><input class="form-control" type="<?=$type;?>" maxlength="50" name="coverAlt" value="<?= ($book->getId()) > 0 ? $book->getCoverAlt() : ''; ?>" />
             </p>
             <p> 
-                <?php if($book->getStatus() == '30')
+                <?php if($book->getStatus() >= '30')
                 {
                     $label = "Mise en avant.....:";
                     $type  = "text";
@@ -81,9 +81,14 @@
                     $type  = "hidden";
                 }
                 ?>                   
-                <label><?=$label?></label><input class="form-control" type="<?=$type;?>" maxlength="1" name="promoted" value="<?= ($book->getId()) > 0 ? $book->getPromoted() : ''; ?>" />
+                <label><?=$label?></label><input class="form-control" type="<?=$type;?>" maxlength="1" name="promoted" value="<?= ($book->getId()) > 0 ? $book->getPromoted() : 0; ?>" />
             </p>
 
+            <p> 
+                
+                <?php $label = "Mise en avant.....:"; ?>                  
+                <label><?=$label?></label><input class="form-control" type="number" maxlength="1" name="blogged" value="<?= ($book->getId()) > 0 ? $book->getBlogged() : 0; ?>" />
+            </p>
             <input type="hidden" name="id" value="<?= ($book->getId()) > 0 ? $book->getId() :''; ?>">
             <input type="hidden" name="url" value ="<?= 'book/edit-' . ($book->getId() > 0 ? $book->getId() .'-' . 'maj' :'') ; ?>"> 
             <input type='hidden' name="action" value ="maj">

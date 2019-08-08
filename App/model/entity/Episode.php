@@ -20,9 +20,9 @@ class Episode extends Table
     private $_image;
     private $_imageAlt;
     /**
-     * Variablea ajoutés à l'objet
+     * Variable a ajoutés à l'objet
      */
-    private $_comments;
+    private $_comments = null;
     private $_bookInfo;
     private $_statusLabel;
     private $_statusType;
@@ -30,7 +30,6 @@ class Episode extends Table
     private $_alertComm;
     private $_idDel;
     private $_idMaj;
-
     
      /**
 
@@ -41,7 +40,7 @@ class Episode extends Table
      */
 
     public function __construct($table)
-    {
+    {      
         parent::__construct($table);
         
         if($this->getStatus() >= 20)     // publié en ligne
@@ -60,10 +59,14 @@ class Episode extends Table
 
         if($this->getStatus() >= 70):    // publié hard cover ou définitif 
             $this->setIdMaj(false);
-        endif;
+        endif;        
+ 
     }
   
-  
+  public function getListDta($episode= null)
+  {
+     return get_object_vars($episode); 
+  }
 // Setters
     public function setId($id)
     {

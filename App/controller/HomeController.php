@@ -4,7 +4,7 @@ class HomeController extends Controller
     private $_tag = 'home';
     private $_tab = 'episode';
     private $_entity = 'Episode';
-    protected $level = 'N1';
+    protected $level = 'N1'; // niveau episode
 
     public function __construct()
     {
@@ -16,20 +16,13 @@ class HomeController extends Controller
     {
         $this->createView('home\index',[
                                     'name' => $name,
-                                    'id'   => $id
-        ]);
+                                    'id'   => $id ]);
         $this->view->page_title = 'ACCUEIL';
-        $datas = $this->findLastEpisode($this->level);
+        $datas = $this->model->findLastEpisode($this->level);
         $this->view->render($datas);
     }
 
-    public function findLastEpisode()
-    {
-        $manager = new EpisodeManager();
-        $datas  =   $manager->findLast(null, $this->level);
-        return $datas;
-    }   
-   
+    
 
     public function aboutJFR()
     {

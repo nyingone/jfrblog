@@ -16,17 +16,17 @@
  
     <div ><?php $label = "Quote...........:";?>   
         <label for="content"><?=$label?></label>
-        <textarea  class="tinymce" name = "quote" cols= 200 rows = 10 maxlength="2000" required> <?=($episode->getId()) > 0 ? $episode->getQuote(): ''; ?> </textarea wrap="type">
+        <textarea  class="tinymce" name = "quote" cols= 90 rows = 10 maxlength=2000 required> <?=($episode->getId()) > 0 ? $episode->getQuote(): ''; ?> </textarea wrap="type">
     </div>
 
     <div ><?php $label = "texte..........:";?>   
         <label for="content"><?=$label?></label>
-        <textarea  class="tinymce" name = "content" cols= 200 rows = 10 required> <?=($episode->getId()) > 0 ? $episode->getContent(): ''; ?> </textarea wrap="type">
+        <textarea  class="tinymce" name = "content" cols= 90 rows = 50  required> <?=($episode->getId()) > 0 ? $episode->getContent(): ''; ?> </textarea wrap="type">
     </div>
 
     <div><?php $label = "Extrait/texte blog:";?>  
         <label for="excerpt"><?=$label?></label>
-        <textarea  class="tinymce" name="excerpt" cols= 200 rows = 10> <?=($episode->getId()) > 0 ? $episode->getExcerpt():''; ?></textarea wrap="type">
+        <textarea  class="tinymce" name="excerpt" cols= 90 rows = 10> <?=($episode->getId()) > 0 ? $episode->getExcerpt():''; ?></textarea wrap="type">
     </div>
   
     <p><?php $label = "Date création......:";?>                
@@ -59,7 +59,7 @@
         <label><?=$label?></label> :<input type="text" maxlength="50" name="imageAlt" value="<?=($episode->getId()) > 0 ? $episode->getImageAlt(): ''; ?>">
     </p>
     <input type="hidden" name="id" value="<?= ($episode->getId()) > 0 ? $episode->getId() :''; ?>">
-    <input type="hidden" name="commented" value="<?= ($episode->getId()) > 0 ? $episode->getCommented() :''; ?>">
+    <input type="hidden" name="commented" value="<?= ($episode->getId()) > 0 ? $episode->getLastCommented() :''; ?>">
     <input type="hidden" name="nbComment" value="<?= ($episode->getId()) > 0 ? $episode->getNbComments() :''; ?>">
 
 

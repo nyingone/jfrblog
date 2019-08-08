@@ -46,7 +46,11 @@ class Router
             if($route->match($this->_url))
             {
                 $routeFound = true;
+                
                 $_SERVER['REDIRECT_URL'] = $this->_url;
+                $previous = explode('/', $this->_url);
+                $_SESSION['previous'] = $previous[0];
+
                 $route->call();
                 
             }

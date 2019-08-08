@@ -4,12 +4,19 @@ class View
     protected $view_file;
     protected $view_data = [];
     protected $view_redirect;
-       
+    public $admin;    
 
     public function __construct($view_file,$view_data)
     {
         $this->view_file   = $view_file;
-              
+        if ( isset($_SESSION['logged_in']) && $_SESSION['logged_in'] = true):
+            if($_SESSION['groupId'] >= '50') : 
+                $this->admin = true;
+            endif;
+        endif;
+
+       
+       
         if(isset($_SERVER['REDIRECT_URL']))
         {
              $_SESSION['redirect'] = $_SERVER['REDIRECT_URL'];
@@ -22,15 +29,21 @@ class View
                 if(isset($_GET['url']))
                 {
                     $_SESSION['redirect'] = $_GET['url'];
+                   
                 } 
             }
         }
         $this->view_redirect =  $_SESSION['redirect'] ;
+    
         
     }
 
     public function render($datas = [])
     {
+        /* if(isset( $_SESSION['redirect']) && !empty(  $_SESSION['redirect'])):
+            $_SESSION['previous'] =  $_SESSION['redirect'] ;
+        endif; */
+
         if(file_exists(VIEW . $this->view_file . '.phtml'))
         {
             extract ($datas);

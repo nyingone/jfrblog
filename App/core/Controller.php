@@ -43,7 +43,7 @@ class Controller
   /**
  * Appel au contrôle géré au niveau entité pour maj/add Book 
  */
-  public function isValid($opt = null)
+  public function isValid()
   {
      $this->result = $this->validate->check($_POST, $this->_tab, 
      $this->_entity::validation() ); 

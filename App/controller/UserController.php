@@ -26,9 +26,9 @@ class UserController extends Controller
 
   public function register()
   {
-    $datas = $this->model->register();
-    $this->createView($this->ctl . DS . 'register', $datas);
-    $this->view->page_title = "Abonnés";
+    // $datas = $this->model->register();
+    $this->createView($this->ctl . DS . 'register', null);
+    $this->view->page_title = "Pour vous inscrire ...";
     $this->view->render();
   }
 
@@ -44,23 +44,25 @@ class UserController extends Controller
   public function connect()
   {
     $opt = 'login';
-    $result = $this->isValid($opt);
+    $result = $this->isValid($opt); // + objet USR initialisé avec usr et mdp saisi
+    
     $ok = $result[0];
     
     if($ok)
     {
-     
       // ($result[1]) est objet User;
       if (isset($result[1]) && !empty($result[1]))
       {
-        $class = $result[1];
-        $logged_in = $this->model->login($class);
-        $_SESSION['logged_in'] = $logged_in;
-        
-        if($logged_in)
-        {
-          $_SESSION['redirect']= 'book';
-        }    
+        $visiteur = $result[1];
+        $logged_in = $this->model->login($visiteur);
+  
+        if($logged_in == true ):
+          if($_SESSION['groupId'] >= '50' ):
+            $_SESSION['redirect']= 'book';
+          else:
+            $_SESSION['redirect']= 'book-list/';
+          endif;
+        endif;
         header("location:" . $_SESSION['redirect']);
       }
      
@@ -72,28 +74,7 @@ class UserController extends Controller
 
   }
   
-  public function addUser()
-  {
-    $opt = 'register';
-    $result = $this->isValid($opt);
-    $ok = $result[0];
-    if($ok)
-    {
-      if (isset($result[1]) && !empty($result[1]))
-      {
-        $class = $result[1];
-        $this->model->majTab($class);
-        $this->createView($this->_tab );
-        $this->view->redirect($this->_tab);
-      } 
-    }else{     
-        $_SESSION['errors'] = $this->validate->errors();
-        $this->createview($this->_tab . DS . 'register', $datas);
-        $this->view->redirect($_SESSION['redirect']);
-      }
-    }
-
-    public function isValid($opt=null)
+      public function isValid($opt=null)
   {
     $this->result = $this->validate->check($_POST, $this->_tab, 
     $this->_entity::validation($opt) ); 

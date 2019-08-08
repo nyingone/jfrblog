@@ -19,7 +19,16 @@ class User extends Table
      * @param array $donnees
      * @return void
      */
+    public function __construct($table)
+    {      
+        parent::__construct($table);
+    }  
 
+    public function inz_POST($user)
+    {      
+        $tabVal = get_object_vars($user); 
+        $this->create_POST($tabVal);    
+    }
     // Setters
     public function setId($id)
     {
@@ -64,6 +73,10 @@ class User extends Table
      {
          return $this->_id;
      }
+     public function getUserId()
+    {
+        return $this->_userId;
+    }
      public function getPassword()
     {
         return $this->_password;
@@ -97,9 +110,14 @@ class User extends Table
      * Contrôle validité des saisies
      * @return 
      */
-    public static function validation($opt)
+    public static function validation($opt= null)
     {
-       if($opt == 'login')
+       if(is_null($opt)):
+        $opt = escape($_POST['action']);
+       endif;
+
+       //  var_dump($_POST); die;
+       if($opt ===  'login') 
        {
         $validTable =       array(
             'userId'        => array(
@@ -116,7 +134,7 @@ class User extends Table
                         'Reference' => 'Identifiant',
                         'required'  => true,
                         'min'       => 2,
-                        'max'       => 20,
+                        'max'       => 30,
                         'unique'    => 'user',
                         ),
                     'password'      => array(
@@ -147,6 +165,7 @@ class User extends Table
                 ); 
             }
         }
+        
         return $validTable;
     }   
 }

@@ -1,0 +1,36 @@
+<?php $opt= 'maj'; ?>
+
+<form  action ="<?= HOME . 'index.php' ?>" method = "post">
+            
+            <div class="row"> 
+                <label for="comment" class="mr-2"></label>
+                <textarea class="form-control" name = "comment" cols= 90  rows="3" ></textarea wrap="type">
+            </div>
+            <div class="row">  
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <i class='fas fa-user-secret' style='font-size:24px'></i>
+                    </span>   
+                    <input type="text" class="form-control mr-2" name="pseudo" required placeholder="pseudo ">
+                    </div>
+                
+                    <div class="input-group-prepend">
+                    <span class="input-group-text">@</span>
+                    <input type="text" class="form-control mr-2" name="user" placeholder="user">
+                    </div>
+        
+                    <input type="hidden" name="id" value="<?= ''; ?>">
+                    <input type="hidden" name="bookId" value="<?= $episode->getBookId(); ?>">
+                    <input type="hidden" name="epsId" value="<?= $episode->getId(); ?>">
+                    <input type="hidden" name="postDat" value="<?=$comment->getpostDat(); ?>"> 
+                    <input type="hidden" name="status" value="<?= $comment->getStatus(); ?>">
+                    <input type="hidden" name="validDat" value="<?= $comment->getValidDate(); ?>">
+                    <input type="hidden" name="nbCon" value="<?= $comment->getNbcon(); ?>">
+                    
+                    <input type="hidden" name="url" value ="<?= 'comment/edit-' . $episode->getId() .'-' . $opt ; ?>"> 
+                    <input type='hidden' name="action" value ="<?php echo($opt); ?>">
+                    <button type="submit" class="btn btn-default btn-xs"><i class='far fa-paper-plane' style='font-size:24px'></i></button>
+                </div>
+            </div>
+        </form>

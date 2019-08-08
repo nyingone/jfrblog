@@ -17,36 +17,39 @@ if(isset($_POST['url']))
         $url = 'home';
     }
 }
+var_dump($_SESSION);
 $router = new Router ($url);
 $router->get('home', "home#index",'home');
 $router->get('aboutJFR',"home#aboutJFR",'aboutUs');
 
-$router->get('book',"book#index",'book');
+
 $router->get('book-show/:ref',"book#show",'book_show');
 $router->get('book-list',"book#list",'book_list');
-$router->get('book/:id', "book#edit",'book_edit');
-$router->post('book/:id', "book#maj",'book_maj');
 
-$router->get('movie',"movie#index",'movie');
-
-$router->get('episode/:ref',"episode#index",'episodes');
 $router->get('episode-show/:ref',"episode#show",'episode_show');
-$router->get('episode-edit/:ref',"episode#edit",'episode_edit');
-$router->post('episode/:ref', "episode#maj",'episode_maj');
-// $router->post('episode-edit/:ref',"episode#maj",'episode-p-maj');;
 
+// $router->get('comment/:id', "comment#edit",'comment_edit');
 $router->post('comment/:ref',"comment#maj",'comment_maj');
-$router->get('comment-gest/:ref',"comment#gest",'comment_gest');
 $router->post('comment-signal/:ref',"comment#signal",'comment_signal');
-$router->get('comment/:ref',"comment#index",'comments');
-// $router->post('comment-index/:ref',"comment#index",'comment_index');
 
 $router->get('login',"user#login",'login');
 $router->get('register',"user#register",'register');
 $router->post('user-login',"user#connect",'connect');
+$router->post('user/:ref', "user#maj",'user_maj'); 
 
-$router->post('movie', "movie#index",'movie');
+if(isset($_SESSION['logged_in'])) :
+    $router->get('book',"book#index",'book');
+    $router->get('book/:id', "book#edit",'book_edit');
+    $router->post('book/:id', "book#maj",'book_maj');
 
+    $router->get('episode/:ref',"episode#index",'episodes');
+    $router->get('episode-edit/:ref',"episode#edit",'episode_edit');
+    $router->post('episode/:ref', "episode#maj",'episode_maj');     
+
+    $router->get('comment/:ref',"comment#index",'comments');
+    $router->get('comment-gest/:ref',"comment#gest",'comment_gest');
+  
+endif;
 
 // var_dump($router);
 try

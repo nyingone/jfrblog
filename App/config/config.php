@@ -1,5 +1,6 @@
 <?php
 session_start();
+$_SESSION['id'] = session_id();
 
 ini_set('display-errors', 'on');
 error_reporting(E_ALL);
@@ -30,12 +31,7 @@ error_reporting(E_ALL);
       set_include_path(get_include_path() . PATH_SEPARATOR . implode(PATH_SEPARATOR,$modules));
       spl_autoload_register('spl_autoload',false);
       
-    //var_dump(get_include_path());
-
-    // modele ini.php
-    // define ('DSN', '"mysql:host=localhost;dbname=jfrblog;chartset=UTF8"');
-    // define('USR',  'root');
-    // define('PWD', ''); 
+    
 
     $GLOBALS['config'] = array(
         'mysql'     => array(
@@ -55,6 +51,6 @@ error_reporting(E_ALL);
         )
     );
     error_reporting(E_ALL);
-ini_set('display_errors', TRUE);
-ini_set('display_startup_errors', TRUE);
+    ini_set('display_errors', TRUE);
+    ini_set('display_startup_errors', TRUE);
     require_once('functions/sanitize.php');

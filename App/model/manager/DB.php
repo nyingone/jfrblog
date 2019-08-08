@@ -93,7 +93,7 @@ class DB
     }
 
 
-  public function action($action, $table, $where = array(), $orderBy= null)
+  public function action($action, $table, $join = null ,  $where = array(), $orderBy= null)
     {
         // var_dump($where); die;
         if(count($where) >= 3 )
@@ -105,7 +105,7 @@ class DB
             $value[] = $where[$x+2];
             if(in_array($operator,$operators))
             {
-                $sql = "($action $table WHERE $field $operator ? ";
+                $sql = "($action $table $join WHERE $field $operator ? ";
                
                 if(count($where) >= 6 )
                 { 
@@ -133,7 +133,6 @@ class DB
 
             $sql .= "  ". $orderBy;
             $sql .= " )";
-            // var_dump($sql); die;
             if($this->query($sql,array($value),$table))
             {
                 return $this->results(); 
@@ -146,15 +145,19 @@ class DB
     }
         
 
-    public function get($table, $where,$orderBy= null)
+    public function get($table, $where , $orderBy= null, $action = null, $join = null)
     {
-        return $this->action('SELECT * FROM', $table , $where, $orderBy);
+        if (is_null($action)) : 
+            return $this->action('SELECT * FROM', $table , $join, $where, $orderBy);
+        else:
+            return $this->action($action, $table , $join, $where, $orderBy);
+        endif;
     }
 
 
     public function insert($table, $fields = array())
     {
- 
+ var_dump('proc insert '); die; 
         if(count($fields))
         {       
             $keys = array_keys($fields);
@@ -204,7 +207,6 @@ class DB
         $this->_optf = 'delete';
         
         $sql = "DELETE FROM {$table}  WHERE id = {$id} LIMIT 1";
-        var_dump($sql);
         return $this->query($sql, $fields);
                 
     }
@@ -233,6 +235,7 @@ class DB
     public function addClsRcd($table, $class)
     {
        $this->_optf = 'insert';
+       
         return $this->gstFfd($table, $class, $this->_optf);  
     }
 
@@ -301,6 +304,7 @@ class DB
                 $x++;
             }
             
+            
             if (  $this->_optf == 'insert') 
             {
                 $sql = "INSERT INTO " . $table . " (" . implode(",", $fieldNames) . ") " . "VALUES({$values})";
@@ -310,7 +314,7 @@ class DB
                     $sql = "UPDATE {$table} SET  {$set} WHERE id = {$id} LIMIT 1";
                 }
             }   
-        
+            
           return $this->query($sql, $fields);
             
         }else{
