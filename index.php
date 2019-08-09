@@ -17,7 +17,7 @@ if(isset($_POST['url']))
         $url = 'home';
     }
 }
-var_dump($_SESSION);
+
 $router = new Router ($url);
 $router->get('home', "home#index",'home');
 $router->get('aboutJFR',"home#aboutJFR",'aboutUs');

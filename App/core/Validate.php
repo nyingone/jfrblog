@@ -15,13 +15,19 @@ class Validate{
 
     public function check($source, $tab, $items = array()) 
     {
+        var_dump($source);
         $this->_entity = $tab;
         foreach($items as $item => $rules)
         {
             foreach($rules as $rule => $rule_value)
             {
-                $value = trim($source[$item]);
+                if(is_object($source[$item])) : 
+                    $value = $source[$item]->format("Y-m-d");
+                else:     
+                    $value = trim($source[$item]);
+                endif;
                 $item = escape($item);
+
                 if($rule === 'required' && $rule_value == true && empty($value))
                 {
                     $this->addError("Renseigner obligatoirement l'information:   {$item}  ");

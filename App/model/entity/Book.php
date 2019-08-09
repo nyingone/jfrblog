@@ -101,9 +101,7 @@ class Book extends Table
     }
     public function setOnlineDat($onlineDat)
     {
-       if($this->getStatus() >= $this->_statusOkDel || $onlineDat <> 0 ) :
-            $this->_onlineDat = $this->setDat($onlineDat, 'Y-m-d' );
-       endif;
+        $this->_onlineDat = new DateTime($onlineDat);
     }
     public function setNbEps($nbEps)
     {
@@ -157,14 +155,9 @@ class Book extends Table
     {
         return $this->_plot;
     }
-    public function getOnlineDat($sql=null)
+    public function getOnlineDat()
     {
-        if(isset($this->_onlineDat) && $this->_onlineDat > 0)
-        {
-            $lgz = 8;
-            $date =  $this->getDat($this->_onlineDat, $sql, $lgz);
-            return $date;      
-        }
+         return $this->_onlineDat;      
     }
     public function getNbEps()
     {
@@ -369,6 +362,11 @@ class Book extends Table
   /**
     *  Fonction annexes  _____________________________________________Validation/MAJ
     */
+
+    /**
+     * @param  null
+     * @return      [array de contrôle données saisies ou à transmettre à maj sql]
+     */
     public static function validation()
     {
     $validTable =       array('id'        =>array(
@@ -425,7 +423,12 @@ class Book extends Table
             'promoted'        =>array(
                                 'Reference'     =>'Mis en avant',
                                 'required'      => false,
-                                'max'           => 1
+                                ' list'          => '0;1'
+                             ),
+            'blogged'        =>array(
+                                    'Reference'     =>'destination bog',
+                                    'required'      => false,
+                                    ' list'          => '0;1'
                             )
                                         
       ); 

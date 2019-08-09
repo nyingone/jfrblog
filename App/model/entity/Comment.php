@@ -86,7 +86,11 @@ class Comment  extends Table
     }
     public function setPostDat($postDat= null)
     {
-        $this->_postDat = $this->setDat($postDat, 'Y-m-d H:i:s' );
+        if(is_object($postDat)):
+            $this->_postDat = $postDat;
+        else:
+        $this->_postDat = new datetime($postDat);
+        endif;
     }
     public function setStatus($status)
     {
@@ -94,12 +98,16 @@ class Comment  extends Table
     }
     public function setValidDat($validDat=null)
     {
-        if($this->getStatus() === '30')
-        {
-            $this->_validDat = $this->setDat($validDat, 'Y-m-d H:i:s' );
-        }else{
-            $this->_validDat  = null;
-        }
+        if(is_object($validDat)):
+            $this->_validDat = $validDat;
+        else:
+            if($this->getStatus() === '30')
+            {
+                $this->_validDat = new datetime($validDat);
+            }else{
+                $this->_validDat  = null;
+            }
+        endif;
     }
     public function setNbCon($nbCon)
     {
@@ -149,25 +157,17 @@ class Comment  extends Table
     {
         return $this->_comment;
     }
-    public function getPostDat($sql= null)
+    public function getPostDat()
     {
-        return $this->getDat($this->_postDat, $sql);
+        return $this->_postDat;
     }
     public function getstatus()
     {
         return $this->_status;
     }
-    public function getValidDat($sql= null)
+    public function getValidDat()
     {
-        if(isset($this->_validDat))
-        {
-            $date = new DateTime("$this->_validDat");
-            if ($sql === '*') :
-                return $date->format('Y-m-d H:i:s');
-            else:
-                return $date->format('d-m-Y H:i:s');
-            endif;
-        }
+        return $this->_validDat;
     }
     public function getNbCon()
     {

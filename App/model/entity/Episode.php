@@ -25,6 +25,7 @@ class Episode extends Table
     private $_comments = null;
     private $_bookInfo;
     private $_statusLabel;
+    private $_lastCommentedLabel; 
     private $_statusType;
     private $_nbComments;
     private $_alertComm;
@@ -50,6 +51,16 @@ class Episode extends Table
             $this->setIdDel(false);
             $this->setIdMaj(true);
 
+            if($this->getCreatedDat() === null) :
+                $date = new Datetime(today);
+                setCreatedDat($date->format('Y-m-d'));
+            endif;
+
+            if($this->getOnlineDat() === null) :
+                $date = new Datetime(today);
+                setOnlineDat($date->format('Y-m-d'));
+            endif;
+
         }else{
             $this->setStatusLabel("hors ligne:");
             $this->setStatusType("hidden");
@@ -67,6 +78,7 @@ class Episode extends Table
   {
      return get_object_vars($episode); 
   }
+
 // Setters
     public function setId($id)
     {
@@ -97,9 +109,9 @@ class Episode extends Table
         
     }
 
-    public function setCreatedDat($createdDat=null)
+    public function setCreatedDat($createdDat)
     {  
-        $this->_createdDat = $this->setDat($createdDat, 'Y-m-d' );
+        $this->_createdDat = new DateTime($createdDat);
       
     }
 
@@ -110,21 +122,20 @@ class Episode extends Table
     }
 
    
-    public function setOnlineDat($onlineDat=null)
+    public function setOnlineDat($onlineDat)
     {
-        if(! is_null($onlineDat)) 
-        {
-            $this->_onlinedDat = $this->setDat($onlineDat, 'Y-m-d' );
-        }
+        if($onlineDat  !== null || $this->getStatus() >= '20') :
+            $this->_onlineDat = new DateTime($onlineDat);
+        endif;
         
     }
 
-    public function setLastCommented($lastCommented= null)
+    public function setLastCommented($lastCommented)
     {
-        if(!is_null($lastCommented)) 
-        {
-        $this->_lastcommented = $this->setDat($lastCommented, 'Y-m-d' );
-        }
+        if(is_string($lastCommented)) :
+            $this->_lastcommented = new DateTime($lastCommented);
+            $this->setLastCommentedLabel = "Commenté le....:";
+        endif;
     }
 
     public function setNbComment($nbComment)
@@ -178,36 +189,25 @@ class Episode extends Table
     {
         return $this->_excerpt;
     }
-    public function getCreatedDat($sql = null)
+    /**
+     * 
+     * @param sql
+     */
+    public function getCreatedDat()
     { 
-        if(isset($this->_createdDat) && $this->_createdDat> 0)
-        {
-            $lgz = 8;
-            $date =  $this->getDat($this->_createdDat, $sql, $lgz);
-            return $date;      
-        }
+        return $this->_createdDat;   
     }
     public function getStatus()
     {
         return $this->_status;
     }
-    public function getOnlineDat($sql = null)
+    public function getOnlineDat()
     {
-        if(isset($this->_onlineDat) && $this->_onlineDat > 0)
-        {
-            $lgz = 8;
-            $date =  $this->getDat($this->_onlineDat, $sql, $lgz);
-            return $date;      
-        }
+        return $this->_onlineDat;
     }
-    public function getLastCommented($sql = null)
+    public function getLastCommented()
     {
-        if(isset($this->_lastCommented) && $this->_lastCommented > 0)
-        {
-            $lgz = 8;
-            $date =  $this->getDat($this->_lastCommented, $sql, $lgz);
-            return $date;      
-        }
+        return $this->_lastCommented;
     }
     public function getNbComment()
     {
@@ -267,15 +267,18 @@ class Episode extends Table
       
     }
 
-    public function setBookInfo($books)     // tableau d'objets Bok
+    public function setBookInfo($books)     // tableau d'objets Bok // 20180809 directement objet book
     {
         $this->_bookInfo = $books;
     }
  
     public function setStatusLabel($label)
     {
-
         $this->_statutLabel = $label;
+    }
+    public function setlastCommentedLabel($label)
+    {
+        $this->_lastCommentedLabel = $label;
     }
     public function setStatusType($type)
     {
@@ -316,8 +319,11 @@ class Episode extends Table
 
     public function getStatusLabel()
     {
-
         return $this->_statutLabel;
+    }
+    public function getLastcommentedLabel()
+    {
+        return $this->_lastCommentedLabel;
     }
     public function getStatusType()
     {
@@ -338,13 +344,10 @@ class Episode extends Table
    
 
 
-    /**
-     * @return bool nouvel épisode fonction  isNew() géré classe amont Table
-     */
    
     /**
-     * Contrôle validité des saisies
-     * @return bool nouvel épisode
+     * @param  null
+     * @return      [array de contrôle données saisies ou à transmettre à maj sql]
      */
     public static function validation()
     {
@@ -383,7 +386,7 @@ class Episode extends Table
                             'Reference'     =>'En ligne',
                             'required'      => false    
                             ),
-            'commented'     =>array(
+            'lastCommented'     =>array(
                             'Reference'     =>'Commenté le',
                             'required'      => false
                           ),

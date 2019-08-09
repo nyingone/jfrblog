@@ -39,7 +39,7 @@
             </p>
 
             <p> 
-            <?php $dat = $book->getOnlineDat(); ?>
+            <?php $dat = ($book->getOnlineDat() !== null ? $book->getOnlineDat()->format("Y-m-d H:i:s") : ''); ?>
             <label><?= $book->getOnlineDatLabel()?></label><input class="form-control" type="<?=$book->getOnlineDatType();?>"  name="onlineDat" value="<?=($book->getId()) > 0 ? $dat : '';  ?>"  readOnly />
         
             <p> 

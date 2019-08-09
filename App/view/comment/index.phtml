@@ -35,10 +35,10 @@
                 $table .= '<tr>';               
                 $table .= '<td>' . $episode->getChapter() . '</td>';
                 $table .= '<td>' . $comment->getPseudo()  . '</td>';
-                $table .= '<td>' . $comment->getPostDat() . '</td>';
+                $table .= '<td>' . ($comment->getPostDat() !== null ? $comment->getPostDat()->format("Y-m-d H:i:s" ) : '') . '</td>';
                 $table .= '<td>' . $comment->getComment() . '</td>';
                 $table .= '<td>' . $comment->getStatus()  .  '</td>';
-                $table .= '<td>' . $comment->getValidDat() . '</td>';
+                $table .= '<td>' . ($comment->getValidDat() !== null ? $comment->getValidDat()->format("Y-m-d H:i:s") : '') . '</td>';
                 $table .= '<td>' . $comment->getNewCon()   . '/' . $comment->getNbCon()   . '</td>';
                 
                 if($comment->getAlertComm())  :

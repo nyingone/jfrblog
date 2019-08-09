@@ -6,7 +6,7 @@ class View
     protected $view_redirect;
     public $admin;    
 
-    public function __construct($view_file,$view_data)
+    public function __construct($view_file)
     {
         $this->view_file   = $view_file;
         if ( isset($_SESSION['logged_in']) && $_SESSION['logged_in'] = true):
@@ -19,16 +19,16 @@ class View
        
         if(isset($_SERVER['REDIRECT_URL']))
         {
-             $_SESSION['redirect'] = $_SERVER['REDIRECT_URL'];
+             $_SESSION['redirect'] =  $_SERVER['REDIRECT_URL'];
         } else{
             if(isset($_POST['url']))
             {
-                $_SESSION['redirect'] = $_POST['url'];
+                $_SESSION['redirect'] =  $_POST['url'];
                 
             }  else{
                 if(isset($_GET['url']))
                 {
-                    $_SESSION['redirect'] = $_GET['url'];
+                    $_SESSION['redirect'] =  $_GET['url'];
                    
                 } 
             }

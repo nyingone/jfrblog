@@ -112,12 +112,13 @@ class User extends Table
      */
     public static function validation($opt= null)
     {
+        var_dump($_POST);
        if(is_null($opt)):
         $opt = escape($_POST['action']);
        endif;
 
        //  var_dump($_POST); die;
-       if($opt ===  'login') 
+       if($opt ===  'login' || $opt === 'connect') 
        {
         $validTable =       array(
             'userId'        => array(

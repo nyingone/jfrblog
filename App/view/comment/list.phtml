@@ -18,21 +18,21 @@ $alt="crayon";
             <div class="row">  
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                    <span class="input-group-text">
-                        <i class='fas fa-user-secret' style='font-size:24px'></i>
-                    </span>   
-                    <input type="text" class="form-control mr-2" name="pseudo" required placeholder="pseudo ">
+                        <span class="input-group-text">
+                            <i class='fas fa-user-secret' style='font-size:24px'></i>
+                        </span>   
+                        <input type="text" class="form-control mr-2" name="pseudo" required placeholder="pseudo ">
                     </div>
                 
                     <div class="input-group-prepend">
-                    <span class="input-group-text">@</span>
-                    <input type="text" class="form-control mr-2" name="user" placeholder="user">
+                        <span class="input-group-text">@</span>
+                        <input type="text" class="form-control mr-2" name="user" placeholder="user">
                     </div>
         
                     <input type="hidden" name="id" value="<?= ''; ?>">
                     <input type="hidden" name="bookId" value="<?= $episode->getBookId(); ?>">
                     <input type="hidden" name="epsId" value="<?= $episode->getId(); ?>">
-                    <input type="hidden" name="postDat" value="<?= date("Ymd"); ?>"> 
+                    <input type="hidden" name="postDat" value="<?=  ''; ?>"> 
                     <input type="hidden" name="status" value="<?= '00'; ?>">
                     <input type="hidden" name="validDat" value="<?= ''; ?>">
                     <input type="hidden" name="nbCon" value="<?= '0'; ?>">
@@ -45,6 +45,7 @@ $alt="crayon";
             </div>
         </form>
     </div>
+   
     <div class="row"> 
         <?php (is_array($comments) && !empty($comments)) ?  $x = count($comments) :  $x = 'aucun';?>
         <?php if(!is_null($comments)) : ; ?>
@@ -54,11 +55,11 @@ $alt="crayon";
                 <?php foreach($this->view_comments as $comment) : ?>              
                     <div class = "col-md-10">
                         <div class="shadow p-4 mb-4 bg-white">
-                        <p> <?= $comment->getPseudo() ?> le:<?= $comment->getPostdat() ?></p>
+                        <p> <?= $comment->getPseudo() ?> le: <?= $comment->getPostdat() !== null ? $comment->getPostdat()->format("Y-m-d H:i:s") : '' ?></p>
                         <p> <?= $comment->getComment()?></p>
                         <?php if($comment->getNbCon() > 0) : ?>
                             <br>
-                            <p> signalé: <?= $comment->getNbCon()?> fois</p>
+                            <p> signalé: <?= $comment->getNewCon()?> fois</p>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -74,9 +75,9 @@ $alt="crayon";
                             <input type="hidden" name="comment" value="<?= $comment->getComment(); ?>">
                             <input type="hidden" name="pseudo" value="<?= $comment->getPseudo(); ?>">
                             <input type="hidden" name="user" value="<?= $comment->getUser(); ?>">
-                            <input type="hidden" name="postDat" value="<?= $comment->getPostDat(); ?>">
+                            <input type="hidden" name="postDat" value="<?=  ($comment->getPostDat() !== null ?  $comment->getPostDat()->format("Y-m-d  H:i:s"): ''); ?>">
                             <input type="hidden" name="status" value="<?= $comment->getStatus(); ?>">
-                            <input type="hidden" name="validDat" value="<?= $comment->getValidDat(); ?>">
+                            <input type="hidden" name="validDat" value="<?= ($comment->getValidDat() !== null ?  $comment->getValidDat()->format("Y-m-d  H:i:s"): ''); ?>">
                             <?php // $comment->addNbcon(); ?>
                             <input type="hidden" name="nbCon" value="<?= $comment->getNbcon(); ?>">
                             <input type="hidden" name="url" value ="<?= 'comment-signal/signal-' . $comment->getBookId() .'.' . $comment->getEpsId() . '.' . $comment->getId() .'-' . $opt ; ?>"> 

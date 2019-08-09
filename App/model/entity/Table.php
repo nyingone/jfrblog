@@ -44,33 +44,8 @@ class Table
         }
     }
 
-    public function setDat($datx= null, $fmt)
-    {
-
-        $date = new DateTime("$datx"); 
-        return   $date->format("$fmt");
-        
-       // $this->_postDat = ($postDat != '') ? $this->cvtDat($postDat, 'set', false) : $this->cvtDat($postDat, 'set', true);
-    }
-
-    public function getDat($datx,$sql= null, $lgz= null)
-    {
-        $date = new DateTime("$datx");
-        if ($sql === '*') :
-            if ($lgz === 8) : 
-                return $date->format('Y-m-d'); 
-            else:
-                return $date->format('Y-m-d H:i:s');
-            endif;
-        else:
-            if ($lgz === 8) : 
-                return $date->format('d-m-Y'); 
-            else:
-                return $date->format('d-m-Y H:i:s');
-            endif;
-        endif;
-    }
-
+    
+    
     public function isNew()
     {
         return empty($this->id);

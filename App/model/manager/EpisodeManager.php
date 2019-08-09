@@ -1,38 +1,31 @@
 <?php
-class EpisodeManager
+class EpisodeManager extends Manager
 {
-    protected static $_db; // Instance de PDO
-    protected $selection ;
-   
-    protected $episodes = [] ;
-    protected $query;
-
-    private $_tab = 'episode';
-    private $_commentManager;
-    private $_bookManager;
-    private $_entity;
-    private $_entityFields;
+     // protected static $_db; // Instance de PDO
+    protected   $_tab = 'episode';
+    protected   $_selection ;
+    protected   $_episodes = [] ;
+       
+    private     $_commentManager;
+    private     $_bookManager;
+    // protected $_entity;
+   //  private $_entityFields;
 
     
     public function __construct($modelName= null,$method= null)
     {    
-        $_db = DB::getInstance();
-       
-        
-        $this->_entity = new Episode([]);
-        $fieldList =  $this->_entity->getFfd($this->_tab );
-        foreach ($fieldList as $field => $specs):
-            foreach ($specs as $spec => $value):
-                if($spec = 'COLUMN_NAME'):
-                     $extractFields[] =  $this->_tab . '.' . $value;
-                endif;
-            endforeach;
-        endforeach;
-        $this->_entityFields = implode($extractFields, ',');
-
+        parent::__construct($this->_tab);
         $this->_commentManager = new CommentManager();
     }
+
+    public function majTab($class)
+    {
+        parent:: majTab($class); 
+        Redirect::to($this->_tab . '/' . 'index-' . $class->getBookId());
+    }
+
 /**
+ * 
     * Sélection Episodes pour affichage liste ou sélection
     * @param string (klist)
     * @return array [objets] ou null
@@ -43,7 +36,7 @@ class EpisodeManager
         $orderBy = ' order by bookId, volume DESC, chapter DESC ';
         if(!isset($parms))
         {
-            $this->selection = DB::getInstance()->query('SELECT * from ' . $this->_tab . $orderBy,'',$this->_tab);
+            $this->_selection = DB::getInstance()->query('SELECT * from ' . $this->_tab . $orderBy,'',$this->_tab);
             $this->formatSelection($level);
         }else
         {
@@ -75,68 +68,26 @@ class EpisodeManager
             endif;
             
             if ($x < 2 || $keys[1] <= '999') : 
-                $this->selection = DB::getInstance()->get($this->_tab, $ksel, $orderBy);
+                $this->_selection = DB::getInstance()->get($this->_tab, $ksel, $orderBy);
                 $this->formatSelection($level);
             else:
-                $this->selection = $this->findUnique($keys, 'N1');
+                $this->_selection = $this->findUnique($keys, 'N1');
             endif;
         }  
-        return $this->episodes;
+        return $this->_episodes;
     }
 
     /**
-    * Gestion des mises à jour maj, del, add  table Episode de la base de données
-    * @param objet class
-    * @return [objets]
-    */
-    public function majTab($class)
-    { 
-     
-        if(isset($_POST['id']) && $_POST['id'] > 0){
-            $id = $_POST['id'];
-        }else{
-            $id = null;
-        }    
-        if($_POST['action'] == 'del')
-        {
-            $succes = DB::getInstance()->dltClsRcd($this->_tab, $class);
-            if($succes == false)
-            {
-                throw new Exception('problem de suppression' . $this->_tab);
-            }else{
-                Session::flash($this->_tab, 'delete successful' );
-            }
-        }else{
-     
-            if(isset($_POST['id']) && $_POST['id'] > 0)
-            {
-                $succes = DB::getInstance()->updClsRcd($this->_tab, $class);
-                if($succes == false)
-                {
-                    throw new Exception('problem de maj' . $this->_tab);
-                }else{
-                    Session::flash($this->_tab, 'maj successful' );
-                }
-            }else{
-                $succes = DB::getInstance()->addClsRcd($this->_tab, $class);
-                if($succes == false)
-                {
-                    throw new Exception('problem de creation' . $this->_tab);
-                }else{
-                    Session::flash($this->_tab, 'crt successful' );
-                }  
-            }
-        }
-    }
-    /**
+    
+   
     * Formatte tableau d'objets à partir des sélections
     * @return [objets]
     */
     public function formatSelection($level)
     {
-        if(isset($this->selection) && !empty($this->selection))
+        if(isset($this->_selection) && !empty($this->_selection))
         {  
-            foreach($this->selection as $table)
+            foreach($this->_selection as $table)
             {
                  $episode = new Episode($table);
               
@@ -145,30 +96,31 @@ class EpisodeManager
                 
                     $this->_bookManager = new BookManager();
                     $bookInfo = $this->_bookManager->getBooks($episode->getBookId(), $level); 
-                    $episode->setBookInfo($bookInfo);
+                    $episode->setBookInfo($bookInfo[0]);
                 endif;  
 
                 if($level === 'N1' || $level === 'N0') :          
-                // requete sur tous les comments par episode
+                // requete sur tous les comments par episode  @return  [obj commentaires]  Last In Fist Out 
                     $refEps= $episode->getBookId() . '.' . $episode->getId();  
                     $comments = $this->_commentManager->getSelection($refEps,$level);
                     $episode->setComments($comments);
-                    // var_dump($comments);
+                             
                     if(is_array($comments)) :
                         $comment = $comments[0];
                         $episode->setLastCommented($comment->getPostDat());
                     endif;
-                    // requete sur tous les commentaires non validés par episode
+
+                // requete sur tous les commentaires non validés/et/ou signalés  @return  [obj commentaires]
                     $altComm = $this->_commentManager->getSelAlertComm($refEps,$level);
                     $episode->setAlertComm($altComm);
                 endif;
                 
-                $this->episodes[] = $episode;
+                $this->_episodes[] = $episode;
             }
         }else{
-            $this->episodes[] = new Episode([]);
+            $this->_episodes[] = new Episode([]);
         }
-        return $this->episodes;
+        return $this->_episodes;
     }
     /**
     * Recherche dernier épisode
@@ -183,12 +135,13 @@ class EpisodeManager
         $ksel = array(  'episode.status'    , '>=', '30',
                         'book.promoted'  , '=', 1);  
         $this->selectionGet($action, $join, $ksel, $orderBy, $level);
-        return $this->episodes;
+        return $this->_episodes;
     }
+
 
     public function selectionGet($action, $join, $ksel, $orderBy, $level)
     {
-        $this->selection = DB::getInstance()->get($this->_tab, $ksel, $orderBy, $action, $join);
+        $this->_selection = DB::getInstance()->get($this->_tab, $ksel, $orderBy, $action, $join);
         $this->formatSelection($level);
     }
 
@@ -201,7 +154,7 @@ class EpisodeManager
                         'episode.status'    , '<', '90',
                         'book.blogged'  , '=', 1);  
         $this->selectionGet($action, $join, $ksel, $orderBy, $level);
-        return $this->episodes;
+        return $this->_episodes;
     }
 
     public function findUnique($keys=null,  $level = null)
@@ -217,9 +170,9 @@ class EpisodeManager
                         'status'    , '>=', "30",
                         'status'    , '<' , "90");
 
-        $this->selection = DB::getInstance()->get($this->_tab, $ksel, $orderBy);
+        $this->_selection = DB::getInstance()->get($this->_tab, $ksel, $orderBy);
         $this->formatSelection($level);
-        return $this->episodes;
+        return $this->_episodes;
     }
 
 
@@ -230,10 +183,10 @@ class EpisodeManager
             $keys = explode('.',$parms);
             $ksel = array('id'    , '=', $keys[0]);  
         
-            $this->selection = DB::getInstance()->get($this->_tab, $ksel);
+            $this->_selection = DB::getInstance()->get($this->_tab, $ksel);
              $this->formatSelection($level);
         }  
       
-        return $this->episodes;
+        return $this->_episodes;
     }
 }

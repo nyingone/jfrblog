@@ -1,10 +1,10 @@
 <?php $this->view_data = $datas; ?>
 <?php foreach($this->view_data as $episode) :  ?>
+
 <?php // var_dump($this->view_data); die; ?>
     <div class = "container-fluid">
         <?php 
-        $books = $episode->getBookInfo(); 
-        $book = $books[0]
+        $book = $episode->getBookInfo(); 
         ?>
         <?php $comments = $episode->getComments(); 
         ?> 
@@ -12,8 +12,8 @@
         <?php include (VIEW . 'book\entBook.phtml'); ?>
        
         <?php  $status = $book->getStatus(); ?>     
-        <div class = "col-md-10 offset 2">
-        
+        <div class = "col-md-8 offset-md-1">
+         
             <div class = "row">
                 <?php if($episode->getChapter() <> '999') : ?>
                 <h2><?php echo "Chapître..." . $episode->getChapter();?></h2> 
@@ -27,35 +27,35 @@
                  ?>
                   
             </div>
-            <div class="row">  
-                <div class = "col-md-6 offset-md-2">
+            <section class="entry-content"  id="episode-content">
+                <div class="row">  
+                    <div class = "col-md-6 offset-md-2">
+                        
+                        <blockquote class="blockquote">
+                            <p>
+                                <b><?php echo $episode->getQuote();?></b>
+                            </p>
+                        </blockquote>
                     
-                    <blockquote class="blockquote">
-                        <p>
-                            <b><?php echo $episode->getQuote();?></b>
-                        </p>
-                    </blockquote>
-                
-                </div> 
+                    </div> 
 
-                <?php $alt = $episode->getImageAlt();?>
-                <?php $src= IMG215 . $episode->getImage();?>
+                    <?php $alt = $episode->getImageAlt();?>
+                    <?php $src= IMG215 . $episode->getImage();?>
 
-                <div  class = "col-md-4 ">
-                    <div class="thumbnail">
-                        <img  src="<?php echo $src?>" class="img-thumbnail" alt="<?php echo $alt?>" title ="<?php echo $alt?>"> 
-                        <div class="caption">
-                            <p><?php echo $alt?></p>
-                        </div>      
-                    </div>         
+                    <div  class = "col-md-4 ">
+                        <div class="thumbnail">
+                            <img  src="<?php echo $src?>" class="img-thumbnail" alt="<?php echo $alt?>" title ="<?php echo $alt?>"> 
+                            <div class="caption">
+                                <p><?php echo $alt?></p>
+                            </div>      
+                        </div>         
+                    </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="entry-content" itemprop="text">
+                <div>
                     <?=  $episode->getContent();?> 
                 </div>  
-            </div>  
+                </section>
 
             <?php if($episode->getChapter() <> '999') : ?>
                 <div class="row">

@@ -79,16 +79,7 @@ class UserManager
     {
         return $this->_isLoggedIn;
     }
-   /*  public function create($fields = array())
-    {
-        if(!$this->_db->insert('user', $fields))
-        {
-            throw new Exception('problem de creation profil');
-        }
-    } */
-
-
-    public function majTab($class)
+       public function majTab($class)
     { 
      
         if(isset($_POST['id']) && $_POST['id'] > 0){

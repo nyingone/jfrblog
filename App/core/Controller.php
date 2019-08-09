@@ -1,26 +1,31 @@
 <?php
 class Controller 
 {
+ 
   protected $view;
   protected $model;
-  protected $managerId;
-  protected $controllerId;
-  protected $validate ;
+  
+  protected $_tab;
+  protected $_controllerId;
+  protected $_managerId;
+  protected $_entity;
+  protected $_validate ;
   
   public function __construct()
   { 
     $this->_controllerId = ucfirst($this->_tab . 'Controller');
     $this->createModel($this->_tab, '');
     $this->_managerId = ucfirst($this->_tab . 'Manager');
-    $this->validate = new Validate();
+    $this->_entity = ucfirst($this->_tab);
+    $this->_validate = new Validate(); 
   }
  
   /**
    * Define view for each action
    */
-  public function createView($viewName,$datas=[],$infos=[])
+  public function createView($viewName,$refVue=null)
   {
-      $this->view = new View($viewName, $datas, $infos); 
+      $this->view = new View($viewName); 
       $this->view->managerId = $this->managerId;
       $this->view->controllerId = $this->controllerId;
       return $this->view;
@@ -45,11 +50,12 @@ class Controller
  */
   public function isValid()
   {
-     $this->result = $this->validate->check($_POST, $this->_tab, 
+     $this->result = $this->_validate->check($_POST, $this->_tab, 
      $this->_entity::validation() ); 
       return     $this->result;
   }
 
+  /** */
   public function maj($redir=null)
   {
    

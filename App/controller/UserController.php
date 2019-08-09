@@ -1,7 +1,7 @@
 <?php
 class UserController extends Controller
 {
-  public $data = '';
+ 
   protected $ctl = 'user';
   protected $_tag = 'home';
   protected $_tab = 'user';
@@ -26,7 +26,6 @@ class UserController extends Controller
 
   public function register()
   {
-    // $datas = $this->model->register();
     $this->createView($this->ctl . DS . 'register', null);
     $this->view->page_title = "Pour vous inscrire ...";
     $this->view->render();
@@ -34,7 +33,6 @@ class UserController extends Controller
 
   public function login()
   {
-    // $datas = $this->model->login();
     $datas = '';
     $this->createView($this->ctl . DS . 'login', $datas);
     $this->view->page_title = "Connexion";
@@ -74,10 +72,5 @@ class UserController extends Controller
 
   }
   
-      public function isValid($opt=null)
-  {
-    $this->result = $this->validate->check($_POST, $this->_tab, 
-    $this->_entity::validation($opt) ); 
-    return     $this->result;
-  }
+ 
 }

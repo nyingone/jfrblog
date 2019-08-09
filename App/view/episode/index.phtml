@@ -4,8 +4,8 @@
 <div class="row">
     <?php $episodes = $this->view_data;  ?>
     <?php $episode = $episodes[0]; ?>
-    <?php $books = $episode->getBookInfo();  ?>
-    <?php $book = $books[0]  ?>
+    <?php $book = $episode->getBookInfo();  ?>
+   
     <?php include (VIEW . 'book\entBook.phtml'); ?>
 
     <li><a href= "<?php echo HOME ?>episode-edit/edit-<?php echo $book->getId(). '.99.' ?>">Ajouter une page/épisode</a></li>
@@ -36,6 +36,7 @@
             $table = '';
             foreach($this->view_data as $episode)
             {              
+               
                 $src= IMG125 . $episode->getImage(); 
                 $refEps = $episode->getBookId() . '.' . $episode->getVolume() . '.' . $episode->getId(); 
                 $refComm = $episode->getBookId() . '.'  . $episode->getId();                                                                                                                                                                                                 
@@ -44,7 +45,7 @@
                 $table .= '<td><a href='. HOME . 'episode-show/show-' . $episode->getBookId() . '.' . $episode->getVolume() . '.'. $episode->getId() . '><img src="' .  $src . '" alt="'. $episode->getImageAlt() . '" title ="' . $episode->getImageAlt() . '"></a></td>';
 
                 $table .= '<td>' . $episode->getBookId() . '/' . $episode->getVolume() . '/' .  $episode->getChapter() . '</td>';
-                $table .= '<td>' . $episode->getQuote() . '<br/> mise en ligne le :' .  $book->getOnlineDat() .'</td>';
+                $table .= '<td>' . $episode->getQuote() . '<br/> mise en ligne le :' .  ($episode->getOnlineDat() !== null ? $episode->getOnlineDat()->format('Y-m-d') : '') .'</td>';
                 $table .= '<td>' . $episode->getExcerpt() . '</td>';
                 $table .= '<td>' . $episode->getStatus() . '</td>';
 
@@ -65,7 +66,7 @@
                 else:
                     $table .= '<td>_0_</td>';
                 endif;
-                $table .= '<td>' . $episode->getLastCommented() . '</td>';
+                $table .= '<td> ' . ($episode->getLastCommented() !== null ?  $episode->getLastCommented()->format('Y-m-d') : '') . '</td>';
                
                 if ((int) $episode->getAlertComm() <> 0) :
                     $table .= '<td><a href="' . HOME . 'comment/index-' . $refComm . '"><span>' . $episode->getAlertComm() . '</span></a></td>';

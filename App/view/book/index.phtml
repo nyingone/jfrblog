@@ -32,7 +32,8 @@
                     $table .= '<tr>';
                         $table .= '<td><a href="' . $bookViewUser . '"><img  src="' . IMG125 . $book->getCover() . '"  alt="'. $book->getCoverAlt() . '" title ="Index utilisateur"></a></td>';
 
-                        $table .= '<td><a href= "' . HOME . 'episode/index-'. $book->getId() .'">' . $book->getTitle() . '</a> <br/>' . $book->getEditYear() .  '<br/> mise en ligne le :' .  $book->getOnlineDat() .'</td>';
+                        $table .= '<td><a href= "' . HOME . 'episode/index-'. $book->getId() .'">' . $book->getTitle() . '</a> <br/>' . $book->getEditYear() .  
+                                '<br/> mise en ligne le : <br/>' .  ( $book->getOnlineDat() !== null ? $book->getOnlineDat()->format('Y-m-d') : '') .'</td>';
                         $table .= '<td>' . $book->getPlot() . '</td>';
                         $table .= '<td>' . $book->getStatus() . '</td>';
                         $table .= '<td><a href='.'book/edit-' . $book->getId() . '-upd' . '><i class="fas fa-edit"alt="Modifier" title = "Maj description du livre"></i></a></td>';
@@ -44,9 +45,12 @@
                        
                         $table .= '<td><a href="' . $bookIndex . '"><img  src="' . IMG . 'attrapeur-reve_min70" width= "30" height = "30"  title ="Tous les épisodes"></a>' . $book->getNbEpisodes()   . ' </td>';
                    
-                        $table .= '<td>' . (($book->getAlertComm() > 0) ? $book->getAlertComm() : "_/_ ") . '</td>';
-                        $table .= '<td><a href='.'comment/index-' . $book->getId() . '><i class="fas fa-comments" alt="Gérer Commentaires" title = "Gestion commentaires"></i></a></td>';
-                        
+                        $table .= '<td>' . (($book->getAlertComm() > 0) ? $book->getAlertComm() . '/' . $book->getNbComments() : "_/"   . $book->getNbComments()) . '</td>';
+                        if($book->getNbComments() > 0) :
+                            $table .= '<td><a href='.'comment/index-' . $book->getId() . '><i class="fas fa-comments" alt="Gérer Commentaires" title = "Gestion commentaires"></i></a></td>';
+                        else:
+                            $table .= '<td>__</td>';
+                        endif;
                         
 
                     $table .= '<tr>';

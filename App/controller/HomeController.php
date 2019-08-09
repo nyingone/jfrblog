@@ -2,8 +2,8 @@
 class HomeController extends Controller
 {
     private $_tag = 'home';
-    private $_tab = 'episode';
-    private $_entity = 'Episode';
+   //  private $_tab = 'episode';
+    // private $_entity = 'Episode';
     protected $level = 'N1'; // niveau episode
 
     public function __construct()
@@ -12,6 +12,7 @@ class HomeController extends Controller
         $this->managerId = ucfirst($this->_tag . 'Manager');
         $this->createModel($this->_tag, '');
     }
+    
     public function index($id='',$name='')
     {
         $this->createView('home\index',[

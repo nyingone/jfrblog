@@ -58,13 +58,16 @@ class DB
                         for($y = 0; $y < count($parm); ++$y)
                         {
                             $val = $parm[$y];
-                          
                             $this->_query->bindValue($x, $val); 
                         $x++;
                         }
                         
                     }else{
-                        $val = $parm;                               
+                        if(is_object($parm)) : // It's probably a date
+                            $val = $parm->format('Y-m-d H:i:s');
+                        else:
+                            $val = $parm;        
+                        endif;                       
                         $this->_query->bindValue($x, $val);   
                         $x++;
                     }   
@@ -93,7 +96,7 @@ class DB
     }
 
 
-  public function action($action, $table, $join = null ,  $where = array(), $orderBy= null)
+    public function action($action, $table, $join = null ,  $where = array(), $orderBy= null)
     {
         // var_dump($where); die;
         if(count($where) >= 3 )
@@ -106,7 +109,6 @@ class DB
             if(in_array($operator,$operators))
             {
                 $sql = "($action $table $join WHERE $field $operator ? ";
-               
                 if(count($where) >= 6 )
                 { 
                     $x = 3;
@@ -117,7 +119,7 @@ class DB
                     {
                         $sql .= " and $field $operator ? ";
                         if(count($where) >= 9 )
-                            { 
+                        { 
                             $x = 6;
                             $field = $where[$x];
                             $operator = $where[$x+1];
@@ -125,6 +127,17 @@ class DB
                             if(in_array($operator,$operators))
                             {
                                 $sql .= " and $field $operator ? ";
+                                if(count($where) >= 12 )
+                                { 
+                                    $x = 9;
+                                    $field = $where[$x];
+                                    $operator = $where[$x+1];
+                                    $value[] = $where[$x+2];
+                                    if(in_array($operator,$operators))
+                                    {
+                                        $sql .= " and $field $operator ? ";
+                                    }
+                                }
                             }
                         }
                     }
@@ -135,10 +148,10 @@ class DB
             $sql .= " )";
             if($this->query($sql,array($value),$table))
             {
+                $this->_query->closeCursor();
                 return $this->results(); 
             }
-              
-           
+                       
         }else{
             return false;
         }   
@@ -154,62 +167,7 @@ class DB
         endif;
     }
 
-
-    public function insert($table, $fields = array())
-    {
- var_dump('proc insert '); die; 
-        if(count($fields))
-        {       
-            $keys = array_keys($fields);
-            $values = ' ';
-            $x = 1;
-                foreach($fields as $field)
-            {
-                $values .= "?";
-                if($x < count($fields))
-                {
-                    $values .= ", ";
-                }
-                $x++;
-            }
-            $sql = "INSERT INTO " . $table . " (" . implode(",", $keys) . ") " . "VALUES({$values})";
-            $this->_optf = 'insert';
-            return $this->query($sql, $fields);         
-        }else
-        {
-            return false;
-        }
-    }
-
-    public function update($table, $id, $fields = array())
-    {
-        $this->_optf = 'update';
-        $set = '';
-        $x = 1;
-     //   $sql = "UPDATE " . $TABLE . "SET password = 'newPassword where id = X";
-        foreach($fields as $name => $value)
-        {
-            $set .= "{$name} = ?";
-            if($x < count($fields))
-            {
-                $set .= ", ";
-            }
-            $x++;
-        }
-
-        $sql = "UPDATE {$table} SET  {$set} WHERE id = {$id} LIMIT 1";
-        return $this->query($sql, $fields);
-                
-    }
-
-    public function delete($table, $id, $fields = array())
-    {
-        $this->_optf = 'delete';
-        
-        $sql = "DELETE FROM {$table}  WHERE id = {$id} LIMIT 1";
-        return $this->query($sql, $fields);
-                
-    }
+   
     public function count()
     {
         return $this->_count;

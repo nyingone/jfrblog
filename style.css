@@ -13,8 +13,7 @@ color: black;
 }
 #episode-content
 {
-  
-    border: 3px blue offset;
-    background-image: url("IMG/frame.png");
-    box-shadow: 6px 6px 6px black;
+    border: 6px blue offset;
+   /*  background-image: url("IMG/frame.png"); */
+    box-shadow: 12px 12px 6px black;
 }
