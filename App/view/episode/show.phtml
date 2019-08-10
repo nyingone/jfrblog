@@ -12,22 +12,22 @@
         <?php include (VIEW . 'book\entBook.phtml'); ?>
        
         <?php  $status = $book->getStatus(); ?>     
-        <div class = "col-md-8 offset-md-1">
-         
-            <div class = "row">
-                <?php if($episode->getChapter() <> '999') : ?>
-                <h2><?php echo "Chapître..." . $episode->getChapter();?></h2> 
-                <?php endif ?>
-                <?php if($status === '00')  // Gestion du livre blanc 
-                {
-                    !$episode->getChapter() === '999' ? $subTitle =  $episode->getQuote() : $subTitle = ''; 
-                }else{
-                    $subTitle = "Chapître..." . $episode->getChapter();
-                }
-                 ?>
-                  
-            </div>
+        <div class = "col-md-7 offset-md-1">
             <section class="entry-content"  id="episode-content">
+                <div class = "row">
+                    <?php if($episode->getChapter() <> '999') : ?>
+                    <h2><?php echo "Chapître..." . $episode->getChapter();?></h2> 
+                    <?php endif ?>
+                    <?php if($status === '00')  // Gestion du livre blanc 
+                    {
+                        !$episode->getChapter() === '999' ? $subTitle =  $episode->getQuote() : $subTitle = ''; 
+                    }else{
+                        $subTitle = "Chapître..." . $episode->getChapter();
+                    }
+                    ?>
+                    
+                </div>
+            
                 <div class="row">  
                     <div class = "col-md-6 offset-md-2">
                         
@@ -40,7 +40,7 @@
                     </div> 
 
                     <?php $alt = $episode->getImageAlt();?>
-                    <?php $src= IMG215 . $episode->getImage();?>
+                    <?php $src= IMG125 . $episode->getImage();?>
 
                     <div  class = "col-md-4 ">
                         <div class="thumbnail">
@@ -50,12 +50,12 @@
                             </div>      
                         </div>         
                     </div>
-                </div>
-
-                <div>
+                    
+                    <div class = "col-md-8 offset-md-2">
                     <?=  $episode->getContent();?> 
-                </div>  
-                </section>
+                    </div>
+                </div>
+            </section>
 
             <?php if($episode->getChapter() <> '999') : ?>
                 <div class="row">

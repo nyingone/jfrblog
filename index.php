@@ -37,7 +37,8 @@ $router->get('register',"user#register",'register');
 $router->post('user-login',"user#connect",'connect');
 $router->post('user/:ref', "user#maj",'user_maj'); 
 
-if(isset($_SESSION['logged_in'])) :
+// if(isset($_SESSION['logged_in']) && (S_SESSION['groupId'] >= "50")) :
+if(ADMIN) :
     $router->get('book',"book#index",'book');
     $router->get('book/:id', "book#edit",'book_edit');
     $router->post('book/:id', "book#maj",'book_maj');

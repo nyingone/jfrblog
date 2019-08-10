@@ -82,10 +82,11 @@ class DB
                     $this->_results = $this->_query->fetchAll(PDO::FETCH_ASSOC);
     
                     $this->_count = $this->_query->rowCount();
+                    $this->_query->closeCursor();
                     return $this->_results;  
                 }
                 return true;
-                // return $this->errors();                 
+                //             
             } else{
                 $this->_error = true;
             }
@@ -98,7 +99,6 @@ class DB
 
     public function action($action, $table, $join = null ,  $where = array(), $orderBy= null)
     {
-        // var_dump($where); die;
         if(count($where) >= 3 )
         {
             $operators = array('=','>','<', '>=', '<=','<>');
@@ -146,6 +146,7 @@ class DB
 
             $sql .= "  ". $orderBy;
             $sql .= " )";
+           
             if($this->query($sql,array($value),$table))
             {
                 $this->_query->closeCursor();

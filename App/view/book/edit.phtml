@@ -1,5 +1,6 @@
 
 <?php $this->view_data =$datas ;  ?>
+
 <?php  if(isset($_SESSION['errors']) && !empty($_SESSION['errors']) ):?>
 
     <ul>
@@ -89,6 +90,7 @@
                 <?php $label = "Mise en avant.....:"; ?>                  
                 <label><?=$label?></label><input class="form-control" type="number" maxlength="1" name="blogged" value="<?= ($book->getId()) > 0 ? $book->getBlogged() : 0; ?>" />
             </p>
+            <input type="hidden" name="lastVolPrt" value="<?= ($book->getId()) > 0 ? $book->getLastVolPrt() : 0; ?>">
             <input type="hidden" name="id" value="<?= ($book->getId()) > 0 ? $book->getId() :''; ?>">
             <input type="hidden" name="url" value ="<?= 'book/edit-' . ($book->getId() > 0 ? $book->getId() .'-' . 'maj' :'') ; ?>"> 
             <input type='hidden' name="action" value ="maj">

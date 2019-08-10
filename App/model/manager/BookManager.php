@@ -8,8 +8,7 @@ class BookManager extends Manager
     private $_books = [];
     private $_episodeManager;
     private $_selection ;     
-    
-    
+      
 
     public function __construct($modelName = null,$method= null)
     {    
@@ -26,20 +25,30 @@ class BookManager extends Manager
     { 
         $action = "select * FROM ";
         $join = null;
+        
         $orderBy = ' order by EditYear DESC, status, id DESC ';
-        if(!isset($parms))
+        if($parms == null)
         {   
-            $ksel = array(  'blogged'    , '<>', 1,
-                            'status'    , '>=', '20',
-                            'status'    , '<', '90');
-
+            if(ADMIN):
+                $orderBy = ' order by blogged ASC, promoted DESC, status ASC ';
+                $ksel = array(  'status'    , '<', '90');
+            elseif(FRIEND):
+               
+                $ksel = array(  'blogged'    , '<>', 1,
+                                'status'    , '>=', '20',
+                                'status'    , '<', '90');
+            else:
+                $ksel = array(  'blogged'    , '<>', 1,
+                                'status'    , '>=', '30',
+                                'status'    , '<', '90');
+            endif;
         }else{
             $ksel = array('id', '=', $parms);
         }
 
-    
+  
         $this->_selection = DB::getInstance()->get($this->_tab, $ksel, $orderBy, $action, $join);
-    
+       
         if(isset($this->_selection) && !empty($this->_selection))
         {
           
@@ -51,13 +60,18 @@ class BookManager extends Manager
                 $nbComm = 0;
                 $nbAlt  = 0;
                 $nbEps  = 0;
+                $maxStEps  = '00';
                 $nbEpsAlt  = 0;
-                if($level === 'N0'):
+                if($level === 'N0')
+                {
                     $this->episodeManager = new EpisodeManager();
                     $episodes = $this->episodeManager->getSelection($book->getId(), $level);
                     $book->setEpisodes($episodes);
                     foreach ($episodes as $episode)
                     {
+                        if($maxStEps < $episode->getStatus()) : 
+                            $maxStEps = $episode->getStatus();
+                        endif;
                         $nbComm += $episode->getNbcomments();
                         $nbAlt += $episode->getAlertComm();
                         $nbEps ++;
@@ -71,7 +85,12 @@ class BookManager extends Manager
                     $book->setNbComments($nbComm);
                     $book->setAlertComm($nbAlt);
                     $book->setAlertEpisodes($nbEpsAlt);
-                endif;
+                    var_dump($maxStEps); 
+                    if( $maxStEps > $book->getStatus()) : 
+                        $book->setStatus($maxStEps);
+                    endif;
+                }  
+              
                 $this->books[] = $book;
             }
           

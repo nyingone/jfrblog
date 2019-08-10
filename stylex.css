@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,700');
+
+/*---Media Queries --*/
+@media (max-width:992px){
+}
+@media (max-width:768px){
+}
+@media (max-width:576px){
+}
+body
+{
+color: black;
+}
+#episode-content
+{
+    /* border: 6px blue offset;  */
+    padding: 3em 5em;
+    background-image: url("IMG/carnet_fond.png"); 
+    background-size: 100% 100%;
+    /* box-shadow: 12px 12px 6px black; */
+}
+#aboutJFR#episode-content
+{
+    /* border: 6px blue offset;  */
+    padding: 3em 5em;
+    background-image: url("IMG/carnet_fond_01.png"); 
+    background-size: 100% 100%;
+    /* box-shadow: 12px 12px 6px black; */
+}

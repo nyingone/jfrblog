@@ -8,6 +8,7 @@ class Book extends Table
     private $_nbEps;
     private $_status;
     private $_isbn;
+    private $_lastVolPrt;
     private $_editYear;
     private $_cover;
     private $_coverAlt;
@@ -30,8 +31,8 @@ class Book extends Table
     private $_coverType;
     private $_nbEpisodesType;
 
-    private $_statusOkDel = '10';
-    private $_statusOkMaj = '70';
+    private $_statusOkDel = '10'; // bookStatus = 10 <=> existe au moins un épisode statut 10 ou plus
+    private $_statusOkMaj = '80'; // bookStatus = 80 <=> imprimé/ au catalogue en vente
     private $_idDel;
     private $_idMaj;
    
@@ -55,17 +56,6 @@ class Book extends Table
         $this->setPromotedLabel(''); 
         $this->setOnlineDatType('hidden');
         $this->setPromotedType('hidden');
-    endif;
-
-    if($this->getStatus() <= $this->_statusOkDel) : 
-        $this->setIdDel(true);
-    else:
-        $this->setIdDel(false);
-    endif;
-    if($this->getStatus() <= $this->_statusOkMaj) : 
-        $this->setIdMaj(true);
-    else:
-        $this->setIdMaj(false);
     endif;
   }
     /**
@@ -110,12 +100,15 @@ class Book extends Table
     public function setStatus($status)
     {
         $this->_status = $status;
-      
-
+        $this->ctlStatus();
     }
     public function setIsbn($isbn)
     {
         $this->_isbn = $isbn;
+    }
+    public function setLastVolPrt($lastVolPrt)
+    {
+        $this->_lastVolPrt= $lastVolPrt;
     }
     public function setEditYear($editYear)
     {
@@ -171,6 +164,10 @@ class Book extends Table
     {
         return $this->_isbn;
     }
+    public function getLastVolPrt()
+    {
+        return $this->_lastVolPrt;
+    }
     public function getEditYear()
     {
         return $this->_editYear;
@@ -201,6 +198,27 @@ class Book extends Table
     /**
      * Fonction annexes _____________________________________________SET
      */
+
+     /**
+      * Control et update update and delete rights in book object/
+      * @param void
+      * @return void
+      */
+    public function ctlStatus()   
+    {
+        if($this->getStatus() < $this->_statusOkDel) : 
+            $this->setIdDel(true);
+        else:
+            $this->setIdDel(false);
+        endif;
+        
+        if($this->getStatus() < $this->_statusOkMaj) : 
+            $this->setIdMaj(true);
+        else:
+            $this->setIdMaj(false);
+        endif;
+    }
+
 
     public function setEpisodes($episodes)   // tableau d'objets Episode
     {
@@ -350,7 +368,6 @@ class Book extends Table
     }
     public function getIdDel()
     {
-
         return $this->_idDel;
     }
     public function getIdMaj()

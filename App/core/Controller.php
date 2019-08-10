@@ -89,7 +89,7 @@ class Controller
         $this->view->redirect($_SESSION['redirect']);  
         }
         else{
-          exit;
+          header("Location: ". $_SESSION['redirect'] );
         }
     }
   }

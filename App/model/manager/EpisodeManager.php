@@ -1,16 +1,13 @@
 <?php
 class EpisodeManager extends Manager
 {
-     // protected static $_db; // Instance de PDO
     protected   $_tab = 'episode';
     protected   $_selection ;
     protected   $_episodes = [] ;
        
     private     $_commentManager;
     private     $_bookManager;
-    // protected $_entity;
-   //  private $_entityFields;
-
+    
     
     public function __construct($modelName= null,$method= null)
     {    
@@ -32,7 +29,6 @@ class EpisodeManager extends Manager
     */
     public function getSelection($parms=null,  $level = null)
     {
-       //  var_dump($level, $parms); die;
         $orderBy = ' order by bookId, volume DESC, chapter DESC ';
         if(!isset($parms))
         {
@@ -46,25 +42,33 @@ class EpisodeManager extends Manager
           
             if($x === 1)
             {
-                $ksel = array('bookId'    , '=', $keys[0]);  
+                $ksl0 = array('bookId'    , '=', $keys[0]);  
         
             }else{
                 if($x === 2)
                 {
-                    $ksel = array(  'bookId'    , '=', $keys[0],
+                    $ksl0 = array(  'bookId'    , '=', $keys[0],
                                     'volume'    , '=', $keys[1]);  
                 }else{
                     
-                    $ksel = array(  'bookId'    , '=', $keys[0],
+                    $ksl0 = array(  'bookId'    , '=', $keys[0],
                                     'volume'    , '=', $keys[1],
                                     'id'        , '=', $keys[2]);  
                 }
             }
-            // $this->selection = DB::getInstance()->get($this->_tab, array('id', '=', $parms));
-            if(!isset($_SESSION['logged_in'])) :
-                $ksel[] = 'status';
-                $ksel[] = '>';
-                $ksel[] = '10';
+           
+            if(ADMIN):
+                $ksel = $ksl0;
+            else:
+                if(FRIEND):
+                
+                    $kslx = array(  'status'    , '>=', $_SESSION['groupId'],
+                                    'status'    , '<', '90');
+                else:
+                    $kslx = array(  'status'    , '>=', '30',
+                                    'status'    , '<', '90');
+                endif;
+                $ksel = array_merge($ksl0, $kslx);
             endif;
             
             if ($x < 2 || $keys[1] <= '999') : 
@@ -103,9 +107,8 @@ class EpisodeManager extends Manager
                 // requete sur tous les comments par episode  @return  [obj commentaires]  Last In Fist Out 
                     $refEps= $episode->getBookId() . '.' . $episode->getId();  
                     $comments = $this->_commentManager->getSelection($refEps,$level);
-                    $episode->setComments($comments);
-                             
                     if(is_array($comments)) :
+                        $episode->setComments($comments);
                         $comment = $comments[0];
                         $episode->setLastCommented($comment->getPostDat());
                     endif;
