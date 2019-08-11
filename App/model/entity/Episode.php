@@ -245,7 +245,8 @@ class Episode extends Table
     {
         $this->_comments = $comments;
         if(is_array($comments)):
-            $this->setNbComments(count($comments));
+            
+            
         endif;
     }
 
@@ -269,7 +270,11 @@ class Episode extends Table
 
     public function setBookInfo($books)     // tableau d'objets Bok // 20180809 directement objet book
     {
-        $this->_bookInfo = $books;
+        if(is_array($books)):
+            $this->_bookInfo = $books[0];
+        else:
+            $this->_bookInfo = $books;
+        endif;
     }
  
     public function setStatusLabel($label)

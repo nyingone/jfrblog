@@ -7,7 +7,7 @@ $alt="crayon";
   <!--  <img  src="<?php echo $src?>" width=30px height = 30px alt="<?php echo $alt?>" title ="<?php echo $alt?>"> -->
 </div>
 
-<div class = "col-md-8 ">
+<div class = "col-md-12 ">
     <div class="row"> 
         <form  action ="<?= HOME . 'index.php' ?>" method = "post">
             
@@ -53,17 +53,11 @@ $alt="crayon";
             <section class="row"> 
                 <?php $this->view_comments = $comments; ?>
                 <?php foreach($this->view_comments as $comment) : ?>              
-                    <div class = "col-md-10">
+                    <div class = "col-md-8">
                         <div class="shadow p-4 mb-4 bg-white">
-                        <p> <?= $comment->getPseudo() ?> le: <?= $comment->getPostdat() !== null ? $comment->getPostdat()->format("Y-m-d H:i:s") : '' ?></p>
-                        <p> <?= $comment->getComment()?></p>
-                        <?php if($comment->getNbCon() > 0) : ?>
-                            <br>
-                            <p> signalé: <?= $comment->getNewCon()?> fois</p>
-                            <?php endif; ?>
+                            <p><?= $comment->getPseudo() ?> le: <?= $comment->getPostdat() !== null ? $comment->getPostdat()->format("Y-m-d") : '' ?> :<?= $comment->getComment()?> </p>
                         </div>
                     </div>
-                        
                     <div class = "col-md-2">
                         <form  action ="<?= HOME . 'index.php' ?>" method = "post">
                             
@@ -84,10 +78,18 @@ $alt="crayon";
                             <input type='hidden' name="action" value ="<?php echo($opt); ?>">
                             <button type="submit">Signaler <br/><i class="fas fa-bell"></i></button>
                         </form>
-                        <br />  
+                    
+                        <div class = "col-md-2">
+                            <?php if($comment->getNbCon() > 0) : ?>
+                                    <span> <?= $comment->getNewCon()?>x</span>
+                            <?php endif; ?>
+                        </div>
                     </div>
+                        
+                    
                 <?php endforeach; ?>
             </section>  
         <?php endif; ?>
     </div>
+  
 </div> 

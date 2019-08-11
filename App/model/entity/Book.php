@@ -14,6 +14,7 @@ class Book extends Table
     private $_coverAlt;
     private $_promoted;
     private $_blogged;
+   
 /**
      * Variablea ajoutés hors base données
      */
@@ -45,7 +46,7 @@ class Book extends Table
   {
     parent::__construct($table);
         
-    if($this->getStatus() >= '20') : 
+    if($this->getStatus() >= '20' && $this->getNbEps() > 0) : 
         $this->setOnlineDatLabel('Mis en ligne le....:');
         $this->setPromotedLabel('Mis en ligne le....:'); 
         $this->setOnlineDatType('text');
@@ -89,9 +90,11 @@ class Book extends Table
     {
         $this->_plot = $plot;
     }
-    public function setOnlineDat($onlineDat)
+    public function setOnlineDat($onlineDat=null)
     {
-        $this->_onlineDat = new DateTime($onlineDat);
+        if($this->getStatus() >= '20' && $this->getNbEps() > 0) : 
+            $this->_onlineDat = new DateTime($onlineDat);
+        endif;
     }
     public function setNbEps($nbEps)
     {
@@ -114,6 +117,7 @@ class Book extends Table
     {
         $this->_editYear = (int) $editYear;
     }
+    
     public function setCover($cover)
     {
         $this->_cover =  $cover;
@@ -217,6 +221,7 @@ class Book extends Table
         else:
             $this->setIdMaj(false);
         endif;
+        $this->setOnlinedat();
     }
 
 
@@ -400,7 +405,7 @@ class Book extends Table
                             'Reference'     =>'intrigue',
                             'required'      => true,
                             'min'           => 10,
-                            'max'           => 2000
+                            'max'           => 10000
                             ),
             'onlineDat' =>array(
                             'Reference'     =>'En ligne',
@@ -446,9 +451,13 @@ class Book extends Table
                                     'Reference'     =>'destination bog',
                                     'required'      => false,
                                     ' list'          => '0;1'
+                            ),
+            'lastVolPrt'        =>array(
+                                'Reference'     =>'dernier volume paru',
+                                'required'      => false
                             )
                                         
-      ); 
+            ); 
       return $validTable;
     }
 }

@@ -9,8 +9,8 @@
     
     <?php include (VIEW . 'book\entBook.phtml'); ?>
 
-    <table class="table-striped" >
-        <thead>
+    <table class="table table-striped" >
+        <thead class="thead-light">
             <tr>
                 <th>Chapître</th>
                 <th>Visiteur </th>
@@ -20,7 +20,8 @@
                 <th>Revalidé le</th>
                 <th>Nv.<i class="fas fa-thumbs-down" alt="Nouveaux signalement versus total" title = "Nouveaux signalement/ total"></i>/total</th>
                 <th>Alt</th>
-                <th>Gérer</th>
+                <th>OK</th>
+                <th>NOK</th>
             </tr>
         </thead>
         <tbody>
@@ -35,21 +36,16 @@
                 $table .= '<tr>';               
                 $table .= '<td>' . $episode->getChapter() . '</td>';
                 $table .= '<td>' . $comment->getPseudo()  . '</td>';
-                $table .= '<td>' . ($comment->getPostDat() !== null ? $comment->getPostDat()->format("Y-m-d H:i:s" ) : '') . '</td>';
+                $table .= '<td>' . ($comment->getPostDat() !== null ? $comment->getPostDat()->format("d-m-Y H:i:s" ) : '') . '</td>';
                 $table .= '<td>' . $comment->getComment() . '</td>';
                 $table .= '<td>' . $comment->getStatus()  .  '</td>';
-                $table .= '<td>' . ($comment->getValidDat() !== null ? $comment->getValidDat()->format("Y-m-d H:i:s") : '') . '</td>';
+                $table .= '<td>' . ($comment->getValidDat() !== null ? $comment->getValidDat()->format("d-m-Y") : '') . '</td>';
                 $table .= '<td>' . $comment->getNewCon()   . '/' . $comment->getNbCon()   . '</td>';
-                
-                if($comment->getAlertComm())  :
-                    $table .= '<td><i class="fas fa-bell" alt="Alerte Commentaire" title = "Alerte Commentaire"></i></td>';
-                else:
-                    $table .= '<td>_</td>';
-                endif;
-               
+                $table .= '<td><i class="fas fa-bell" alt="Alerte Commentaire" title = "Alerte Commentaire"></i></td>';
                 $table .= '<td><a href="'. HOME .'comment-gest/val-' . $comment->getId() . '-upd' .'"><i class = "fas fa-thumbs-up " alt="Valider commentaire" title = "Validation"></i></a></td>';
                 $table .= '<td><a  href="'. HOME . 'comment-gest/del-' . $comment->getId()  . '-del' . '"><i class = "fas fa-comment-slash " alt="Supprimer commentaire" title = "Suppression"></i></a></td>';
-                $table .= '<td>' . '<input type="hidden" name="T$comment" value ="<?php $comment; ?>"/>' . '</td>';
+                
+                 /* $table .= '<td>' . '<input type="hidden" name="T$comment" value ="<?php $comment; ?>"/>' . '</td>'; */
 
                 $table .= '<tr>';
             }

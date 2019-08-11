@@ -2,7 +2,7 @@
 
     <div  class = "col-md-2">
         <?php $accesBook = HOME . 'book-show/show-' . $book->getId(); ?>
-        <?php if(!$book->getPromoted()) :?>
+        <?php if(!$book->getPromoted() || ADMIN) :?>
         <a href="<?php echo $accesBook ?>"><img  src="<?php echo IMG215 . $book->getCover()?>" alt="<?php echo $book->getCoverAlt()?>" title ="<?php echo $book->getCoverAlt()?>"></a>
         <?php endif ?>
     </div>

@@ -1,31 +1,20 @@
 <?php $this->view_data = $datas; ?>
 <?php foreach($this->view_data as $episode) :  ?>
+<?php ($episode->getChapter() !== 999) ? $idcontent = 'id ="single-page"' : $idcontent = 'id ="single-page"' ; ?>
 
-<?php // var_dump($this->view_data); die; ?>
     <div class = "container-fluid">
-        <?php 
-        $book = $episode->getBookInfo(); 
-        ?>
-        <?php $comments = $episode->getComments(); 
-        ?> 
-        
-        <?php include (VIEW . 'book\entBook.phtml'); ?>
+        <?php $book = $episode->getBookInfo();?>
+        <?php  $comments = $episode->getComments();  ?>
        
-        <?php  $status = $book->getStatus(); ?>     
+        <?php if($episode->getChapter() !== 999) : include (VIEW . 'book\entBook.phtml'); endif;?>
+  
         <div class = "col-md-7 offset-md-1">
-            <section class="entry-content"  id="episode-content">
+            <section   class="entry-content"  <?= $idcontent ?> >
                 <div class = "row">
-                    <?php if($episode->getChapter() <> '999') : ?>
-                    <h2><?php echo "Chapître..." . $episode->getChapter();?></h2> 
+                    <?php if($book->getBlogged() !== 1) : ?>
+                            <h2><?php echo "Chapître..." . $episode->getChapter();?></h2> 
                     <?php endif ?>
-                    <?php if($status === '00')  // Gestion du livre blanc 
-                    {
-                        !$episode->getChapter() === '999' ? $subTitle =  $episode->getQuote() : $subTitle = ''; 
-                    }else{
-                        $subTitle = "Chapître..." . $episode->getChapter();
-                    }
-                    ?>
-                    
+                                        
                 </div>
             
                 <div class="row">  

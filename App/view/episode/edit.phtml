@@ -1,6 +1,7 @@
 <?php $this->view_data = $datas; ?>
-<?php foreach($this->view_data as $episode):?>
 
+<?php foreach($this->view_data as $episode):?>
+    <?php $book = $episode->getBookInfo(); ?>
     <?php  if(isset($_SESSION['errors']) && !empty($_SESSION['errors']) ):?>
 
         <ul>
@@ -10,13 +11,13 @@
         <?php unset($_SESSION['errors']);?>
         </ul>
     <?php endif;?>
-<!--SELECT SELECT `id``quote``content``excerpt``createdDat``status``onlineDate``commented``nbComment``bookId``chapter``version``slugEps` from episode  -->
-<h2>  </h2>
-<div class="col-md-7 offset-md-1">
+
+    <h2> <?= $book->getTitle(); ?> </h2>
+    <div class="col-md-7 offset-md-1">
     <form  action ="<?= HOME . 'index.php' ?>" method = "post">
     
         <div ><?php $label = "Quote...........:";?>   
-            <label for="content"><?=$label?></label>
+            <label for="quote"><?=$label?></label>
             <textarea  class="tinymce" name = "quote" cols= 90 rows = 10 maxlength=2000 required> <?=($episode->getId()) > 0 ? $episode->getQuote(): ''; ?> </textarea wrap="type">
         </div>
 
@@ -48,7 +49,7 @@
         </p>
 
         <p><?php $label = "Ref. livre ........:";?>                 
-            <label><?=$label?></label><input type="numeric" maxlength="3" name="bookId" value="<?=($episode->getId()) > 0 ? $episode->getBookId(): ''; ?>">
+            <label><?=$label?></label><input type="numeric" maxlength="3" name="bookId" value="<?=($episode->getId()) > 0 ? $episode->getBookId(): $book->getId(); ?>">
         </p>
         <p><?php $label = "Tome  .............:";?>               
             <label><?=$label?></label> :<input type="numeric" maxlength="3" name="volume" value="<?=($episode->getId()) > 0 ? $episode->getVolume(): ''; ?>">

@@ -21,7 +21,7 @@
                     <div class = 'col-md-8'>
                         <h4> <?= $book->getPlot(); ?></h4>
                             <a class = "col-md-2 offset-md-1" href="<?php echo $accesEps . $book->getId() . '.A.a' ?>"><i class="fas fa-fast-backward" alt="1er épisode" <?= $book->getTitle();?> title ="1er épisode"></i></a>
-                            <a class = "col-md-2 offset-md-1" href="<?php echo $accesBook . $book->getId() ?>"><img  src="<?php echo $src?>" alt="Episodes" <?= $book->getTitle();?>  title ="Tous les épisodes"></a>
+                            <a class = "col-md-2 offset-md-1" href="<?php echo $accesBook . $book->getId() ?>"><img  src="<?php echo $src?>" width= "30" height = "30" alt="Episodes" <?= $book->getTitle();?>  title ="Tous les épisodes"></a>
                             <a class = "col-md-2 offset-md-1" href="<?php echo $accesEps . $book->getId() . '.Z.z'?>"><i class="fas fa-fast-forward" alt="dernier épisode" <?= $book->getTitle();?>  title ="dernier épisode"></i></a>      
                     </div>
                 </div>  

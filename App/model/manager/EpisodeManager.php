@@ -3,11 +3,10 @@ class EpisodeManager extends Manager
 {
     protected   $_tab = 'episode';
     protected   $_selection ;
-    protected   $_episodes = [] ;
+    protected   $_episodes = null;
        
     private     $_commentManager;
     private     $_bookManager;
-    
     
     public function __construct($modelName= null,$method= null)
     {    
@@ -106,11 +105,15 @@ class EpisodeManager extends Manager
                 if($level === 'N1' || $level === 'N0') :          
                 // requete sur tous les comments par episode  @return  [obj commentaires]  Last In Fist Out 
                     $refEps= $episode->getBookId() . '.' . $episode->getId();  
+                    // var_dump($refEps);
+                    $comments = null;
                     $comments = $this->_commentManager->getSelection($refEps,$level);
-                    if(is_array($comments)) :
+                    if($comments !== false && is_array($comments)) :
+                        // var_dump($comments);
                         $episode->setComments($comments);
                         $comment = $comments[0];
                         $episode->setLastCommented($comment->getPostDat());
+                        $episode->setNbComments(count($comments));
                     endif;
 
                 // requete sur tous les commentaires non validés/et/ou signalés  @return  [obj commentaires]
@@ -118,10 +121,8 @@ class EpisodeManager extends Manager
                     $episode->setAlertComm($altComm);
                 endif;
                 
-                $this->_episodes[] = $episode;
+             $this->_episodes[] = $episode;
             }
-        }else{
-            $this->_episodes[] = new Episode([]);
         }
         return $this->_episodes;
     }

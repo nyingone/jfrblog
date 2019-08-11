@@ -3,10 +3,6 @@ class EpisodeController extends Controller
 {
    
   protected $_tab = 'episode';
-  
-  // protected $_managerId ;
-  // protected $_controllerId ;
- 
   protected $level = 'N1';
 
   
@@ -24,7 +20,6 @@ public function show($ref= null,$opt=null)
 
 }
 
-
 /** Administrateur/ *********************************************************
  * 
 ** list all episodes of a known book 
@@ -33,10 +28,19 @@ public function show($ref= null,$opt=null)
   
   public function index($ref = null)
   {
+    
     $datas = $this->model->getSelection($ref, $this->level);
-    $this->createView($this->_tab . DS . 'index', $datas);
-    $this->view->page_title = 'Gestion des épisodes :';
-    $this->view->render($datas);
+    
+    if($datas !==null) :
+      $this->createView($this->_tab . DS . 'index', $datas);
+      $this->view->page_title = 'Gestion des épisodes :';
+      $this->view->render($datas);
+    else:           // first episode to create for this book.
+      $redirect = HOME . 'episode-edit/edit-'.  $ref;
+      // header("Location: ". $_SESSION['redirect'] );
+      header("Location: ". $redirect );
+      $this->edit($ref);
+    endif;
   }
 
   /** edit one episode of a known book 
@@ -44,8 +48,20 @@ public function show($ref= null,$opt=null)
 */
   public function edit($ref,$opt=null)
   {
-    $opt= 'upd';
-    $datas = $this->model->getSelection($ref, $this->level);
+    $keys = explode('.',$ref);
+    $bookId = $keys[0];
+    $opt= 'upd'; 
+
+    if(isset($keys[1]) && (int) $keys[1] > 0) :
+        $datas = $this->model->getSelection($ref, $this->level);
+    else:
+      $episode = new Episode([]);
+      $manager   = new BookManager;
+      $bookInfo   = $manager->getBooks($bookId,$this->level);
+      $episode->setBookInfo($bookInfo);
+      $datas [] = $episode;
+    endif;
+    
     $this->createview($this->_tab . DS . 'edit', $datas);
     $this->view->page_title = 'Création/mise à jour épisode :';
     $this->view->render($datas);

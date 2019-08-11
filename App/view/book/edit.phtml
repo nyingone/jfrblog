@@ -22,9 +22,9 @@
                 <label><?=$label?></label><input class="form-control" type="text" name="title"  value="<?=($book->getId()) > 0 ? $book->getTitle() : ' '; ?> "   maxlength="50"  />
             </p>
             
-            <div id="myeditablediv"><?php $label = "Résumé.............:";?>
+            <div id="myeditablediv"><?php $label = "Intrigue.............:";?>
                 <label for="plot"> <?=$label?></label>
-                <textarea  class="tinymce" name = "plot" cols= 80 rows = 10 required > <?=($book->getId()) > 0 ? $book->getPlot(): ''; ?> </textarea wrap="type">
+                <textarea  class="tinymce" name = "plot" cols= 90 rows = 20 required > <?=($book->getId()) > 0 ? $book->getPlot(): ''; ?> </textarea wrap="type">
             </div>
 
             <p><?php $label = "Status.............:";?>  
@@ -36,30 +36,29 @@
             </p>
 
             <p><?php $label = "Année edition......:";?>                 
-                <label><?=$label?></label><input class="form-control" type="number" maxlength="4" name="editYear" value="<?=($book->getId()) > 0 ? $book->getEditYear():''; ?>"placeholder="SSAA" maxlength=4/>
+                <label><?=$label?></label><input class="form-control" type="year" maxlength="4" name="editYear" value="<?=($book->getId()) > 0 ? $book->getEditYear():''; ?>"placeholder="SSAA" maxlength=4/>
             </p>
 
             <p> 
-            <?php $dat = ($book->getOnlineDat() !== null ? $book->getOnlineDat()->format("Y-m-d H:i:s") : ''); ?>
-            <label><?= $book->getOnlineDatLabel()?></label><input class="form-control" type="<?=$book->getOnlineDatType();?>"  name="onlineDat" value="<?=($book->getId()) > 0 ? $dat : '';  ?>"  readOnly />
-        
+                <?php $label = "Dernier volume catalogue....:"; ?>
+                <?php $type  = "number"; ?>     
+                <label><?=$label?></label><input class="form-control" type="number" name="lastVolPrt" value="<?= ($book->getId()) > 0 ? $book->getLastVolPrt() : 0; ?>">
+            </p>
+
+            <p> 
+                <?php $dat = ($book->getOnlineDat() !== null ? $book->getOnlineDat()->format("Y-m-d") : ''); ?>
+                <label><?= $book->getOnlineDatLabel()?></label><input class="form-control" type="<?=$book->getOnlineDatType();?>"  name="onlineDat" value="<?=($book->getId()) > 0 ? $dat : '';  ?>"  readOnly />
             <p> 
                       
                 <label><?=$book->getNbEpisodesLabel();?></label><input class="form-control" type="<?=$book->getNbEpisodesType();?>" maxlength="3" name="nbEps" value="<?= ($book->getId()) > 0 ? $book->getNbEpisodes() : ''; ?>" readOnly />
             </p>
+
             <p> 
-                <?php if($book->getStatus() >= '30')
-                {
-                    $label = "Couverture........:";
-                    $type  = "text";
-                }else{
-                    $label ="";
-                    $type  = "hidden";
-                }
-              
-                ?>                   
+                <?php $label = "Couverture........:"; ?>
+                <?php $type  = "text"; ?>                  
                 <label><?=$label?></label><input class="form-control" type="<?=$type;?>" maxlength="30" name="cover" value="<?= ($book->getId()) > 0 ? $book->getCover() : ''; ?>" />
             </p>
+            
             <p> 
                 <?php if($book->getStatus() >= '30')
                 {
@@ -72,25 +71,20 @@
                 ?>                   
                 <label><?=$label?></label><input class="form-control" type="<?=$type;?>" maxlength="50" name="coverAlt" value="<?= ($book->getId()) > 0 ? $book->getCoverAlt() : ''; ?>" />
             </p>
-            <p> 
-                <?php if($book->getStatus() >= '30')
-                {
-                    $label = "Mise en avant.....:";
-                    $type  = "text";
-                }else{
-                    $label ="";
-                    $type  = "hidden";
-                }
-                ?>                   
+
+            <p>           
+                <?php $label = "Mise en avant.....:"; ?>
+                <?php  $type  = "number"; ?>           
                 <label><?=$label?></label><input class="form-control" type="<?=$type;?>" maxlength="1" name="promoted" value="<?= ($book->getId()) > 0 ? $book->getPromoted() : 0; ?>" />
             </p>
 
             <p> 
-                
-                <?php $label = "Mise en avant.....:"; ?>                  
-                <label><?=$label?></label><input class="form-control" type="number" maxlength="1" name="blogged" value="<?= ($book->getId()) > 0 ? $book->getBlogged() : 0; ?>" />
+                <?php $label = "Réservé Blog......:"; ?> 
+                <?php  $type  = "number"; ?>              
+                <input class="form-control" type="hidden" maxlength="1" name="blogged" value="<?= ($book->getId()) > 0 ? $book->getBlogged() : 0; ?>" />
             </p>
-            <input type="hidden" name="lastVolPrt" value="<?= ($book->getId()) > 0 ? $book->getLastVolPrt() : 0; ?>">
+
+          
             <input type="hidden" name="id" value="<?= ($book->getId()) > 0 ? $book->getId() :''; ?>">
             <input type="hidden" name="url" value ="<?= 'book/edit-' . ($book->getId() > 0 ? $book->getId() .'-' . 'maj' :'') ; ?>"> 
             <input type='hidden' name="action" value ="maj">

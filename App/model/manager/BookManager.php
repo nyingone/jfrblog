@@ -3,13 +3,11 @@ class BookManager extends Manager
 {
 
     protected $_tab = 'book';
+    protected $_selection = [];  
+    protected $_books = null;
 
- //   protected static $_db; // Instance de PDO
-    private $_books = [];
     private $_episodeManager;
-    private $_selection ;     
       
-
     public function __construct($modelName = null,$method= null)
     {    
          parent::__construct($this->_tab);
@@ -36,11 +34,11 @@ class BookManager extends Manager
                
                 $ksel = array(  'blogged'    , '<>', 1,
                                 'status'    , '>=', '20',
-                                'status'    , '<', '90');
+                                'status'    , '<', '80');
             else:
                 $ksel = array(  'blogged'    , '<>', 1,
                                 'status'    , '>=', '30',
-                                'status'    , '<', '90');
+                                'status'    , '<', '80');
             endif;
         }else{
             $ksel = array('id', '=', $parms);
@@ -62,30 +60,38 @@ class BookManager extends Manager
                 $nbEps  = 0;
                 $maxStEps  = '00';
                 $nbEpsAlt  = 0;
+                $firstOnlineDat  = new Datetime();
                 if($level === 'N0')
                 {
                     $this->episodeManager = new EpisodeManager();
                     $episodes = $this->episodeManager->getSelection($book->getId(), $level);
-                    $book->setEpisodes($episodes);
-                    foreach ($episodes as $episode)
-                    {
-                        if($maxStEps < $episode->getStatus()) : 
-                            $maxStEps = $episode->getStatus();
-                        endif;
-                        $nbComm += $episode->getNbcomments();
-                        $nbAlt += $episode->getAlertComm();
-                        $nbEps ++;
-                        if($episode->getAlertComm() > 0) : 
-                            $nbEpsAlt ++ ; 
-                        endif;
-                    }
-                   //  $book->setAlertEpisode($episodes);
-                    $book->setNbEpisodes($nbEps);
-                    $book->setNbEps($nbEps); 
-                    $book->setNbComments($nbComm);
-                    $book->setAlertComm($nbAlt);
-                    $book->setAlertEpisodes($nbEpsAlt);
-                    var_dump($maxStEps); 
+               
+                    if($episodes !== false && is_array($episodes)) :
+                        $book->setEpisodes($episodes);
+                        foreach ($episodes as $episode)
+                        {
+                            if($maxStEps < $episode->getStatus()) : 
+                                $maxStEps = $episode->getStatus();
+                            endif;
+                            if( $firstOnlineDat > $episode->getOnlineDat()) : 
+                                $firstOnlineDat  = $episode->getOnlineDat();
+                            endif;
+                            $nbComm += $episode->getNbcomments();
+                            $nbAlt += $episode->getAlertComm();
+                            $nbEps ++;
+                            if($episode->getAlertComm() > 0) : 
+                                $nbEpsAlt ++ ; 
+                            endif;
+                        }
+
+                        if($firstOnlineDat !== null) : $book->setOnlineDat($firstOnlineDat->format("Y-m-d")); endif;
+                        $book->setNbEpisodes($nbEps);
+                        $book->setNbEps($nbEps); 
+                        $book->setNbComments($nbComm);
+                        $book->setAlertComm($nbAlt);
+                        $book->setAlertEpisodes($nbEpsAlt);
+                    endif;
+                    
                     if( $maxStEps > $book->getStatus()) : 
                         $book->setStatus($maxStEps);
                     endif;

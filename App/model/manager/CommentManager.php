@@ -3,12 +3,12 @@ class CommentManager extends Manager
 {
 
     protected $_tab = 'comment';
-    protected $_selection ;
+    protected $_selection= null ;
      
    
     private $_episodeManager;
     private $_bookManager;
-    private $_comments ;
+    private $_comments = null;
     
     public function __construct($modelName= null,$method= null)
     {   
@@ -36,6 +36,8 @@ class CommentManager extends Manager
 
     public function getSelection($parms=null, $level = null)
     {
+        $this->_selection = null;
+        $this->_comments = null;
         $orderBy = ' order by postDat DESC, status, id DESC ';
         if(!isset($parms))
         {
@@ -48,35 +50,41 @@ class CommentManager extends Manager
           
             if($x === 1)
             {
-                $ksel = array('bookId'    , '=', $keys[0]);  
+                $ksl0 = array('bookId'    , '=', $keys[0]);  
         
             }else{
                 if($x === 2)
                 {
-                    $ksel = array(  'bookId'    , '=', $keys[0],
+                    $ksl0 = array(  'bookId'    , '=', $keys[0],
                                     'epsId'     , '=', $keys[1]);  
                 }else{
                     if($x === 3)
                     {
-                    $ksel = array(  'bookId'    , '=', $keys[0],
+                    $ksl0 = array(  'bookId'    , '=', $keys[0],
                                     'epsId'     , '=', $keys[1],
                                     'id'        , '=', $keys[2]);
                     }
                 }
             }
            
-            if(!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] === false) :
-                $ksel[] = 'status';
-                $ksel[] = '>=';
-                $ksel[] = '20';
+            if(ADMIN):
+                $ksel = $ksl0;
+            else:
+                if(FRIEND):
+                
+                    $kslx = array(  'status'    , '>=', $_SESSION['groupId'],
+                                    'status'    , '<', '90');
+                else:
+                    $kslx = array(  'status'    , '>=', '10',
+                                    'status'    , '<', '90');
+                endif;
+                $ksel = array_merge($ksl0, $kslx);
             endif;
-
-            // $this->selection = DB::getInstance()->get($this->_tab, array('id', '=', $parms));
+            
             $this->_selection = DB::getInstance()->get($this->_tab, $ksel, $orderBy);
         }  
         
         $this->formatSelection($level);
-
         return $this->_comments;
     }
 
@@ -112,12 +120,12 @@ class CommentManager extends Manager
             {
                  $comment = new Comment($table);
                          // recup infos sur le livre
-                 if($level ===  'N2'):
+                if($level ===  'N2'):
                     $this->bookManager = new BookManager();
                     $bookInfo = $this->bookManager->getBooks($comment->getBookId(),$level);
                     $comment->setBookInfo($bookInfo);
                                                   
-                   $this->episodeManager = new EpisodeManager();
+                     $this->episodeManager = new EpisodeManager();
                     $episodeInfo = $this->episodeManager->getEpisodeId($comment->getEpsId(), $level);
                     $comment->setEpisodeInfo($episodeInfo);
 
@@ -125,7 +133,6 @@ class CommentManager extends Manager
                $this->_comments[] = $comment;
             }
         }
-
         return $this->_comments;
     }
 

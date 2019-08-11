@@ -33,7 +33,7 @@
                         $table .= '<td><a href="' . $bookViewUser . '"><img  src="' . IMG125 . $book->getCover() . '"  alt="'. $book->getCoverAlt() . '" title ="Index utilisateur"></a></td>';
 
                         $table .= '<td><a href= "' . HOME . 'episode/index-'. $book->getId() .'">' . $book->getTitle() . '</a> <br/>' . $book->getEditYear() .  
-                                '<br/> mise en ligne le : <br/>' .  ( $book->getOnlineDat() !== null ? $book->getOnlineDat()->format('Y-m-d') : '') .'</td>';
+                                '<br/>' . $book->getOnlineDatLabel() .' <br/>' .  ( $book->getOnlineDat() !== null ? $book->getOnlineDat()->format('Y-m-d') : '') .'</td>';
                         $table .= '<td>' . $book->getPlot() . '</td>';
                         $table .= '<td>' . $book->getStatus() . '</td>';
                         $table .= '<td><a href='.'book/edit-' . $book->getId() . '-upd' . '><i class="fas fa-edit"alt="Modifier" title = "Maj description du livre"></i></a></td>';

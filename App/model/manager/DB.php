@@ -4,10 +4,10 @@ class DB
 {
     private static $_instance = null;
     private $_pdo; 
-    private $_query; 
+    private $_query = null; 
     private $_error = false;
-    private $_results;
-    private $_count =0;
+    private $_results = null;
+    private $_count = 0;
     protected $dspffd= [];
     
     protected $_optf= 'select'; 
@@ -146,13 +146,16 @@ class DB
 
             $sql .= "  ". $orderBy;
             $sql .= " )";
-           
+            
+         
             if($this->query($sql,array($value),$table))
-            {
+            {   
                 $this->_query->closeCursor();
+               
                 return $this->results(); 
-            }
-                       
+            }else{
+                return false;
+            }         
         }else{
             return false;
         }   
@@ -161,7 +164,7 @@ class DB
 
     public function get($table, $where , $orderBy= null, $action = null, $join = null)
     {
-        if (is_null($action)) : 
+        if (is_null($action)) :  
             return $this->action('SELECT * FROM', $table , $join, $where, $orderBy);
         else:
             return $this->action($action, $table , $join, $where, $orderBy);

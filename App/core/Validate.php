@@ -15,7 +15,6 @@ class Validate{
 
     public function check($source, $tab, $items = array()) 
     {
-        var_dump($source);
         $this->_entity = $tab;
         foreach($items as $item => $rules)
         {

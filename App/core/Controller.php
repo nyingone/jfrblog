@@ -75,14 +75,16 @@ class Controller
         if ($redir === true)
         {
          $this->createView($this->_tab );
-         $this->view->redirect($this->_tab);          
+         $this->view->redirect($this->_tab);     
+             
         }else{
+         
           header("Location: ". $_SESSION['redirect'] );
           exit;
         }
       }
     }else {     
-        $_SESSION['errors'] = $this->validate->errors();
+        $_SESSION['errors'] = $this->_validate->errors();
         if ($redir === true)
         {
         $this->createview($this->_tab . DS . 'edit', $datas);  

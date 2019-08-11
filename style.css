@@ -11,9 +11,19 @@ body
 {
 color: black;
 }
-#episode-content
+#single-page
 {
     /* border: 6px blue offset;  */
-    background-image: url("IMG/carnet_fond_02.png"); 
+    padding: 3em 5em;
+    background-image: url("IMG/carnet_fond.png"); 
+    background-size: 100% 100%;
+    /* box-shadow: 12px 12px 6px black; */
+}
+#double-page
+{
+    /* border: 6px blue offset;  */
+    padding: 3em 5em;
+    background-image: url("IMG/carnet_fond_01.png"); 
+    background-size: 100% 100%;
     /* box-shadow: 12px 12px 6px black; */
 }
