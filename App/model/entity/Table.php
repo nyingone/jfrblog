@@ -44,13 +44,6 @@ class Table
         }
     }
 
-    
-    
-    public function isNew()
-    {
-        return empty($this->id);
-    }
-
     /**
      * Display field file description
      * @param string $table  <= Nom table recherchée

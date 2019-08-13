@@ -3,83 +3,41 @@
 
       
 
-        <footer>
+        <footer>          
+            <div class="row">   
+               
+                    <?php if(isset($this->view_footerData)) : ?>
+                        <h5>A découvrir en Librairie, sur Amazon ou ailleurs</h5>
+                        <div class = "container-fluid">
+                            <div id="out_there" class="card-deck-wrapper">
+                                <div class="row">
+                                <div class = "col-md-12">
+                                    <div  class="card-deck">
+                                        <?php foreach($this->view_footerData as $book): ?>
+                                            <?php $accesBook = HOME . 'book-show/show-' ?>
+                                            <?php $id = $book->getId(); ?>
+                                            <?php $src = IMG215 . $book->getCover() ;?> 
+                                            <?php $title = $book->getTitle() ?> 
+                                            <?php $editeur = "ND  " . $book->getEditYear() ?> 
+                                            <?php  include('card.phtml'); ?>
+                                        <?php endforeach; ?>
+                                    </div>
+                            </div>
+                               </div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                
+            </div>
+            <hr/>
             <div class="row">
                 <div class="col-md-6"> 
                     <nav class="row">
-                        <ul class="nav secondary-nav">       
-                            <li><a class="nav-link" href="<?php echo HOME?>home"> Accueil </a></li>
-
-                            <li>
-                                <?php 
-                                $txtMnu = "Livres";
-                                if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] = true)
-                                {
-                                    $bookMnu = HOME . 'book';
-                                    
-                                }else{
-                                    $bookMnu = HOME . 'book-list';
-                                }
-                                ?>
-                                <a class="nav-link" href="<?php echo $bookMnu?>"><?php echo $txtMnu?></a>
-                            </li> 
-                            <li>
-                                <a class="nav-link" href="<?php echo HOME?>blog"> Articles </a>
-                            </li> 
-                            <li>
-                                <a class="nav-link" href="<?php echo HOME?>aboutJFR"> A propos </a>
-                            </li>
+                        <ul class="nav secondary-nav">   
+                                <?php include('navmnu.phtml'); ?>
                         </ul>
-                    </nav>  
+                    </nav>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6"> 
-                    <div class="container mt-3">
-
-                        <h5>A découvrir en Librairie, sur Amazon ou ailleurs</h5>
-                        <section id="myCarousel" class="carousel slide" data-ride="carousel">
-
-                            <!-- Indicators -->
-                            <ul class="carousel-indicators">
-                                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                                <li data-target="#myCarousel" data-slide-to="1"></li>
-                                <li data-target="#myCarousel" data-slide-to="2"></li>
-                                <li data-target="#myCarousel" data-slide-to="3"></li>
-                                <li data-target="#myCarousel" data-slide-to="4"></li>
-                            </ul>
-                            <?php $accesBook = HOME . 'book-show/show-' ?>
-                            <!-- The slideshow -->
-                            <div class="carousel-inner">
-                                <div class="carousel-item active">
-                                    <a href="<?php echo $accesBook . '19' ?>"><img src= "<?= IMG125 . 'bessora-zoonomia-vol-1.jpg' ; ?>" width ="75" height = "125" alt="Couverture de: La dynastie des boîteux" title = "zoonomia -La dynastie des boîteux" >
-                                </div>
-                                <div class="carousel-item">
-                                <a href="<?php echo $accesBook . '20' ?>"><img src= "<?= IMG125 . 'citizen-couv.jpg' ;?>" width ="75" height = "125" alt="Couverture de: Citizen" title = "zoonomia -Citizen" >
-                                </div>  
-                                <div class="carousel-item">
-                                    <img src= "<?= IMG125 . 'et-si-dieu-grand.jpg'; ?> " width ="75" height = "125" alt="Couverture de: Et si Dieu me demande, dites-Lui que je dors" title = "Et si Dieu me demande, dites-Lui que je dors">
-                                </div>
-                                <div class="carousel-item">
-                                    <img src= "<?= IMG125 . 'cyrano-5avril2015.jpg' ;?> " width ="75" height = "125" alt="Couverture de: Cyr@no" title = "Cyr@no">
-                                </div>
-                                <div class="carousel-item">
-                                    <img src= "<?= IMG125 . 'nicolas.jpg' ;?> " width ="75" height = "125" alt="Couverture de: Le testament de Nicolas'" title = "Le testament de Nicolas">
-                                </div>
-            
-                            </div>
-    
-                            <!-- Left and right controls -->
-                            <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
-                                <span class="carousel-control-prev-icon"></span>
-                            </a>
-                            <a class="carousel-control-next" href="#myCarousel" data-slide="next">
-                                <span class="carousel-control-next-icon"></span>
-                            </a>
-                        </section>
-                    </div>
-                </div>
-
                 <div class="col-md-6"> 
                     <ul class="nav secondary-nav">
                         <li><a href="#" target="_blank"> - Copyright © 2019  <?php echo HOME?> </a></li>     
@@ -87,7 +45,8 @@
                         <li><a href="#" target="_blank"> - Design & developpement</a></li>    
                     </ul>
                 </div>
-            </div>
+             </div>
+
         </footer>  
    
    
@@ -100,7 +59,7 @@
         <script>$(document).ready(function(){$('[data-toggle="tooltip"]').tooltip();});</script>
         <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js"></script>  
         <script>tinymce.init({selector:".tinymce"})</script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+     <!--   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script> -->
         </div>
     </body>
 </html>

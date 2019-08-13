@@ -52,7 +52,7 @@ if(ADMIN) :
   
 endif;
 
-// var_dump($router);
+
 try
 {
     
@@ -62,16 +62,12 @@ try
 catch(RouterException $e)
 {
     $errmsg[] =$e->getMessage();
+    header("Location: ". HOME );
 }
 catch(Exception $e)
 {
     $errmsg[] =$e->getMessage();
 }
-if(isset($errmsg) && (!empty($errmsg)))
-{
-    var_dump($errmsg);
-}
-
 
 
 

@@ -28,7 +28,7 @@ class BookManager extends Manager
         if($parms == null)
         {   
             if(ADMIN):
-                $orderBy = ' order by blogged ASC, promoted DESC, status ASC ';
+                $orderBy = ' order by blogged ASC, promoted DESC, status ASC, EditYear DESC ';
                 $ksel = array(  'status'    , '<', '90');
             elseif(FRIEND):
                
@@ -43,29 +43,62 @@ class BookManager extends Manager
         }else{
             $ksel = array('id', '=', $parms);
         }
+        $this->selectionGet($action, $join, $ksel, $orderBy, $level);
+        return $this->books;
+    }
 
-  
+   public function selBookPromotedList($level)
+   {
+    $action = "select * FROM ";
+    $join = null;
+    $orderBy = ' order by EditYear DESC ';
+    $ksel = array(  'promoted'    , '=', 1,
+                    'status'    , '<', '90');
+                    
+    $this->selectionGet($action, $join, $ksel, $orderBy, $level);
+    $promotedList[] = $this->books;
+
+    $action = "select * FROM ";
+    $join = null;
+    $orderBy = ' order by EditYear DESC ';
+    $ksel = array( 'status' , '=', '80');
+                    
+    $this->selectionGet($action, $join, $ksel, $orderBy, $level);
+    $promotedList[] = $this->books;
+    return $promotedList;
+    
+   }
+
+   public function selectionGet($action, $join, $ksel, $orderBy, $level)
+   {
+        $this->_selection = null;
         $this->_selection = DB::getInstance()->get($this->_tab, $ksel, $orderBy, $action, $join);
-       
+        $this->formatSelection($level);
+   }
+
+   public function formatSelection($level)
+   {
+    $this->books = null;
+
         if(isset($this->_selection) && !empty($this->_selection))
         {
-          
+        
             foreach($this->_selection as $table)
-            {
-               
+            {  
                 $book = new Book($table);
-                 // Récup des épisodes
-                $nbComm = 0;
-                $nbAlt  = 0;
-                $nbEps  = 0;
-                $maxStEps  = '00';
-                $nbEpsAlt  = 0;
-                $firstOnlineDat  = new Datetime();
+                
                 if($level === 'N0')
                 {
+                        // Récup des épisodes
+                    $nbComm = 0;
+                    $nbAlt  = 0;
+                    $nbEps  = 0;
+                    $maxStEps  = '00';
+                    $nbEpsAlt  = 0;
+                    $firstOnlineDat  = new Datetime();
                     $this->episodeManager = new EpisodeManager();
                     $episodes = $this->episodeManager->getSelection($book->getId(), $level);
-               
+            
                     if($episodes !== false && is_array($episodes)) :
                         $book->setEpisodes($episodes);
                         foreach ($episodes as $episode)
@@ -96,15 +129,15 @@ class BookManager extends Manager
                         $book->setStatus($maxStEps);
                     endif;
                 }  
-              
+            
                 $this->books[] = $book;
             }
-          
+        
         }else{
-            $this->books[] = new Book([]);
+            $this->books[] = new Book();
         }
-        return $this->books;
-    }
+    // var_dump($this->books);
+    return $this->books;
+   }
 
-   
 }

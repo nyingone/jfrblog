@@ -1,31 +1,6 @@
 <?php
-session_start();
-$_SESSION['id'] = session_id();
-$_SESSION['spec'] = '*none';
-if(isset($_SESSION['logged_in']))
-{
-    if($_SESSION['groupId'] >= "90") :
-        define('ADMIN' , true);
-        define('FRIEND' , false);
-        $_SESSION['spec'] = '*all';
-     else:
-        define('ADMIN' , false);
-        if($_SESSION['groupId'] >= "20") :
-            define('FRIEND' , true);
-            $_SESSION['friend'] = FRIEND;
-            $_SESSION['spec'] = '*lvl';
-        else:
-            define('FRIEND' , false);
-        endif;
-    endif;
-}else{
-    define('ADMIN' , false);
-    define('FRIEND' , false);
-}
-var_dump($_SESSION);
 
-ini_set('display-errors', 'on');
-error_reporting(E_ALL);
+
 
       /* ROOT et APP défini via index
       */
@@ -54,7 +29,33 @@ error_reporting(E_ALL);
       spl_autoload_register('spl_autoload',false);
       
     
-
+      session_start();
+      $_SESSION['id'] = session_id();
+      $_SESSION['spec'] = '*none';
+      if(isset($_SESSION['logged_in']))
+      {
+          if($_SESSION['groupId'] >= "90") :
+              define('ADMIN' , true);
+              define('FRIEND' , false);
+              $_SESSION['spec'] = '*all';
+           else:
+              define('ADMIN' , false);
+              if($_SESSION['groupId'] >= "20") :
+                  define('FRIEND' , true);
+                  $_SESSION['friend'] = FRIEND;
+                  $_SESSION['spec'] = '*lvl';
+              else:
+                  define('FRIEND' , false);
+              endif;
+          endif;
+      }else{
+          define('ADMIN' , false);
+          define('FRIEND' , false);
+      }
+      
+      ini_set('display-errors', 'on');
+      error_reporting(E_ALL);
+      
     $GLOBALS['config'] = array(
         'mysql'     => array(
             'host'      => 'localhost',

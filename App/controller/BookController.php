@@ -5,20 +5,21 @@ class BookController extends Controller
   protected $_tab = 'book';
   protected $level='N0' ;
   
-/** Visiteurs/ *********************************************************
- * 
-   * Visiteurs/Gestion vue liste Book 
-   */
+  /** PasserBy / Visiteurs/ *********************************************************
+  * 
+  * Gestion vue Book List
+  */
   public function list()
   {
     $datas = $this->model->getBooks(null, $this->level);
     $this->createView($this->_tab . DS . 'list', $datas);
     $this->view->page_title = 'BIBLIOGRAPHIE';
-    $this->view->render($datas);
   
+    $this->view->render($datas);
   }
   /**
-   * Visiteurs/Gestion vue un Book avec liste des épisodes 
+   *  * Gestion vue Book show avec liste des épisodes 
+   * @param (int) Id book
    */
   public function show($id)
   { 
@@ -28,10 +29,9 @@ class BookController extends Controller
     $this->view->render($datas);
   }
 
-/** Administrateur/ *********************************************************
- * 
-   * Gestion vue Index Book 
+  /** Administrateur/ *********************************************************
    * 
+   * Gestion vue Book Index
    */
   public function index()
   {
@@ -40,9 +40,10 @@ class BookController extends Controller
     $this->view->page_title = 'Gestion du catalogue :';
     $this->view->render($datas);
   }
-/**
- * vue Edit pour maj/add Book 
- */
+  /**
+  * Gestion vue Book Edit pour maj/add Book 
+  * @param mixed Id book ou null
+  */
   public function edit($id = null,$opt=null)
   {
     $datas = [];

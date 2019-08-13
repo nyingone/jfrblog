@@ -1,14 +1,15 @@
 <?php $this->view_data = $datas ?>
-<div>
-    <li><a href= " <?php HOME ?> book/edit-">Ajouter un livre</a></li>
+<div class = "col-md-8">
+    <a href= " <?php HOME ?> book/edit-"><img src= " <?= IMG125 . 'book-laptop.png' ?> " width= "70" height = "70">Ajouter un livre</a></li>
 </div>
 
 <div id="container" class="row">
+    <div class = "col-md-12">
     <div class="table-responsive">
         <table class="table-striped" >
             <thead>
                 <tr>
-                    <th>Couverture</th>
+                    <th>Couverture </th>
                     <th>Titre <br/> Année ed°</th>
                     <th>Intrigue</th>
                     <th><a href="#" data-toggle="tooltip" data-placement="top" title="00->10 en cours / 20 à ctl / 30 en ligne / 80 hors ligne / 90 hors catalogue ">Stt</a></th>           
@@ -61,5 +62,6 @@
                 ?>
             <tbody>
         </table>
+    </div>
     </div>
 </div>

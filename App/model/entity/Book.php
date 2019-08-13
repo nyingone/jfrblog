@@ -193,12 +193,7 @@ class Book extends Table
         return $this->_blogged;
     }
 
-    public function isNew()
-    {
-        return empty($this->_id);
-    }
-
-
+    
     /**
      * Fonction annexes _____________________________________________SET
      */

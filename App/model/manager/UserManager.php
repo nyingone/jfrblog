@@ -57,6 +57,7 @@ class UserManager
                    
                     $_SESSION['logged_in']  =  $is_loggedIn; 
                     $_SESSION['email']      = $visiteur->getEmail();
+                    $_SESSION['userId']     = $visiteur->getUserId();
                     $_SESSION['pseudo']     = $visiteur->getPseudo();
                     $_SESSION['groupId']    = $visiteur->getGroupId();
                 }

@@ -1,0 +1,31 @@
+
+
+                <li class="nav-item active">
+                  <a class="nav-link" href="<?php echo HOME?>home" ><i class="fa fa-home"></i> Accueil</a>
+                </li>
+                
+                <?php ($this->admin === true) ? $bookMnu = HOME . 'book' : $bookMnu = HOME . 'book-list/'; ?>
+                <li class="nav-item dropdown"> 
+                  <a class = "nav-link dropdown-toggle" href = "#" id="navbardropdownMenuLink" data-toggle= "dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-book"></i> Biblio</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="<?php echo $bookMnu?>">Livres</a>
+                    <a class="dropdown-item" href="<?php echo HOME?>book-show/show-18">Livre blanc</a>
+                    </div>
+
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="<?php echo HOME?>aboutJFR" <?php echo($action =='aboutJFR' ? 'class="active"' : '') ; ?>><i class="fa fa-bolt"></i> A propos</a>
+                </li>
+                <li class="nav-item">
+                 
+                </li>
+                <li class="nav-item dropdown"> 
+                  <a class = "nav-link dropdown-toggle" href = "#" id="navbardropdownMenuLink" data-toggle= "dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-key"></i> Accès<section></section></a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="nav-link" href="<?php echo HOME?>login"><span class="glyphicon glyphicon-log-in"></span>Login</a>
+                    <a class="nav-link" href="<?php echo HOME?>register"><span class="glyphicon glyphicon-log-in"></span>S'inscrire</a>
+                    </div>
+
+                </li>
+
+    

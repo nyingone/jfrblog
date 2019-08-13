@@ -1,13 +1,16 @@
 <?php $this->view_data = $datas; ?>
+<?php $accesBook = HOME . 'book-show/show-' ?>
 <?php foreach($this->view_data as $episode) :  ?>
 <?php ($episode->getChapter() !== 999) ? $idcontent = 'id ="single-page"' : $idcontent = 'id ="single-page"' ; ?>
 
     <div class = "container-fluid">
         <?php $book = $episode->getBookInfo();?>
         <?php  $comments = $episode->getComments();  ?>
-       
+
+        
         <?php if($episode->getChapter() !== 999) : include (VIEW . 'book\entBook.phtml'); endif;?>
-  
+
+
         <div class = "col-md-7 offset-md-1">
             <section   class="entry-content"  <?= $idcontent ?> >
                 <div class = "row">

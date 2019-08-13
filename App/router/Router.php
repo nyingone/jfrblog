@@ -48,16 +48,14 @@ class Router
                 $routeFound = true;
                 
                 $_SERVER['REDIRECT_URL'] = $this->_url;
-                $previous = explode('/', $this->_url);
-                $_SESSION['previous'] = $previous[0];
-
                 $route->call();
                 
             }
         }
         if(!$routeFound)
         {
-            throw new RouterException('No matching route found for url: ' . $this->_url); 
+            throw new RouterException('No matching route found for url: ' . $this->_url);
+           
         }
  
     }

@@ -138,6 +138,7 @@ class EpisodeManager extends Manager
         $join = ' inner join book on bookId = book.id ';  // ramène Id book au lieu de id Episode
         $ksel = array(  'episode.status'    , '>=', '30',
                         'book.promoted'  , '=', 1);  
+                        
         $this->selectionGet($action, $join, $ksel, $orderBy, $level);
         return $this->_episodes;
     }
@@ -170,9 +171,21 @@ class EpisodeManager extends Manager
             $orderBy = ' order by bookId, volume DESC, chapter DESC LIMIT 1';
         endif;
 
-        $ksel = array(  'bookId'    , '=' , $keys[0],
-                        'status'    , '>=', "30",
-                        'status'    , '<' , "90");
+        $ksl0 = array(  'bookId'    , '=' , $keys[0]);
+            
+        if(ADMIN):
+            $ksel = $ksl0;
+        else:
+            if(FRIEND):
+            
+                $kslx = array(  'status'    , '>=', $_SESSION['groupId'],
+                                'status'    , '<', '90');
+            else:
+                $kslx = array(  'status'    , '>=', '30',
+                                'status'    , '<', '90');
+            endif;
+            $ksel = array_merge($ksl0, $kslx);
+        endif;
 
         $this->_selection = DB::getInstance()->get($this->_tab, $ksel, $orderBy);
         $this->formatSelection($level);

@@ -1,12 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,700');
 
-/*---Media Queries --*/
-@media (max-width:992px){
-}
-@media (max-width:768px){
-}
-@media (max-width:576px){
-}
+
+
 body
 {
 color: black;
@@ -19,11 +14,47 @@ color: black;
     background-size: 100% 100%;
     /* box-shadow: 12px 12px 6px black; */
 }
-#double-page
+
+
+footer .card
 {
-    /* border: 6px blue offset;  */
-    padding: 3em 5em;
-    background-image: url("IMG/carnet_fond_01.png"); 
-    background-size: 100% 100%;
-    /* box-shadow: 12px 12px 6px black; */
+   /* height: 50%;
+    width: 50%;  */
+   
+    max-width: calc(10% - 30px);
+} 
+hr {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+/*---Media Queries --*/
+@media (max-width:992px){
+    footer .card
+{  
+    max-width: calc(10% - 30px);
+} 
+}
+
+@media (max-width:768px)
+{
+    footer .card
+    {
+    /* height: 50%;
+        width: 50%;  */
+    
+        max-width: calc(20% - 30px);
+    } 
+}
+
+@media (max-width:576px){
+    footer .card
+    {
+    /* height: 50%;
+        width: 50%;  */
+        max-width: calc(30% - 10px);
+    } 
+
 }

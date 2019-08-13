@@ -46,12 +46,21 @@ class View
 
         if(file_exists(VIEW . $this->view_file . '.phtml'))
         {
+            
             extract ($datas);
             ob_start();
              
             include (VIEW . $this->view_file . '.phtml');
            
              $contentPage = ob_get_clean();
+            
+            if(isset($_SESSION['promoted'])) :
+                $this->view_headerData = $_SESSION['promoted'];
+            endif;
+            if(isset($_SESSION['printed'])) :
+                $this->view_footerData = $_SESSION['printed'];
+            endif;
+
             include_once(VIEW. 'layout.phtml');
         }else{ echo VIEW . $this->view_file . '.phtml' . ' accesano';
 

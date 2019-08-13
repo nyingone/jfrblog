@@ -19,16 +19,11 @@ color: black;
     background-size: 100% 100%;
     /* box-shadow: 12px 12px 6px black; */
 }
-
-
-footer .card
+#double-page
 {
-    height: 50%;
-    width: 50%;
-} 
-hr {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    border: 0;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-  }
+    /* border: 6px blue offset;  */
+    padding: 3em 5em;
+    background-image: url("IMG/carnet_fond_01.png"); 
+    background-size: 100% 100%;
+    /* box-shadow: 12px 12px 6px black; */
+}

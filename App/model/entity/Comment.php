@@ -40,6 +40,12 @@ class Comment  extends Table
             $this->setAlertComm(false);
         endif;
     }
+
+    /**
+     * En maj. appelle fonction centralisée de CORE\TABLE 
+     * pour complément du  tableau $_POST avec les données issues de l'objet initial
+     * @param object
+     */
     public function inz_POST($comment)
     {
         if($_POST['action'] === 'val') : 
@@ -74,10 +80,24 @@ class Comment  extends Table
     }
     public function setUser($user)
     {
+        if($user== null  || empty($user)
+        {
+            if(issset($_SESSION['logged_in'])) :
+           $user = $_SESSION['userId'];
+            else:
+                $user = $_SESSION['id'];
+            endif;
+        } 
         $this->_user = $user;
     }
     public function setPseudo($pseudo)
     {
+        if($pseudo == null  || empty($pseudo)
+        {
+        if(isset($_SESSION['logged_in'])) :
+            $pseudo = $_SESSION['pseudo'];
+        endif;
+        }
         $this->_pseudo = $pseudo;
     }
     public function setComment($comment)
@@ -89,13 +109,27 @@ class Comment  extends Table
         if(is_object($postDat)):
             $this->_postDat = $postDat;
         else:
-        $this->_postDat = new datetime($postDat);
+            $this->_postDat = new datetime($postDat);
         endif;
     }
+    /**
+     * RG en création le statut est initialisé au niveau du groupe du visiteur ==> 
+     * * lui permettra à terme de consulter ses msg avant validation ADMIN et de les annuler. 
+     */
     public function setStatus($status)
     {
+        if($status == '00' && isset($_SESSION['logged_in']))
+        {
+            if(ADMIN) : $status = '30';
+            else:   
+                $status = $_SESSION['groupId'];
+            endif;
+        }
         $this->_status = $status;
+
     }
+
+
     public function setValidDat($validDat=null)
     {
         if(is_object($validDat)):
@@ -109,16 +143,27 @@ class Comment  extends Table
             }
         endif;
     }
+
+/**
+     * RG Nb de signalement (contre) depuis création d'un message(jamais de raz du compteur) 
+     */
     public function setNbCon($nbCon)
     {
         $this->_nbCon = (int) $nbCon;
     }
 
+
+    /**
+     * RG Nb de signalement (contre) depuis validation ADMIN d'un message(<=> raz du compteur) 
+     */
     public function setNewCon($newCon)
     {
         $this->_newCon = (int) $newCon;
     }
 
+    /**
+     * RG Signalement (contre) ==> rétrogradation du statut à 20 <==> commentaire à valider par Admin ou à dlt par émmetteur initial
+     */
     public function addNbCon()
     {
         $this->_nbCon ++;
@@ -186,7 +231,7 @@ class Comment  extends Table
         $this->_bookInfo = $books;
     }
 
-    public function setEpisodeInfo($episodes)     // tableau d'objets Book
+    public function setEpisodeInfo($episodes)     // tableau d'objets Episode
     {
         $this->_episodeInfo = $episodes;
     }
@@ -216,7 +261,10 @@ class Comment  extends Table
         return $this->_alertComm;
     }
 
-    // SELECT `id``bookId```bookChap``c``userId``comment``postDat``status``validDat` FROM `comment`
+    
+    /**
+     * Controle des saisies écran; !!! manque contrôle du pseudo
+     */
     public static function validation()
     {
         $validTable =       array(

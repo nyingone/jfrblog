@@ -16,12 +16,21 @@
                         $epsRef= $episode->getBookId() . '.' . $episode->getVolume() . '.'. $episode->getId();
                         ?>
                         <img  src="<?= $src?>" alt="<?php echo $alt?>" title ="<?php echo $alt?>"> 
-                        <a href="<?php echo HOME?>episode-show/show-<?php echo $epsRef?>"><h4>Chapître <?= $episode->getChapter();?></h4></a>
+                        <a href="<?php echo HOME?>episode-show/show-<?php echo $epsRef?>">
+                        <h4>Chapître <?= $episode->getChapter();?>  </h4></a>
                     </div>
-                    <div  class = "col-md-8 offset-1 ">
+                    <div  class = "col-md-1">
+                        <?php if($episode->getStatus() === '20'): ?>
+                            <i class="fas fa-dragon" alt="Avant première" title = "just for friends"></i> 
+                        <?php endif; ?>
+                    </div>
+                    <div  class = "col-md-8">
                         <div class="row">
                                 <div class = 'col-md 12'>
-                                <blockquote> <?= $episode->getQuote()?></blockquote>
+                                <blockquote>
+                                
+                                    <?= $episode->getQuote()?>
+                                </blockquote>
                             </div>
                         </div>
                         <div class="row">

@@ -1,10 +1,25 @@
 
 <?php $this->view_data = $datas ?>
 <?php foreach($this->view_data as $book): ?>
-<div class = "container-fluid">
-    <?php include (VIEW . 'book\entBook.phtml'); ?>           
+    <div class = "container-fluid">
+    <?php include (VIEW . 'book\entBook.phtml'); ?>      
     <div class="row">
-        <?php include (VIEW . 'episode\list.phtml'); ?>
+        <?php if( $book->getEpisodes() !== null) :  ?> 
+            <?php include (VIEW . 'episode\list.phtml'); ?>
+   
+        <?php else: ?>
+            <div class="col-md-4 offset-md-2") >
+                <?php if($book->getstatus() == 80) : ?>
+                
+                <h3> "Voir sous le masque... un autre des visages de Jean " </h3>
+                <?php $src= IMG125 . "bessie_coleman"; ?>
+                <?php  $alt="Portrait d'auteur/aventurière"; ?>
+                <a href = "https://bessora.fr/livres-2/"><img src="<?php echo $src?>" alt="<?php echo $alt?>" title ="<?php echo $alt?>"></a>
+                <?php else: ?>
+                    <em> "Bientôt en ligne: " </em>
+                <?php endif; ?>
+            </div>
+        <?php endif; ?>
     </div>  
 </div>  
 <?php endforeach ?>
