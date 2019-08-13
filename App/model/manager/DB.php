@@ -101,53 +101,33 @@ class DB
     {
         if(count($where) >= 3 )
         {
+            $size = 3;
             $operators = array('=','>','<', '>=', '<=','<>');
-            $x = 0;
-            $field = $where[$x];
-            $operator = $where[$x+1];
-            $value[] = $where[$x+2];
-            if(in_array($operator,$operators))
+            $filter = array_chunk ( $where , $size);
+            $y = 0;
+            foreach($filter as $sel)
             {
-                $sql = "($action $table $join WHERE $field $operator ? ";
-                if(count($where) >= 6 )
-                { 
-                    $x = 3;
-                    $field = $where[$x];
-                    $operator = $where[$x+1];
-                    $value[] = $where[$x+2];
-                    if(in_array($operator,$operators))
-                    {
+               
+                $x = 0;
+                $y++;
+                $field = $sel[$x];
+                $operator = $sel[$x+1];
+                $value[] = $sel[$x+2];
+
+                if(in_array($operator,$operators))
+                {
+                    if($y == 1):
+                        $sql = "($action $table $join WHERE $field $operator ? ";   
+                    else:
                         $sql .= " and $field $operator ? ";
-                        if(count($where) >= 9 )
-                        { 
-                            $x = 6;
-                            $field = $where[$x];
-                            $operator = $where[$x+1];
-                            $value[] = $where[$x+2];
-                            if(in_array($operator,$operators))
-                            {
-                                $sql .= " and $field $operator ? ";
-                                if(count($where) >= 12 )
-                                { 
-                                    $x = 9;
-                                    $field = $where[$x];
-                                    $operator = $where[$x+1];
-                                    $value[] = $where[$x+2];
-                                    if(in_array($operator,$operators))
-                                    {
-                                        $sql .= " and $field $operator ? ";
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    endif;
                 }
             }
+        
 
             $sql .= "  ". $orderBy;
             $sql .= " )";
             
-         
             if($this->query($sql,array($value),$table))
             {   
                 $this->_query->closeCursor();
@@ -164,6 +144,7 @@ class DB
 
     public function get($table, $where , $orderBy= null, $action = null, $join = null)
     {
+     
         if (is_null($action)) :  
             return $this->action('SELECT * FROM', $table , $join, $where, $orderBy);
         else:

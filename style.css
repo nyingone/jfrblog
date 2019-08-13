@@ -6,11 +6,7 @@ color: black;
 
 background-size: 100% 100%;
 }
-header
-{
-background-image: url("IMG/carnet_fond_01.png"); 
-background-size: 30% 100%;
-}
+
 #single-page
 {
     padding: 3em 5em;
@@ -26,8 +22,6 @@ background-size: 30% 100%;
 
 footer .card
 {
-   /* height: 50%;
-    width: 50%;  */
    
     max-width: calc(10% - 30px);
 } 
