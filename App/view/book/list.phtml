@@ -10,7 +10,7 @@
             <div  class = "col-md-3">                        
                  <a href="<?php echo $accesBook . $book->getId() ?>"><img  src="<?php echo IMG125 . $book->getCover()?>" alt="<?php echo $book->getCoverAlt()?>" title ="<?php echo $book->getCoverAlt()?>"></a>
             </div>
-            <div  class = "col-md-8 ">
+            <div  class = "col-md-9 ">
                 <div class="row">
                     <div class = 'col-md-3'>
                         <a href="<?php echo $accesBook . $book->getId() ?>"><h3><?= $book->getTitle();?></h3></a>  
@@ -19,7 +19,7 @@
                         <?php endif; ?>                       
                     </div>
                     <div class = 'col-md-6'>
-                        <h4> <?= $book->getPlot(); ?></h4>
+                        <h4 class = "clsText"> <?= $book->getPlot(); ?></h4>
                             <a class = "col-md-2 offset-md-1" href="<?php echo $accesEps . $book->getId() . '.A.a' ?>"><i class="fas fa-fast-backward" alt="1er épisode" <?= $book->getTitle();?> title ="1er épisode"></i></a>
                             <a class = "col-md-2 offset-md-1" href="<?php echo $accesBook . $book->getId() ?>"><img  src="<?php echo $src?>" width= "30" height = "30" alt="Episodes" <?= $book->getTitle();?>  title ="Tous les épisodes"></a>
                             <a class = "col-md-2 offset-md-1" href="<?php echo $accesEps . $book->getId() . '.Z.z'?>"><i class="fas fa-fast-forward" alt="dernier épisode" <?= $book->getTitle();?>  title ="dernier épisode"></i></a>      

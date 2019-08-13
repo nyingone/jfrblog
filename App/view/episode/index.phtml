@@ -17,8 +17,8 @@
             <tr>
                 <th scope="col">Image<br/> Vue </th>
                 <th scope="col">L/V/C</th>
-                <th scope="col">quote  <br/> en ligne le:</th>
-                <th scope="col">extrait</th>
+                <th class = "clsText">quote  <br/> en ligne le:</th>
+                <th class = "clsText">extrait</th>
                 <th scope="col"><a href="#" data-toggle="tooltip" data-placement="top" title="00->10 en cours / 20 à ctl / 30 en ligne / 70 locké ">Stt</a></th>           
                 <th scope="col">Episode <br/> Maj </th>
                 <th scope="col"><br/> Suppr +</th>
@@ -44,8 +44,8 @@
                 $table .= '<td><a href='. HOME . 'episode-show/show-' . $episode->getBookId() . '.' . $episode->getVolume() . '.'. $episode->getId() . '><img src="' .  $src . '" alt="'. $episode->getImageAlt() . '" title ="' . $episode->getImageAlt() . '"></a></td>';
 
                 $table .= '<td>' . $episode->getBookId() . '/' . $episode->getVolume() . '/' .  $episode->getChapter() . '</td>';
-                $table .= '<td>' . $episode->getQuote() . '<br/> ' .  ($episode->getOnlineDat() !== null ? $episode->getOnlineDat()->format('Y-m-d') : '') .'</td>';
-                $table .= '<td>' . $episode->getExcerpt() . '</td>';
+                $table .= '<td class = "clsText">' . $episode->getQuote() . '<br/> ' .  ($episode->getOnlineDat() !== null ? $episode->getOnlineDat()->format('Y-m-d') : '') .'</td>';
+                $table .= '<td class = "clsText">' . $episode->getExcerpt() . '</td>';
                 $table .= '<td>' . $episode->getStatus() . '</td>';
 
                 if ($episode->getIdMaj() === true) :

@@ -1,7 +1,7 @@
 <!-- `quote``content``excerpt``createdDat``status``onlineDate``commented``nbComment``bookId``chapter``version``slugEps` -->
 <div id="container-fluid" >
     <div class="row"> 
-        <div  class = "col-md-9 offset-1 ">
+        <div  class = "col-md-11 offset-md-1 ">
         <h3> Liste des episodes</h3>
         <br/>
     
@@ -9,6 +9,7 @@
         <?php foreach($this->view_episodes as $episode) : ?> 
             <?php if($episode->getChapter() <> '999') : ?>
                 <article class="row">  
+                    
                     <div  class = "col-md-3">
                         <?php 
                         $alt = $episode->getImageAlt();
@@ -26,16 +27,16 @@
                     </div>
                     <div  class = "col-md-8">
                         <div class="row">
-                                <div class = 'col-md 12'>
-                                <blockquote>
-                                
+    
+                                <blockquote class = "clsText">
+                                    
                                     <?= $episode->getQuote()?>
                                 </blockquote>
-                            </div>
+                          
                         </div>
                         <div class="row">
-                            <div class = 'col-md 4'>
-                                <p> <?= $episode->getExcerpt() ?></p>
+                            <div class = 'col-md 12'>
+                                <p class ="clsText"> <?= $episode->getExcerpt() ?></p>
                             </div>
                         </div>
                     </div>

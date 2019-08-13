@@ -80,9 +80,9 @@ class Comment  extends Table
     }
     public function setUser($user)
     {
-        if($user== null  || empty($user)
+        if($user== null  || empty($user))
         {
-            if(issset($_SESSION['logged_in'])) :
+            if(isset($_SESSION['logged_in'])) :
            $user = $_SESSION['userId'];
             else:
                 $user = $_SESSION['id'];
@@ -92,7 +92,7 @@ class Comment  extends Table
     }
     public function setPseudo($pseudo)
     {
-        if($pseudo == null  || empty($pseudo)
+        if($pseudo == null  || empty($pseudo))
         {
         if(isset($_SESSION['logged_in'])) :
             $pseudo = $_SESSION['pseudo'];
@@ -114,7 +114,7 @@ class Comment  extends Table
     }
     /**
      * RG en création le statut est initialisé au niveau du groupe du visiteur ==> 
-     * * lui permettra à terme de consulter ses msg avant validation ADMIN et de les annuler. 
+     * * lui permettra à terme de les annuler avant validation. 
      */
     public function setStatus($status)
     {
@@ -129,7 +129,10 @@ class Comment  extends Table
 
     }
 
-
+ /**
+     * RG  statut du msg validé fixé à 30
+     * * 
+     */
     public function setValidDat($validDat=null)
     {
         if(is_object($validDat)):
@@ -152,9 +155,8 @@ class Comment  extends Table
         $this->_nbCon = (int) $nbCon;
     }
 
-
     /**
-     * RG Nb de signalement (contre) depuis validation ADMIN d'un message(<=> raz du compteur) 
+     * RG Nb de signalement (contre) depuis validation ADMIN d'un message(stt 30 <=> raz du compteur) 
      */
     public function setNewCon($newCon)
     {
@@ -283,11 +285,13 @@ class Comment  extends Table
             'user'    =>array(
                             'Reference'     =>'user',
                             'required'      => false,
+                            'connected'     => true,
                             'max'           => 20
                             ),
             'pseudo' =>array(
                             'Reference'     =>'pseudo',
                             'required'      => false,
+                            'connected'     => true,
                             'max'           => 20    
                             ),
             'postDat'     =>array(

@@ -15,7 +15,7 @@
                 <th>Chapître</th>
                 <th>Visiteur </th>
                 <th>le:</th>
-                <th>commentaire</th>
+                <th class = "clsText">commentaire</th>
                 <th>statut</th>
                 <th>Revalidé le</th>
                 <th>Nv.<i class="fas fa-thumbs-down" alt="Nouveaux signalement versus total" title = "Nouveaux signalement/ total"></i>/total</th>
@@ -37,7 +37,7 @@
                 $table .= '<td>' . $episode->getChapter() . '</td>';
                 $table .= '<td>' . $comment->getPseudo()  . '</td>';
                 $table .= '<td>' . ($comment->getPostDat() !== null ? $comment->getPostDat()->format("d-m-Y H:i:s" ) : '') . '</td>';
-                $table .= '<td>' . $comment->getComment() . '</td>';
+                $table .= '<td class = "clsText">' . $comment->getComment() . '</td>';
                 $table .= '<td>' . $comment->getStatus()  .  '</td>';
                 $table .= '<td>' . ($comment->getValidDat() !== null ? $comment->getValidDat()->format("d-m-Y") : '') . '</td>';
                 $table .= '<td>' . $comment->getNewCon()   . '/' . $comment->getNbCon()   . '</td>';

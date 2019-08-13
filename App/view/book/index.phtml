@@ -10,8 +10,8 @@
             <thead>
                 <tr>
                     <th>Couverture </th>
-                    <th>Titre <br/> Année ed°</th>
-                    <th>Intrigue</th>
+                    <th class = "clsText">Titre <br/> Année ed°</th>
+                    <th class = "clsText">Intrigue</th>
                     <th><a href="#" data-toggle="tooltip" data-placement="top" title="00->10 en cours / 20 à ctl / 30 en ligne / 80 hors ligne / 90 hors catalogue ">Stt</a></th>           
                     <th>Livre <br/> Maj </th>
                     <th><br/> Suppr +</th>
@@ -35,7 +35,7 @@
 
                         $table .= '<td><a href= "' . HOME . 'episode/index-'. $book->getId() .'">' . $book->getTitle() . '</a> <br/>' . $book->getEditYear() .  
                                 '<br/>' . $book->getOnlineDatLabel() .' <br/>' .  ( $book->getOnlineDat() !== null ? $book->getOnlineDat()->format('Y-m-d') : '') .'</td>';
-                        $table .= '<td>' . $book->getPlot() . '</td>';
+                        $table .= '<td class = "clsText">' . $book->getPlot() . '</td>';
                         $table .= '<td>' . $book->getStatus() . '</td>';
                         $table .= '<td><a href='.'book/edit-' . $book->getId() . '-upd' . '><i class="fas fa-edit"alt="Modifier" title = "Maj description du livre"></i></a></td>';
                         if($book->getIdDel() === true):    
