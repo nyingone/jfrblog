@@ -3,6 +3,7 @@
 class Manager
 {
     protected static $_db; // Instance de PDO
+    protected static $_visit; // Instance de session visiteur
    
     protected $_tab;
     protected $_entity;
@@ -12,6 +13,7 @@ class Manager
     public function __construct($tableName= null,$method= null)
     {    
         $_db = DB::getInstance();
+        $_visit = Session::getInstance();
 
         $this->setTab($tableName);
         $this->setEntity($tableName);

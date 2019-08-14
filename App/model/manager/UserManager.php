@@ -3,6 +3,7 @@
 class UserManager 
 {
     protected static $_db; // Instance de PDO
+    protected static $_visit; // Instance de session visiteur
  
     protected $query;
     private $_tab = 'user';
@@ -12,6 +13,7 @@ class UserManager
     public function __construct($modelName= null,$method= null)
     {    
         $_db = DB::getInstance();
+        $_visit = Session::getInstance();
     }
 
 
@@ -42,7 +44,7 @@ class UserManager
     public function login($visiteur)
     {
         $is_loggedIn = false;
-        unset($_SESSION['logged_in']);
+        Session::delete('logged_in');
        
         $users = $this->find($visiteur->getUserId());
         if(is_array($users)  && !empty($users))
@@ -55,21 +57,26 @@ class UserManager
                     $visiteur->setGroupId($friend->getGroupId());
                     $is_loggedIn = true;
                    
-                    $_SESSION['logged_in']  =  $is_loggedIn; 
-                    $_SESSION['email']      = $visiteur->getEmail();
-                    $_SESSION['userId']     = $visiteur->getUserId();
-                    $_SESSION['pseudo']     = $visiteur->getPseudo();
-                    $_SESSION['groupId']    = $visiteur->getGroupId();
+                    Session::put('logged_in', $is_loggedIn);
+                    Session::put('userId', $visiteur->getUserId());
+                    Session::put('email', $visiteur->getEmail());
+                    Session::put('groupId', $visiteur->getGroupId());
+                    Session::put('pseudo', $visiteur->getPseudo());
+                    
                 }
             endforeach;
         }
         
-        return $is_loggedIn;
+        return Session::exists('logged_in');
     }
 
     public function logout()
     {
-        Session::delete($this->_sessionName);
+        Session::delete('logged_in');
+        Session::delete('userId');
+        Session::delete('email');
+        Session::delete('groupId');
+        Session::delete('pseudo');
     }
    public function data()
     {
@@ -78,7 +85,7 @@ class UserManager
 
     public function isLoggedIn()
     {
-        return $this->_isLoggedIn;
+        return Session::exists('logged_in');
     }
        public function majTab($class)
     { 

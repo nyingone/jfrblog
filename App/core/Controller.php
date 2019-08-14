@@ -11,6 +11,7 @@ class Controller
   protected $_entity;
   protected $_validate ;
   
+  
   public function __construct()
   { 
     $this->_controllerId = ucfirst($this->_tab . 'Controller');
@@ -28,6 +29,12 @@ class Controller
       $this->view = new View($viewName); 
       $this->view->managerId = $this->managerId;
       $this->view->controllerId = $this->controllerId;
+
+      if(Session::exists('logged_in')) :
+        $this->view->_optLogin = "logout";
+      else:
+        $this->view->_optLogin = "login";
+      endif;
       return $this->view;
   }
 
@@ -79,20 +86,21 @@ class Controller
              
         }else{
          
-          header("Location: ". $_SESSION['redirect'] );
-          exit;
+          header("Location: ". Session::get('redirect') );
+        exit;
         }
       }
     }else {     
-        $_SESSION['errors'] = $this->_validate->errors();
+        Session::put('errors', $this->_validate->errors());
         if ($redir === true)
         {
         $this->createview($this->_tab . DS . 'edit', $datas);  
-        $this->view->redirect($_SESSION['redirect']);  
+        // $this->view->redirect($X_SESSION['redirect']);  
         }
         else{
-          header("Location: ". $_SESSION['redirect'] );
+          // header("Location: ". Session::get('redirect') );
         }
+        header("Location: ". Session::get('redirect') );
     }
   }
 }

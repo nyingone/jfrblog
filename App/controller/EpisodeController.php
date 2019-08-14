@@ -19,7 +19,7 @@ class EpisodeController extends Controller
       $this->view->page_title = 'Un peu de lecture :';
       $this->view->render($datas);
     else:           // no episode found.
-      header("Location: ". $_SESSION['redirect'] );
+      header("Location: ". Session::get('redirect') );
     endif;
 
   }
@@ -39,7 +39,6 @@ class EpisodeController extends Controller
       $this->view->render($datas);
     else:           // first episode to create for this book.
       $redirect = HOME . 'episode-edit/edit-'.  $ref;
-      // header("Location: ". $_SESSION['redirect'] );
       header("Location: ". $redirect );
       $this->edit($ref);
     endif;

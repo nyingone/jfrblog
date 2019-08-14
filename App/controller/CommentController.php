@@ -3,7 +3,7 @@ class CommentController extends Controller
 {
  
   protected $_tab = 'comment';
-    protected $level = 'N2';
+  protected $level = 'N2';
  
  /** list all Comments of a known book 
  * @param $ref / explode('.',$parms)=> idBook idEps idComm
@@ -13,7 +13,7 @@ class CommentController extends Controller
     $datas = $this->model->getSelection($ref, $this->level);
     $this->createView($this->_tab . DS . 'index', $datas);
     $this->view->page_title = 'Gestion expression directe :';
-    isset($datas) ? $this->view->render($datas) : header("Location: ". $_SESSION['redirect'] );
+    isset($datas) ? $this->view->render($datas) : header("Location: ". Session::get('redirect'));
   }
 
   /** signal a Comment 
@@ -39,7 +39,6 @@ class CommentController extends Controller
     $parms = explode('-', $url[1]);
     $_POST['action'] = $parms[0];
     $this->inzPost($ref);
-    $_POST['url'] = $_SESSION['redirect']; 
     $this->maj();
    
   }
@@ -59,7 +58,8 @@ class CommentController extends Controller
   */
   public function maj($redir=null)
   {
-    $_POST['url'] =  $_SESSION['redirect']; 
+    $_POST['url'] = Session::get('redirect'); 
+
     $redir  = false;
     parent:: maj($redir);
     exit;

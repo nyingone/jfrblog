@@ -58,7 +58,7 @@ class Validate{
                         }
                         break;
                         case 'connected':
-                        if(isset($_SESSION['logged_in'])) :
+                        if(Session::exists('logged_in')) :
                             if(($value) != $source[$item]): 
                                 $this->addError("Merci d'utilisez votre propre{$item}");
                             endif;

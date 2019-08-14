@@ -1,6 +1,6 @@
 
 <?php $this->view_data = $datas; ?>
-<div class="row">
+
     <?php $episodes = $this->view_data;  ?>
     <?php $episode = $episodes[0]; ?>
     <?php $book = $episode->getBookInfo();  ?>
@@ -10,7 +10,7 @@
     <li><a href= "<?php echo HOME ?>episode-edit/edit-<?php echo $book->getId() ?>">Ajouter une page/épisode</a></li>
 </div>
 <!-- `quote``content``excerpt``createdDat``status``onlineDate``commented``nbComment``bookId``chapter``version``slugEps` -->
-<div class="row">
+
  
     <table class= "table table-striped" >
         <thead class="thead-light">

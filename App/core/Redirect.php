@@ -11,7 +11,6 @@ class Redirect
                     header('HTTP/1.0 404 Not Found');
                     include VIEW . 'errors/404.phtml';
                     break;
-
                 }
             }
             header('Location:' . $location);

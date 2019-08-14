@@ -30,20 +30,22 @@
       
     
       session_start();
-      $_SESSION['id'] = session_id();
-      $_SESSION['spec'] = '*none';
-      if(isset($_SESSION['logged_in']))
+      
+      Session::put('id', session_id());
+      Session::put('spec', '*none');
+    
+      if(Session::exists('logged_in'))
       {
-          if($_SESSION['groupId'] >= "90") :
+          if(Session::get('groupId') >= "90") :
               define('ADMIN' , true);
+              Session::put('admin', '*yes');
               define('FRIEND' , false);
-              $_SESSION['spec'] = '*all';
+              Session::put('spec', '*all');
            else:
               define('ADMIN' , false);
-              if($_SESSION['groupId'] >= "20") :
+              if(Session::get('groupId') >= "20") :
                   define('FRIEND' , true);
-                  $_SESSION['friend'] = FRIEND;
-                  $_SESSION['spec'] = '*lvl';
+                  Session::put('spec', '*lvl');
               else:
                   define('FRIEND' , false);
               endif;

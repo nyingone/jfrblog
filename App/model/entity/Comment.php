@@ -82,10 +82,10 @@ class Comment  extends Table
     {
         if($user== null  || empty($user))
         {
-            if(isset($_SESSION['logged_in'])) :
-           $user = $_SESSION['userId'];
+            if(Session::exists('logged_in')) :
+                $user = Session::get('userId');
             else:
-                $user = $_SESSION['id'];
+                $user = Session::get('id');
             endif;
         } 
         $this->_user = $user;
@@ -94,9 +94,9 @@ class Comment  extends Table
     {
         if($pseudo == null  || empty($pseudo))
         {
-        if(isset($_SESSION['logged_in'])) :
-            $pseudo = $_SESSION['pseudo'];
-        endif;
+            if(Session::exists('logged_in')) :
+            $pseudo = Session::get('pseudo');
+            endif;
         }
         $this->_pseudo = $pseudo;
     }
@@ -118,17 +118,16 @@ class Comment  extends Table
      */
     public function setStatus($status)
     {
-        if($status == '00' && isset($_SESSION['logged_in']))
+        if($status == '00' && Session::exists('logged_in'))
         {
             if(ADMIN) : $status = '30';
             else:   
-                $status = $_SESSION['groupId'];
+                $status = Session::get('groupId');
             endif;
         }
         $this->_status = $status;
 
     }
-
  /**
      * RG  statut du msg validé fixé à 30
      * * 

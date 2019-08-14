@@ -4,12 +4,12 @@
                 
                 <div class ="col-md-12">    
     
-                    <?php  if(isset($_SESSION['errors']) && !empty($_SESSION['errors']) ):?>
+                    <?php  if(Session::exists('errors') ):?>
 
-                        <?php foreach($_SESSION['errors'] as $error):?>
+                        <?php foreach(Session::get('errors') as $error):?>
                             <li><?= $error;?></li>
                         <?php endforeach;?>
-                        <?php unset($_SESSION['errors']);?>
+                        <?php Session::delete('errors');?>
                     <?php endif;?>
                     <section>
                         <h1><?=$this->page_title?></h1>

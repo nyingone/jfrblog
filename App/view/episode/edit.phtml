@@ -3,14 +3,13 @@
 
 <?php foreach($this->view_data as $episode):?>
     <?php $book = $episode->getBookInfo(); ?>
-    <?php  if(isset($_SESSION['errors']) && !empty($_SESSION['errors']) ):?>
-
+    <?php  if(Session::exists('errors')) :?>
         <ul>
-        <?php foreach($_SESSION['errors'] as $error):?>
-        <li class = "alert alert-danger"><?= $error;?></li>
+        <?php foreach(Session::get('errors') as $error):?>
+            <li class = "alert alert-danger"><?= $error;?></li>
         <?php endforeach;?>
-        <?php unset($_SESSION['errors']);?>
         </ul>
+        <?php Session::delete('errors');?>
     <?php endif;?>
 
     <h2> <?= $book->getTitle(); ?> </h2>
@@ -37,7 +36,7 @@
         </p>
 
         <p><?php $label = "Status.............:";?>  
-            <label><?=$label?></label><input class="form-control" type="text" name="status" value="<?=($episode->getId()) > 0 ? $episode->getStatus():''; ?>"maxlength="2" />
+            <label><?=$label?></label><input class="form-control" type="text" name="status" value="<?=($episode->getId()) > 0 ? $episode->getStatus():'00'; ?>"maxlength="2" />
         </p> 
         <p>      
             <label><?= $episode->getStatusLabel()?> </label> :<input type="date" maxlength="10" name="onlineDat"  value="<?=($episode->getId()) > 0 ? ($episode->getOnlineDat() !== null ? $episode->getOnlineDat()->format('Y-m-d'): '') : ''; ?>" readOnly>
@@ -50,7 +49,7 @@
         </p>
 
         <p><?php $label = "Ref. livre ........:";?>                 
-            <label><?=$label?></label><input type="numeric" maxlength="3" name="bookId" value="<?=($episode->getId()) > 0 ? $episode->getBookId(): $book->getId(); ?>">
+            <label><?=$label?></label><input type="numeric" maxlength="3" name="bookId" value="<?=($episode->getId()) > 0 ? $episode->getBookId(): $book->getId(); ?> " readOnly>
         </p>
         <p><?php $label = "Tome  .............:";?>               
             <label><?=$label?></label> :<input type="numeric" maxlength="3" name="volume" value="<?=($episode->getId()) > 0 ? $episode->getVolume(): ''; ?>">

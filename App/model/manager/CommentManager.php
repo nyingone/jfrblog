@@ -19,12 +19,12 @@ class CommentManager extends Manager
     public function majTab($class)
     {
         parent:: majTab($class); 
-        if($_SESSION['previous'] === 'book') : 
+        if(Session::get('previous') === 'book') : 
             $ref = $class->getBookId(); 
         else:
             $ref = $class->getBookId() . '.' . $class->getEpsId(); 
         endif;
-        Redirect::to( HOME . $_SESSION['redirect']);
+        Redirect::to( HOME . Session::get('redirect'));
     }
 
     /**
@@ -72,7 +72,7 @@ class CommentManager extends Manager
             else:
                 if(FRIEND):
                 
-                    $kslx = array(  'status'    , '>=', $_SESSION['groupId'],
+                    $kslx = array(  'status'    , '>=', Session::get('groupId'),
                                     'status'    , '<', '90');
                 else:
                     $kslx = array(  'status'    , '>=', '10',

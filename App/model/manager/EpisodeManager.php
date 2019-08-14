@@ -61,7 +61,7 @@ class EpisodeManager extends Manager
             else:
                 if(FRIEND):
                 
-                    $kslx = array(  'status'    , '>=', $_SESSION['groupId'],
+                    $kslx = array(  'status'    , '>=', Session::get('groupId'),
                                     'status'    , '<', '90');
                 else:
                     $kslx = array(  'status'    , '>=', '30',
@@ -178,7 +178,7 @@ class EpisodeManager extends Manager
         else:
             if(FRIEND):
             
-                $kslx = array(  'status'    , '>=', $_SESSION['groupId'],
+                $kslx = array(  'status'    , '>=', Session::get('groupId'),
                                 'status'    , '<', '90');
             else:
                 $kslx = array(  'status'    , '>=', '30',

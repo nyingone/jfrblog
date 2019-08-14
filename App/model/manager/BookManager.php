@@ -134,7 +134,7 @@ class BookManager extends Manager
             }
         
         }else{
-            $this->books[] = new Book();
+            $this->books[] = new Book([]);
         }
     // var_dump($this->books);
     return $this->books;

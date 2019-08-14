@@ -1,14 +1,14 @@
 
 <?php $this->view_data =$datas ;  ?>
 
-<?php  if(isset($_SESSION['errors']) && !empty($_SESSION['errors']) ):?>
+<?php  if(Session::exists('errors') ):?>
 
     <ul>
-    <?php foreach($_SESSION['errors'] as $error):?>
+         <?php foreach(Session::get('errors') as $error):?>
             <li class = "alert"><?= $error;?></li>
-    <?php endforeach;?>
-    <?php unset($_SESSION['errors']);?>
+        <?php endforeach;?>
     </ul>
+    <?php Session::delete('errors');?>
 <?php endif;?>
 
 <?php  foreach($this->view_data as $book) : ?>

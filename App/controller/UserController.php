@@ -39,8 +39,15 @@ class UserController extends Controller
     $this->view->render();
   }
 
+  public function logout()
+  {
+    $this->model->logout();
+    header("location:" . Session::get('redirect'));
+  }
+
   public function connect()
   {
+    
     $opt = 'login';
     $result = $this->isValid($opt); // + objet USR initialisé avec usr et mdp saisi
     
@@ -54,22 +61,24 @@ class UserController extends Controller
         $visiteur = $result[1];
         $logged_in = $this->model->login($visiteur);
   
-        if($logged_in == true ):
-          if($_SESSION['groupId'] >= '50' ):
-            $_SESSION['redirect']= 'book';
+        if($this->model->isLoggedIn() == true ):
+         
+          if(Session::get('groupId') >= '50'):
+            Session::put('redirect', 'book');
           else:
-            $_SESSION['redirect']= 'book-list/';
+            Session::put('redirect', 'book-list/');
           endif;
         endif;
-        header("location:" . $_SESSION['redirect']);
+       header("location:" . Session::get('redirect'));
       }
      
     }else{     
-        $_SESSION['errors'] = $this->validate->errors();
+        Session::put('errors', $this->validate->errors());
         $this->createview($this->_tab . DS . 'login', $datas); 
-        $this->view->redirect($_SESSION['redirect']); 
+        header("location:" . Session::get('redirect'));
     } 
 
+   //  
   }
   
  

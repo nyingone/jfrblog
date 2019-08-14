@@ -4,7 +4,7 @@
                   <a class="nav-link" href="<?php echo HOME?>home" ><i class="fa fa-home"></i> Accueil</a>
                 </li>
                 
-                <?php ($this->admin === true) ? $bookMnu = HOME . 'book' : $bookMnu = HOME . 'book-list/'; ?>
+                <?php (Session::exists('admin')) ? $bookMnu = HOME . 'book' : $bookMnu = HOME . 'book-list/'; ?>
                 <li class="nav-item dropdown"> 
                   <a class = "nav-link dropdown-toggle" href = "#" id="navbardropdownMenuLink" data-toggle= "dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-book"></i> Biblio</a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -19,10 +19,11 @@
                 <li class="nav-item">
                  
                 </li>
+                
                 <li class="nav-item dropdown"> 
                   <a class = "nav-link dropdown-toggle" href = "#" id="navbardropdownMenuLink" data-toggle= "dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-key"></i> Accès<section></section></a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="nav-link" href="<?php echo HOME?>login"><span class="glyphicon glyphicon-log-in"></span>Login</a>
+                    <a class="nav-link" href="<?php echo HOME . $this->_optLogin?>"><span><?= $this->_optLogin; ?></span></a>
                     <a class="nav-link" href="<?php echo HOME?>register"><span class="glyphicon glyphicon-log-in"></span>S'inscrire</a>
                     </div>
 

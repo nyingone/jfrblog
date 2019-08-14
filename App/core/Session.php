@@ -1,6 +1,16 @@
 <?php
 class Session
 {
+    private static $_instance = null;
+
+    public static function getInstance()
+    {
+        if(!isset(self::$_instance))
+        {
+            self::$_instance = new Session();
+        }
+        return self::$_instance;
+    }
     
     public static function exists($name)
     {

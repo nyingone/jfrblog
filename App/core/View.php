@@ -9,9 +9,9 @@ class View
     public function __construct($view_file)
     {
         $this->view_file   = $view_file;
-        if ( isset($_SESSION['logged_in']) && $_SESSION['logged_in'] = true):
-            if($_SESSION['groupId'] >= '50') : 
-                $this->admin = true;
+        if ( Session::exists('logged_in')):
+            if(Session::get('groupId') >= '50') : 
+            //     $this->admin = true; ????
             endif;
         endif;
 
@@ -19,30 +19,27 @@ class View
        
         if(isset($_SERVER['REDIRECT_URL']))
         {
-             $_SESSION['redirect'] =  $_SERVER['REDIRECT_URL'];
+             Session::put('redirect', $_SERVER['REDIRECT_URL']);
         } else{
             if(isset($_POST['url']))
             {
-                $_SESSION['redirect'] =  $_POST['url'];
+                Session::put('redirect',  $_POST['url']);
                 
             }  else{
                 if(isset($_GET['url']))
                 {
-                    $_SESSION['redirect'] =  $_GET['url'];
+                    Session::put('redirect',  $_GET['url']);
                    
                 } 
             }
         }
-        $this->view_redirect =  $_SESSION['redirect'] ;
+        // $this->view_redirect =  $X_SESSION['redirect'] ;
     
         
     }
 
     public function render($datas = [])
     {
-        /* if(isset( $_SESSION['redirect']) && !empty(  $_SESSION['redirect'])):
-            $_SESSION['previous'] =  $_SESSION['redirect'] ;
-        endif; */
 
         if(file_exists(VIEW . $this->view_file . '.phtml'))
         {
@@ -54,11 +51,11 @@ class View
            
              $contentPage = ob_get_clean();
             
-            if(isset($_SESSION['promoted'])) :
-                $this->view_headerData = $_SESSION['promoted'];
+            if(Session::exists('promoted')) :
+                $this->view_headerData = Session::get('promoted');
             endif;
-            if(isset($_SESSION['printed'])) :
-                $this->view_footerData = $_SESSION['printed'];
+            if(Session::exists('printed')) :
+                $this->view_footerData = Session::get('printed');
             endif;
 
             include_once(VIEW. 'layout.phtml');

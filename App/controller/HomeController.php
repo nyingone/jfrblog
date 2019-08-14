@@ -49,9 +49,9 @@ class HomeController extends Controller
         $datas = $this->model->bookPromotedList($this->_levelBook);
        // var_dump($datas); 
         if($datas !== null && is_array($datas)) :
-            $_SESSION['promoted'] = $datas[0];
+            Session::put('promoted',  $datas[0]);
             if(isset($datas[1]) && !empty($datas[1])) :
-                $_SESSION['printed'] = $datas[1];
+                Session::put('printed', $datas[1]);
             endif;
         endif;
     }

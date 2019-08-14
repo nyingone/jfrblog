@@ -1,10 +1,12 @@
 <?php
+
 define('DS', DIRECTORY_SEPARATOR);
 // $root = $_SERVER['DOCUMENT_ROOT'];
 define('ROOT', $_SERVER['DOCUMENT_ROOT'] . DS . 'jfrblog' . DS);
 define('APP', ROOT . 'App'. DS);
 
 include_once(APP . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'config.php');
+
 if(isset($_POST['url']))
 {
     $url = $_POST['url'];
@@ -33,11 +35,12 @@ $router->post('comment/:ref',"comment#maj",'comment_maj');
 $router->post('comment-signal/:ref',"comment#signal",'comment_signal');
 
 $router->get('login',"user#login",'login');
+$router->get('logout',"user#logout",'logout');
 $router->get('register',"user#register",'register');
 $router->post('user-login',"user#connect",'connect');
 $router->post('user/:ref', "user#maj",'user_maj'); 
 
-// if(isset($_SESSION['logged_in']) && (S_SESSION['groupId'] >= "50")) :
+
 if(ADMIN) :
     $router->get('book',"book#index",'book');
     $router->get('book/:id', "book#edit",'book_edit');
