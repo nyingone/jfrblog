@@ -64,13 +64,7 @@ class Controller
 
   /** */
   public function maj($redir=null)
-  {
-   
-    if($redir === null)
-    {
-      $redir = true;
-    } 
-   
+  {   
     $result = $this->isValid();
     $ok = $result[0];
     if($ok)
@@ -79,18 +73,17 @@ class Controller
       {
         $class = $result[1];
         $this->model->majTab($class);
-        if ($redir === true)
+     
+        if ($redir !== false)
         {
-         $this->createView($this->_tab );
-         $this->view->redirect($this->_tab);     
+          header("Location: ". Session::get('redirect'));    
              
         }else{
-         
-          header("Location: ". Session::get('redirect') );
-        exit;
+         //  redirect géré par controleur specif. );
         }
       }
     }else {     
+      
         Session::put('errors', $this->_validate->errors());
         if ($redir === true)
         {

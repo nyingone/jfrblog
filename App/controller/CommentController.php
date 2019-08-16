@@ -16,6 +16,12 @@ class CommentController extends Controller
     isset($datas) ? $this->view->render($datas) : header("Location: ". Session::get('redirect'));
   }
 
+  public function maj($redir = false)
+  {
+    $redir = false;
+    parent::maj($redir);
+    header("Location: ". Session::get('redirect'));
+  }
   /** signal a Comment 
   * @param $ref = id Book + id Eps + IdComment $opt=pro/con
   */
@@ -56,14 +62,7 @@ class CommentController extends Controller
   /** Gestion redirection avant maj. centralisée
   * @param $ref = id Comment 
   */
-  public function maj($redir=null)
-  {
-    $_POST['url'] = Session::get('redirect'); 
-
-    $redir  = false;
-    parent:: maj($redir);
-    exit;
-  }
+  
 
      
 }

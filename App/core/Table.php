@@ -43,6 +43,14 @@ class Table
 
         }
     }
+    public function isNew()
+     {
+         if (isset($this->_id)): 
+            return true;
+         else:
+            return false;
+         endif;
+     }
 
     /**
      * Display field file description

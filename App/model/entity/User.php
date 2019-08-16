@@ -135,7 +135,7 @@ class User extends Table
                         'Reference' => 'Identifiant',
                         'required'  => true,
                         'min'       => 2,
-                        'max'       => 30,
+                        'max'       => 50,
                         'unique'    => 'user',
                         ),
                     'password'      => array(
@@ -160,7 +160,7 @@ class User extends Table
                     'pseudo'        => array(
                         'Reference' => 'Pseudo',
                         'required'  => false,
-                        'max'       => 50
+                        'max'       => 20
                     )
                 
                 ); 

@@ -5,7 +5,6 @@ class UserManager
     protected static $_db; // Instance de PDO
     protected static $_visit; // Instance de session visiteur
  
-    protected $query;
     private $_tab = 'user';
     protected $selection ;
     protected $users = [] ;

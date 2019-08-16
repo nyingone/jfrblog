@@ -2,6 +2,7 @@
 class HomeManager 
 {
     private $_episodeManager;
+    private $_bookManager;
     private $_level = 'N1';
 
 

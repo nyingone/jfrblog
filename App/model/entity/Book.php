@@ -8,7 +8,6 @@ class Book extends Table
     private $_nbEps;
     private $_status;
     private $_isbn;
-    private $_lastVolPrt;
     private $_editYear;
     private $_cover;
     private $_coverAlt;
@@ -92,7 +91,7 @@ class Book extends Table
     }
     public function setOnlineDat($onlineDat=null)
     {
-        if($this->getStatus() >= '20' && $this->getNbEps() > 0) : 
+        if($this->getStatus() >= '20' && ($onlineDat !== null)) : 
             $this->_onlineDat = new DateTime($onlineDat);
         endif;
     }
@@ -109,10 +108,7 @@ class Book extends Table
     {
         $this->_isbn = $isbn;
     }
-    public function setLastVolPrt($lastVolPrt)
-    {
-        $this->_lastVolPrt= $lastVolPrt;
-    }
+    
     public function setEditYear($editYear)
     {
         $this->_editYear = (int) $editYear;
@@ -168,10 +164,7 @@ class Book extends Table
     {
         return $this->_isbn;
     }
-    public function getLastVolPrt()
-    {
-        return $this->_lastVolPrt;
-    }
+    
     public function getEditYear()
     {
         return $this->_editYear;
@@ -224,6 +217,7 @@ class Book extends Table
     {
         $this->_episodes = $episodes;
         $this->setNbEpisodes(count($episodes));
+        $this->setNbEps(count($episodes));
         
         if($this->getNbEpisodes() > 0 && $this->getStatus() === '10'):
             $this->setStatus('20');
@@ -414,7 +408,7 @@ class Book extends Table
                             'Reference'     =>'statut',
                             'required'      => true,
                             'max'           => 2,
-                            'list'          => '00;10;30;80;90'
+                            'list'          => '00;10;20;30;80;90'
                           ),
             'isbn'      =>array(
                             'Reference'     =>'isbn',
@@ -446,10 +440,6 @@ class Book extends Table
                                     'Reference'     =>'destination bog',
                                     'required'      => false,
                                     ' list'          => '0;1'
-                            ),
-            'lastVolPrt'        =>array(
-                                'Reference'     =>'dernier volume paru',
-                                'required'      => false
                             )
                                         
             ); 

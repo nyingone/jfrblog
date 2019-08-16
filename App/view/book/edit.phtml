@@ -40,12 +40,6 @@
             </p>
 
             <p> 
-                <?php $label = "Dernier volume catalogue....:"; ?>
-                <?php $type  = "number"; ?>     
-                <label><?=$label?></label><input class="form-control" type="number" name="lastVolPrt" value="<?= ($book->getId()) > 0 ? $book->getLastVolPrt() : 0; ?>">
-            </p>
-
-            <p> 
                 <?php $dat = ($book->getOnlineDat() !== null ? $book->getOnlineDat()->format("Y-m-d") : ''); ?>
                 <label><?= $book->getOnlineDatLabel()?></label><input class="form-control" type="<?=$book->getOnlineDatType();?>"  name="onlineDat" value="<?=($book->getId()) > 0 ? $dat : '';  ?>"  readOnly />
             <p> 

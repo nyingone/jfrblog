@@ -4,14 +4,14 @@ class View
     protected $view_file;
     protected $view_data = [];
     protected $view_redirect;
-    public $admin;    
+    protected $view_headerData = [];
+    protected $view_footerData = [];
 
     public function __construct($view_file)
     {
         $this->view_file   = $view_file;
         if ( Session::exists('logged_in')):
             if(Session::get('groupId') >= '50') : 
-            //     $this->admin = true; ????
             endif;
         endif;
 
@@ -33,8 +33,6 @@ class View
                 } 
             }
         }
-        // $this->view_redirect =  $X_SESSION['redirect'] ;
-    
         
     }
 
@@ -67,12 +65,6 @@ class View
     public function getAction()
     {
         return(explode('\\', $this->view_file)[0]);
-    }
-
-    public function redirect($page)
-    {
-        header("Location: ".$page );
-        exit;
     }
 
 }

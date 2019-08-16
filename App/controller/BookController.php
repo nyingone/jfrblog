@@ -59,5 +59,15 @@ class BookController extends Controller
     $this->view->render($datas);
   }
 
+  public function maj($redir = false)
+  {
+    $redir = false;
+    parent::maj($redir);
+    
+    $path = explode('/', Session::get('redirect'));
+    Session::put('redirect', $path[0]);
+    header("Location: ". Session::get('redirect'));
+    
+  }
 }
   

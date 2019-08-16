@@ -3,9 +3,8 @@ class UserController extends Controller
 {
  
   protected $ctl = 'user';
-  protected $_tag = 'home';
   protected $_tab = 'user';
-  protected $_entity = 'User';
+
 
   /**
      * Constructeur de la classe      * géré via classe Table.

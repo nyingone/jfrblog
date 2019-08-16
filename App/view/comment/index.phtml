@@ -1,7 +1,7 @@
 
 <?php $this->view_data = $datas ; ?>
 <!-- `id``bookId``bookVol``bookChap``epsId``user``pseudo``comment``postDat``status``validDat` -->
-<div id="container" class="row">
+
     <?php $comments = $this->view_data;  ?>
     <?php $comment = $comments[0]; ?>
     <?php $books = $comment->getBookInfo();  ?>
@@ -55,4 +55,3 @@
              <p>
         <tbody>
     </table>
-</div>

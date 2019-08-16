@@ -48,14 +48,16 @@ class Manager
     */
     public function majTab($class)
     { 
-     
+       
         if(isset($_POST['id']) && $_POST['id'] > 0){
             $id = $_POST['id'];
         }else{
             $id = null;
         }    
+     
         if($_POST['action'] == 'del')
         {
+
             $succes = DB::getInstance()->dltClsRcd($this->_tab, $class);
             if($succes == false)
             {
@@ -65,9 +67,11 @@ class Manager
             }
         }else{
      
-            if(isset($_POST['id']) && $_POST['id'] > 0)
+            if($id !== null)
             {
+                
                 $succes = DB::getInstance()->updClsRcd($this->_tab, $class);
+                
                 if($succes == false)
                 {
                     throw new Exception('problem de maj' . $this->_tab);
@@ -76,6 +80,7 @@ class Manager
                 }
             }else{
                 $succes = DB::getInstance()->addClsRcd($this->_tab, $class);
+        
                 if($succes == false)
                 {
                     throw new Exception('problem de creation' . $this->_tab);

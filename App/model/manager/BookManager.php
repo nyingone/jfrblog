@@ -16,7 +16,6 @@ class BookManager extends Manager
     public function majTab($class)
     {
         parent:: majTab($class); 
-        Redirect::to($this->_tab);
     }
 
     public function getBooks($parms=null, $level=null)

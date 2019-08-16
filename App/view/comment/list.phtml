@@ -3,6 +3,7 @@
 $src= IMG . "plume70";
 $alt="crayon";
 ?>   
+
 <div class= "col-md-1">
   <!--  <img  src="<?php echo $src?>" width=30px height = 30px alt="<?php echo $alt?>" title ="<?php echo $alt?>"> -->
 </div>
@@ -21,7 +22,7 @@ $alt="crayon";
                         <span class="input-group-text">
                             <i class='fas fa-user-secret' style='font-size:24px'></i>
                         </span>   
-                        <input type="text" class="form-control mr-2" name="pseudo" required placeholder="pseudo ">
+                        <input type="text" class="form-control mr-2" name="pseudo"  placeholder="pseudo ">
                     </div>
                 
                     <div class="input-group-prepend">
@@ -45,7 +46,7 @@ $alt="crayon";
             </div>
         </form>
     </div>
-   
+    <a href="FirstComm"></a>
     <div class="row"> 
         <?php (is_array($comments) && !empty($comments)) ?  $x = count($comments) :  $x = 'aucun';?>
         <?php if(!is_null($comments)) : ; ?>

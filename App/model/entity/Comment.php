@@ -88,7 +88,7 @@ class Comment  extends Table
                 $user = Session::get('id');
             endif;
         } 
-        $this->_user = $user;
+        $this->_user = escape($user);
     }
     public function setPseudo($pseudo)
     {
@@ -98,11 +98,11 @@ class Comment  extends Table
             $pseudo = Session::get('pseudo');
             endif;
         }
-        $this->_pseudo = $pseudo;
+        $this->_pseudo = escape($pseudo);
     }
     public function setComment($comment)
     {
-        $this->_comment = $comment;
+        $this->_comment = escape($comment);
     }
     public function setPostDat($postDat= null)
     {
@@ -285,13 +285,13 @@ class Comment  extends Table
                             'Reference'     =>'user',
                             'required'      => false,
                             'connected'     => true,
-                            'max'           => 20
+                            'max'           => 50
                             ),
             'pseudo' =>array(
                             'Reference'     =>'pseudo',
                             'required'      => false,
                             'connected'     => true,
-                            'max'           => 20    
+                            'max'           => 30    
                             ),
             'postDat'     =>array(
                             'Reference'     =>'Commenté le',

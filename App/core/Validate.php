@@ -58,13 +58,16 @@ class Validate{
                         }
                         break;
                         case 'connected':
-                        if(Session::exists('logged_in')) :
-                            if(($value) != $source[$item]): 
-                                $this->addError("Merci d'utilisez votre propre{$item}");
+                        
+                        if( $_POST['id'] == null ):
+                            if(Session::exists('logged_in')) :
+                                if(($value) != $source[$item]): 
+                                    $this->addError("Merci d'utilisez votre propre{$item}");
+                                endif;
+                            else:
+                                $this->addError("Merci de vous connecter pour utiliser un {$item}");
                             endif;
-                        else:
-                            $this->addError("Merci de vous connecter pour utiliser un {$item}");
-                        endif;
+                         endif;
                         
                         
                         break;

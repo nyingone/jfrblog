@@ -61,10 +61,10 @@
             <label><?=$label?></label> :<input type="text" maxlength="30" name="slugEps" value="<?=($episode->getId()) > 0 ? $episode->getSlugEps(): ''; ?>">
         </p>
         <p><?php $label = "Image..............:";?>                 
-            <label><?=$label?></label> :<input type="text" maxlength="30" name="image" value="<?=($episode->getId()) > 0 ? $episode->getImage(): ''; ?>">
+            <label><?=$label?></label> :<input type="text" maxlength="30" name="image" value="<?=($episode->getId()) > 0 ? $episode->getImage(): 'page_dft'; ?>">
         </p>
         <p><?php $label = "Légende..............:";?>                 
-            <label><?=$label?></label> :<input type="text" maxlength="50" name="imageAlt" value="<?=($episode->getId()) > 0 ? $episode->getImageAlt(): ''; ?>">
+            <label><?=$label?></label> :<input type="text" maxlength="50" name="imageAlt" value="<?=($episode->getId()) > 0 ? $episode->getImageAlt(): null; ?>">
         </p>
         <input type="hidden" name="id" value="<?= ($episode->getId()) > 0 ? $episode->getId() :''; ?>">
         <input type="hidden" name="nbComment" value="<?= ($episode->getId()) > 0 ? $episode->getNbComments() :''; ?>">

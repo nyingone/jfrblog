@@ -55,12 +55,6 @@ class Episode extends Table
                 $date = new Datetime(today);
                 setCreatedDat($date->format('Y-m-d'));
             endif;
-
-            if($this->getOnlineDat() === null) :
-                $date = new Datetime(today);
-                setOnlineDat($date->format('Y-m-d'));
-            endif;
-
         }else{
             $this->setStatusLabel("hors ligne:");
             $this->setStatusType("hidden");
@@ -124,7 +118,7 @@ class Episode extends Table
    
     public function setOnlineDat($onlineDat)
     {
-        if($onlineDat  !== null || $this->getStatus() >= '20') :
+        if($onlineDat  !== null && $this->getStatus() >= '20') :
             $this->_onlineDat = new DateTime($onlineDat);
         endif;
         

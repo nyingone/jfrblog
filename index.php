@@ -6,7 +6,7 @@ define('ROOT', $_SERVER['DOCUMENT_ROOT'] . DS . 'jfrblog' . DS);
 define('APP', ROOT . 'App'. DS);
 
 include_once(APP . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'config.php');
-
+ 
 if(isset($_POST['url']))
 {
     $url = $_POST['url'];
@@ -15,8 +15,11 @@ if(isset($_POST['url']))
     {
         $url = $_GET['url'];
     }else{
-   
-        $url = 'home';
+        if(Session::get('redirect') !== null):
+            $url = Session::get('redirect');
+        else:   
+            $url = 'home';
+        endif;
     }
 }
 

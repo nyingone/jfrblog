@@ -18,15 +18,14 @@ class CommentManager extends Manager
 
     public function majTab($class)
     {
-        parent:: majTab($class); 
-        if(Session::get('previous') === 'book') : 
-            $ref = $class->getBookId(); 
-        else:
-            $ref = $class->getBookId() . '.' . $class->getEpsId(); 
-        endif;
-        Redirect::to( HOME . Session::get('redirect'));
+        if($_POST['action'] == 'signal' && Session::exists('logged_in'))
+        {
+            if(Session::get('pseudo') == $class->getPseudo() ):
+                $_POST['action'] = 'del';
+            endif;
+        }
+        parent::majTab($class);
     }
-
     /**
      * Comments selection via sql 
      * 
