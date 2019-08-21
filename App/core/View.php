@@ -10,12 +10,7 @@ class View
     public function __construct($view_file)
     {
         $this->view_file   = $view_file;
-        if ( Session::exists('logged_in')):
-            if(Session::get('groupId') >= '50') : 
-            endif;
-        endif;
-
-       
+              
        
         if(isset($_SERVER['REDIRECT_URL']))
         {

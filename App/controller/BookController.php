@@ -61,13 +61,8 @@ class BookController extends Controller
 
   public function maj($redir = false)
   {
-    $redir = false;
+    Session::put('redirect', $this->_tab);
     parent::maj($redir);
-    
-    $path = explode('/', Session::get('redirect'));
-    Session::put('redirect', $path[0]);
-    header("Location: ". Session::get('redirect'));
-    
   }
 }
   

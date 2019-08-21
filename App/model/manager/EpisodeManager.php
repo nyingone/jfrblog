@@ -16,8 +16,8 @@ class EpisodeManager extends Manager
 
     public function majTab($class)
     {
+        Session::put('nextPath', $this->_tab . '/' . 'index-' . $class->getBookId()); // if success
         parent:: majTab($class); 
-        Redirect::to($this->_tab . '/' . 'index-' . $class->getBookId());
     }
 
 /**

@@ -69,5 +69,6 @@ class EpisodeController extends Controller
     $this->view->render($datas);
   }
 
+
 }
   

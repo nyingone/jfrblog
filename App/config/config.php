@@ -33,7 +33,7 @@
       
       Session::put('id', session_id());
       Session::put('spec', '*none');
-    
+      Session::delete('nextPath');
       if(Session::exists('logged_in'))
       {
           if(Session::get('groupId') >= "90") :

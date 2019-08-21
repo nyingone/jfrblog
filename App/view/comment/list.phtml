@@ -8,7 +8,7 @@ $alt="crayon";
   <!--  <img  src="<?php echo $src?>" width=30px height = 30px alt="<?php echo $alt?>" title ="<?php echo $alt?>"> -->
 </div>
 
-<div class = "col-md-12 ">
+<div  id="headerComm" class = "col-md-12 ">
     <div class="row"> 
         <form  action ="<?= HOME . 'index.php' ?>" method = "post">
             
@@ -46,7 +46,7 @@ $alt="crayon";
             </div>
         </form>
     </div>
-    <a href="FirstComm"></a>
+    
     <div class="row"> 
         <?php (is_array($comments) && !empty($comments)) ?  $x = count($comments) :  $x = 'aucun';?>
         <?php if(!is_null($comments)) : ; ?>
@@ -61,23 +61,14 @@ $alt="crayon";
                     </div>
                     <div class = "col-md-2">
                         <form  action ="<?= HOME . 'index.php' ?>" method = "post">
-                            
                             <?php $opt= 'con';?>
-
-                            <input type="hidden" name="id" value="<?= $comment->getId(); ?>">
-                            <input type="hidden" name="bookId" value="<?= $comment->getBookId(); ?>">
-                            <input type="hidden" name="epsId" value="<?= $comment->getEpsId(); ?>">
-                            <input type="hidden" name="comment" value="<?= $comment->getComment(); ?>">
-                            <input type="hidden" name="pseudo" value="<?= $comment->getPseudo(); ?>">
-                            <input type="hidden" name="user" value="<?= $comment->getUser(); ?>">
-                            <input type="hidden" name="postDat" value="<?=  ($comment->getPostDat() !== null ?  $comment->getPostDat()->format("Y-m-d  H:i:s"): ''); ?>">
-                            <input type="hidden" name="status" value="<?= $comment->getStatus(); ?>">
-                            <input type="hidden" name="validDat" value="<?= ($comment->getValidDat() !== null ?  $comment->getValidDat()->format("Y-m-d  H:i:s"): ''); ?>">
-                            <?php // $comment->addNbcon(); ?>
-                            <input type="hidden" name="nbCon" value="<?= $comment->getNbcon(); ?>">
                             <input type="hidden" name="url" value ="<?= 'comment-signal/signal-' . $comment->getBookId() .'.' . $comment->getEpsId() . '.' . $comment->getId() .'-' . $opt ; ?>"> 
                             <input type='hidden' name="action" value ="<?php echo($opt); ?>">
-                            <button type="submit">Signaler <br/><i class="fas fa-bell"></i></button>
+                            <?php  if( Session::exists('logged_in') && Session::get('pseudo') == $comment->getPseudo()) : ?>
+                                <button type="submit">Supprimer <br/><i class="fas fa-comment-slash"></i></button>
+                            <?php else: ?>
+                                <button type="submit">Signaler <br/><i class="fas fa-bell"></i></button>
+                            <?php endif; ?>
                         </form>
                     
                         <div class = "col-md-2">

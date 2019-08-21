@@ -73,14 +73,15 @@ class Controller
       {
         $class = $result[1];
         $this->model->majTab($class);
-     
-        if ($redir !== false)
-        {
-          header("Location: ". Session::get('redirect'));    
-             
-        }else{
-         //  redirect géré par controleur specif. );
-        }
+        if(Session::exists('nextPath')):
+          header("Location: ". Session::get('nextPath'));  
+        else:
+          if ($redir !== false):
+              header("Location: ". Session::get('redirect'));      
+          else: 
+            //  redirect géré par controleur specif. );
+         endif;
+        endif;
       }
     }else {     
       
@@ -88,10 +89,6 @@ class Controller
         if ($redir === true)
         {
         $this->createview($this->_tab . DS . 'edit', $datas);  
-        // $this->view->redirect($X_SESSION['redirect']);  
-        }
-        else{
-          // header("Location: ". Session::get('redirect') );
         }
         header("Location: ". Session::get('redirect') );
     }
